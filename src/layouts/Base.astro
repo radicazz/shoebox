@@ -1,0 +1,18 @@
+---
+import '../styles/global.css';
+const { title = 'Shoe Box' } = Astro.props;
+---
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <link rel="icon" href="/favicon.ico" />
+  </head>
+  <body class="bg-gray-50 text-gray-900 antialiased">
+    <header class="sr-only"><h1>Shoe Box Gallery</h1></header>
+    <main class="max-w-4xl mx-auto">
+      <slot />
+    </main>
+  </body>
+</html>

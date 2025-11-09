@@ -1,0 +1,12 @@
+{
+  "profile": {
+    "name": "Your Name",
+    "photo": "/media/profile.svg",
+    "contact": {
+      "email": "you@example.com",
+      "github": "https://github.com/yourname",
+      "linkedin": ""
+    }
+  },
+  "items": []
+}

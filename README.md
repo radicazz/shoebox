@@ -2,6 +2,19 @@
 
 Lightweight personal Pinterest-style portfolio gallery.
 
-Quick start: read docs/STACK.md then docs/FEATURES.md and follow docs/IMPLEMENTATION.md.
+## quick-start
 
-License: MIT (see LICENSE).
+```bash
+# Grab the code
+git clone https://www.github.com/radicazz/shoe-box.git/
+cd shoe-box
+
+npm install
+
+npm run dev      # Local dev server at http://localhost:4321
+npm run build    # Production build to dist/
+```
+
+## license
+
+MIT - See [LICENSE](LICENSE) for more details.

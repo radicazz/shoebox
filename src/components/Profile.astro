@@ -1,0 +1,21 @@
+---
+export interface Props {
+  name: string;
+  email: string;
+  github?: string;
+  linkedin?: string;
+  photo: string;
+}
+const { name, email, github, linkedin, photo } = Astro.props as Props;
+---
+<section class="py-16 px-4 text-center" aria-labelledby="profile-heading">
+  <div>
+    <img src={photo} alt={`Photo of ${name}`} width="120" height="120" loading="eager" class="mx-auto h-[120px] w-[120px] rounded-full object-cover shadow" />
+  </div>
+  <h2 id="profile-heading" class="mt-6 text-4xl font-bold">{name}</h2>
+  <p class="mt-2 text-lg text-gray-600">
+    <a class="text-blue-600 hover:underline" href={`mailto:${email}`}>{email}</a>
+    {github && (<span> • <a class="text-blue-600 hover:underline" href={github} target="_blank" rel="noopener noreferrer">GitHub</a></span>)}
+    {linkedin && (<span> • <a class="text-blue-600 hover:underline" href={linkedin} target="_blank" rel="noopener noreferrer">LinkedIn</a></span>)}
+  </p>
+</section>

@@ -1,0 +1,14 @@
+---
+import Base from '../layouts/Base.astro';
+import Profile from '../components/Profile.astro';
+import data from '../../public/gallery.json';
+const profile = data.profile;
+---
+<Base title="Shoe Box">
+  <Profile
+    name={profile.name}
+    email={profile.contact.email}
+    github={profile.contact.github}
+    linkedin={profile.contact.linkedin}
+    photo={profile.photo} />
+</Base>
