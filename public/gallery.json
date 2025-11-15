@@ -2,15 +2,6 @@
   "site": {
     "title": "Portfolio Template"
   },
-  "profile": {
-    "name": "Shoe Box",
-    "photo": "/media/profile.svg",
-    "contact": {
-      "email": "you@example.com",
-      "github": "https://github.com/yourname",
-      "linkedin": "https://linkedin.com/yourname"
-    }
-  },
   "items": [
     {
       "id": "1",

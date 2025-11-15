@@ -1,0 +1,57 @@
+---
+import ContactCard from './profile/ContactCard.astro';
+import AboutCard from './profile/AboutCard.astro';
+
+export interface ProfileHeroData {
+  name: string;
+  photo: string;
+  title?: string;
+  location?: string;
+}
+
+export interface ContactCardData {
+  phone?: string;
+  email?: string;
+  github?: string;
+  linkedin?: string;
+}
+
+export interface AboutCardData {
+  text?: string;
+  skills?: string[];
+}
+
+export interface Props {
+  profileHero: ProfileHeroData;
+  contactCard: ContactCardData;
+  aboutCard?: AboutCardData;
+}
+
+const { profileHero, contactCard, aboutCard } = Astro.props as Props;
+const isExternal = /^(?:[a-z]+:)?\/\//i;
+const normalizedBase = (import.meta.env.BASE_URL ?? '/').replace(/\/$/, '');
+const normalizedPhoto = profileHero.photo.replace(/^\//, '');
+const resolvedPhoto = isExternal.test(profileHero.photo)
+  ? profileHero.photo
+  : `${normalizedBase ? normalizedBase : ''}/${normalizedPhoto}`;
+---
+<section class="py-16" aria-label="Profile overview">
+  <div class="flex flex-col items-center gap-6 text-center">
+    <img src={resolvedPhoto} alt={`Photo of ${profileHero.name}`} width="160" height="160" loading="eager" class="h-[140px] w-[140px] rounded-full object-cover shadow-md ring-4 ring-white ring-offset-2 ring-offset-gray-50 dark:ring-gray-900 dark:ring-offset-gray-800 sm:h-[160px] sm:w-[160px]" />
+    <div>
+      <p class="text-sm uppercase tracking-[0.2em] text-gray-500 dark:text-gray-400">Profile</p>
+      <h2 class="mt-2 text-4xl font-bold text-gray-900 dark:text-gray-50">{profileHero.name}</h2>
+      {(profileHero.title || profileHero.location) && (
+        <p class="mt-2 flex flex-wrap items-center justify-center gap-2 text-base font-medium text-gray-600 dark:text-gray-300">
+          {profileHero.title && <span>{profileHero.title}</span>}
+          {profileHero.title && profileHero.location && <span aria-hidden="true" class="text-gray-400">•</span>}
+          {profileHero.location && <span>{profileHero.location}</span>}
+        </p>
+      )}
+    </div>
+  </div>
+  <div class="mt-12 grid gap-6 lg:grid-cols-2 items-stretch">
+    <AboutCard text={aboutCard?.text} skills={aboutCard?.skills} />
+    <ContactCard contact={contactCard} />
+  </div>
+</section>

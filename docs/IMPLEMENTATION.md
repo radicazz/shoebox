@@ -41,7 +41,7 @@
 shoe-box/
 ├── src/
 │   ├── components/
-│   │   ├── Profile.astro       # Header with photo/name/contact
+│   │   ├── ProfileSection.astro# Profile cards with contact/about
 │   │   ├── Gallery.astro       # Masonry grid layout
 │   │   └── Modal.astro         # Expanded media view
 │   ├── layouts/

@@ -1,0 +1,17 @@
+{
+  "profileHero": {
+    "name": "Your Name",
+    "photo": "/media/profile.svg",
+    "title": "Your Title",
+    "location": "Location, 4321"
+  },
+  "aboutCard": {
+    "text": "I collect my most interesting snapshots, studies, and experiments in one tidy box.",
+    "skills": ["Systems Thinking", "Creative Direction", "Rapid Prototyping"]
+  },
+  "contactCard": {
+    "phone": "+1 (415) 555-0136",
+    "email": "you@example.com",
+    "github": "https://github.com/yourname"
+  }
+}

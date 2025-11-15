@@ -33,7 +33,7 @@ npm run dev    # or npm run build
 All project scripts source `scripts/_nvm-load.sh`, so they refuse to run if the wrong Node version is active. Dependencies always live in the local `node_modules/` folder (gitignored).
 
 ## Components in play
-- `Profile.astro`: header w/ theme toggle and contact links
+- `ProfileSection.astro`: profile cards layout w/ contact + about
 - `Gallery.astro`: responsive masonry layout container
 - `GalleryItem.astro`: individual card, hover states, metadata display
 - `gallery.json`: profile + gallery data source

@@ -1,19 +1,20 @@
 ---
 import Base from '../layouts/Base.astro';
-import Profile from '../components/Profile.astro';
+import ProfileSection from '../components/ProfileSection.astro';
 import Gallery from '../components/Gallery.astro';
 import type { GalleryItemData } from '../components/GalleryItem.astro';
-import data from '../../public/gallery.json';
-const siteTitle = data.site?.title ?? 'Shoe Box';
-const profile = data.profile;
-const items = data.items as GalleryItemData[];
+import galleryData from '../../public/gallery.json';
+import profileData from '../../public/profile.json';
+const siteTitle = galleryData.site?.title ?? 'Shoe Box';
+const items = galleryData.items as GalleryItemData[];
+const profileHero = profileData.profileHero;
+const contactCard = profileData.contactCard;
+const aboutCard = profileData.aboutCard;
+const showGallery = false;
 ---
 <Base title={siteTitle}>
-  <Profile
-    name={profile.name}
-    email={profile.contact.email}
-    github={profile.contact.github}
-    linkedin={profile.contact.linkedin}
-    photo={profile.photo} />
-  <Gallery items={items} title="Featured Board" description="A curated snapshot of your work. Add pieces via public/gallery.json." />
+  <ProfileSection profileHero={profileHero} contactCard={contactCard} aboutCard={aboutCard} />
+  {showGallery && (
+    <Gallery items={items} title="Featured Board" description="A curated snapshot of your work. Add pieces via public/gallery.json." />
+  )}
 </Base>
