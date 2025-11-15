@@ -1,5 +1,9 @@
-#usr/bin/env bash
+#!/usr/bin/env bash
 set -euo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# shellcheck source=./_nvm-load.sh
+source "$SCRIPT_DIR/_nvm-load.sh"
 
 echo "🚀 Starting development server..."
 echo "📍 Local: http://localhost:4321/"

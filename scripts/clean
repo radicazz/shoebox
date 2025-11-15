@@ -11,11 +11,6 @@ if [ -d node_modules ]; then
   echo "  ✓ Removed node_modules/"
 fi
 
-if [ -f package-lock.json ]; then
-  rm -f package-lock.json
-  echo "  ✓ Removed package-lock.json"
-fi
-
 echo ""
 echo "✅ Clean complete!"
 echo "💡 Run 'npm install' to reinstall dependencies"

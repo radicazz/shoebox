@@ -15,10 +15,15 @@ All implementation details, stack specifications, and architectural decisions ar
 - Performance-first: optimize for weak server hardware
 - Zero build complexity: runnable in <5 minutes on any machine
 
-## Quick Start
-1. Read `docs/STACK.md` for technology decisions
-2. Review `docs/FEATURES.md` for scope and UI requirements
-3. Follow `docs/IMPLEMENTATION.md` for execution order
+### Run instructions
+Install [nvm](https://github.com/nvm-sh/nvm#installing-and-updating) globally once, then every clone uses the pinned `.nvmrc` (Node 20.19.5):
 
-**Timeline**: 2-3 days maximum
-**Scope**: Personal Pinterest-style gallery board - no feature creep
+```bash
+nvm install    # installs the .nvmrc version
+nvm use        # activates it in the current shell
+
+npm install
+npm run dev    # or npm run build
+```
+
+All project scripts source `scripts/_nvm-load.sh`, so they refuse to run if the wrong Node version is active. Dependencies always live in the local `node_modules/` folder (gitignored).
