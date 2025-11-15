@@ -11,21 +11,21 @@
 5. **Verify**: `npm run build` produces dist/, profile displays correctly
 
 ### Slice 2: Static Gallery Grid (2-3 hours)
-**Deliverable**: Full gallery grid visible, responsive, no interactions yet
-1. Build Pinterest-style masonry grid with CSS Grid
-2. Render gallery items from JSON data
-3. Apply responsive breakpoints (mobile/tablet/desktop)
-4. Add hover animations (scale, shadow)
-5. **Verify**: All images display, grid reflows on resize
+**Deliverable**: ✅ Completed — responsive masonry gallery using `Gallery.astro` + `GalleryItem.astro`
+1. Pinterest-style layout via CSS columns + break-inside guards
+2. Gallery items populated from `public/gallery.json`
+3. Breakpoints set through Tailwind utilities
+4. Hover scale + gradient overlays in `GalleryItem`
+5. **Verify**: `npm run build` + resize test confirmed
 
 ### Slice 3: Interactive Modal (2-3 hours)
 **Deliverable**: Clicking gallery items opens detailed modal view
-1. Create modal component with Alpine.js
-2. Wire click handlers to open/close modal
-3. Display full image, title, description, tags, date
-4. Implement close methods (X button, ESC key, backdrop click)
-5. Add modal animations (fade, scale transitions)
-6. **Verify**: Modal opens/closes smoothly, all data displays
+1. Create `Modal.astro` with Alpine.js state (open/close, focus trap)
+2. Update `GalleryItem` to emit metadata + trigger modal via Alpine store
+3. Display full image, title, description, tags, date, and any future meta
+4. Close controls: button, ESC, backdrop, swipe on mobile
+5. Add fade/scale transitions matching current theme
+6. **Verify**: Keyboard/mouse/touch interactions all work; no scroll bleed
 
 ### Slice 4: Performance & Production (2-3 hours)
 **Deliverable**: Production-ready build, deployment artifacts

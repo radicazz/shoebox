@@ -1,8 +1,11 @@
 ---
 import Base from '../layouts/Base.astro';
 import Profile from '../components/Profile.astro';
+import Gallery from '../components/Gallery.astro';
+import type { GalleryItemData } from '../components/GalleryItem.astro';
 import data from '../../public/gallery.json';
 const profile = data.profile;
+const items = data.items as GalleryItemData[];
 ---
 <Base title="Shoe Box">
   <Profile
@@ -11,4 +14,5 @@ const profile = data.profile;
     github={profile.contact.github}
     linkedin={profile.contact.linkedin}
     photo={profile.photo} />
+  <Gallery items={items} title="Featured Board" description="A curated snapshot of your work. Add pieces via public/gallery.json." />
 </Base>

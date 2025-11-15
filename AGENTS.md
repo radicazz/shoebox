@@ -2,6 +2,10 @@
 
 Project: **shoe-box** - Lightweight personal portfolio gallery
 
+### Current scope
+- Slice 1 complete: base layout, profile header, theme toggle, and sample data
+- Slice 2 complete: responsive gallery powered by `Gallery.astro` + `GalleryItem.astro`
+
 ## Documentation Location
 All implementation details, stack specifications, and architectural decisions are in `/docs`:
 
@@ -27,3 +31,9 @@ npm run dev    # or npm run build
 ```
 
 All project scripts source `scripts/_nvm-load.sh`, so they refuse to run if the wrong Node version is active. Dependencies always live in the local `node_modules/` folder (gitignored).
+
+## Components in play
+- `Profile.astro`: header w/ theme toggle and contact links
+- `Gallery.astro`: responsive masonry layout container
+- `GalleryItem.astro`: individual card, hover states, metadata display
+- `gallery.json`: profile + gallery data source

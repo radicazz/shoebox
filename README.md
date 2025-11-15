@@ -1,30 +1,29 @@
-# shoe-box
+# about
 
-Lightweight, personal Pinterest-style gallery website to showcase your work.
+A lightweight, personal Pinterest-style portfolio website for showcasing your hard work in style.
+
+## features
+- Profile header with avatar, contact links, and light/dark toggle (remembers system + user preferences)
+- JSON-driven gallery grid (edit `public/gallery.json`) with responsive masonry layout
+- Modular components (`Gallery.astro`, `GalleryItem.astro`) to prepare for the upcoming modal interactions
 
 ## quick-start
 
-Install [nvm](https://github.com/nvm-sh/nvm#installing-and-updating) once on your machine, then every clone can stay self-contained thanks to the `.nvmrc` pinned at Node **20.19.5**.
+Either download as a `.zip` or clone the repo through git.
 
-```bash
+```
 git clone https://www.github.com/radicazz/shoe-box.git/
 cd shoe-box
+```
+Install [nvm](https://github.com/nvm-sh/nvm#installing-and-updating) on your machine for self-contained dependency management currently pinned at Node **20.19.5**.
 
+```bash
 nvm install              # Reads .nvmrc and installs the exact toolchain
 nvm use                  # Activates that version in your shell
 
 npm install              # Installs node_modules/ into this repo (gitignored)
 npm run dev              # Development server at http://localhost:4321
 ```
-
-Helper scripts wrap the same flow and automatically load `.nvmrc` via `scripts/_nvm-load.sh`:
-
-```bash
-./scripts/setup         # Install deps and build once
-./scripts/dev           # Start dev server
-./scripts/clean         # Remove node_modules/ + dist/
-```
-
 All Node dependencies live in `node_modules/` inside this repo (gitignored) to keep the project portable.
 
 Build manually when needed:
@@ -37,8 +36,6 @@ npm run build           # Production build to dist/
 - `./scripts/doctor` - Check environment health
 - `./scripts/clean` - Remove all build artifacts
 - `./scripts/ci-test` - Run CI pipeline locally
-
-**Docs:** Read docs/STACK.md → docs/FEATURES.md → docs/IMPLEMENTATION.md
 
 ## license
 
