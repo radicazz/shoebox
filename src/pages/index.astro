@@ -1,19 +1,19 @@
 ---
 import Base from '../layouts/Base.astro';
 import ProfileSection from '../components/ProfileSection.astro';
-import Gallery from '../components/Gallery.astro';
-import type { GalleryItemData } from '../components/GalleryItem.astro';
-import galleryData from '../../public/gallery.json';
 import profileData from '../../public/profile.json';
-const siteTitle = galleryData.site?.title ?? 'Shoe Box';
-const items = galleryData.items as GalleryItemData[];
+
+const siteTitle = 'Shoe Box';
 const profileHero = profileData.profileHero;
 const aboutCard = profileData.aboutCard;
-const showGallery = false;
 ---
 <Base title={siteTitle}>
   <ProfileSection profileHero={profileHero} aboutCard={aboutCard} />
-  {showGallery && (
-    <Gallery items={items} title="Featured Board" description="A curated snapshot of your work. Add pieces via public/gallery.json." />
-  )}
+  <section class="mt-6 text-center text-sm text-gray-500 dark:text-gray-400">
+    <div class="flex flex-col items-center gap-1">
+      <span class="footer-made">
+        made with <span aria-hidden="true" class="footer-heart">&hearts;</span> by cazz
+      </span>
+    </div>
+  </section>
 </Base>
