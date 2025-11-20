@@ -1,0 +1,149 @@
+{
+  "title": "Gallery",
+  "description": "A curated collection of projects, experiments, and creative explorations",
+  "items": [
+    {
+      "id": "neural-dreams",
+      "title": "Neural Dreams",
+      "description": "AI-generated artwork exploring the boundaries of machine creativity",
+      "image": "https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?w=800&h=1200&fit=crop",
+      "size": "tall",
+      "tags": ["AI", "Art", "Generative"],
+      "details": {
+        "fullDescription": "An experimental series using neural networks to generate surreal dreamscapes. This project explores the intersection of artificial intelligence and human creativity, pushing the boundaries of what machines can create when trained on abstract concepts and emotions.",
+        "images": [
+          "https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?w=1200&h=1200&fit=crop",
+          "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=1200&h=1200&fit=crop"
+        ],
+        "tech": ["TensorFlow", "Python", "GANs"],
+        "date": "2024-10",
+        "link": "https://example.com/neural-dreams"
+      }
+    },
+    {
+      "id": "code-poetry",
+      "title": "Code Poetry",
+      "description": "Beautiful algorithms that read like verse",
+      "size": "text",
+      "tags": ["Code", "Art"],
+      "details": {
+        "fullDescription": "An exploration of code as a literary medium. Each algorithm is crafted not just for functionality, but for aesthetic beauty and poetic expression. Variables become metaphors, functions become stanzas, and the entire codebase reads like a collection of haikus.",
+        "images": [],
+        "tech": ["JavaScript", "TypeScript", "Lisp"],
+        "date": "2024-09"
+      }
+    },
+    {
+      "id": "midnight-ui",
+      "title": "Midnight UI Kit",
+      "description": "Dark mode component library with subtle animations",
+      "image": "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&h=600&fit=crop",
+      "size": "wide",
+      "tags": ["UI", "Design"],
+      "details": {
+        "fullDescription": "A comprehensive UI component library designed specifically for dark mode interfaces. Features smooth micro-interactions, accessibility-first design principles, and a cohesive color system optimized for reduced eye strain during late-night coding sessions.",
+        "images": [
+          "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1200&h=800&fit=crop",
+          "https://images.unsplash.com/photo-1618556450994-a6a128ef0d9d?w=1200&h=800&fit=crop"
+        ],
+        "tech": ["React", "Tailwind", "Framer Motion"],
+        "date": "2024-08",
+        "link": "https://example.com/midnight-ui"
+      }
+    },
+    {
+      "id": "pixel-garden",
+      "title": "Pixel Garden",
+      "description": "Interactive generative art using cellular automata",
+      "image": "https://images.unsplash.com/photo-1579546929518-9e396f3cc809?w=600&h=800&fit=crop",
+      "size": "tall",
+      "tags": ["Generative", "Interactive"],
+      "details": {
+        "fullDescription": "A living digital garden where pixels grow and evolve following simple rules. Based on Conway's Game of Life and other cellular automata, this piece creates ever-changing patterns that never repeat, each session producing unique visual compositions.",
+        "images": [
+          "https://images.unsplash.com/photo-1579546929518-9e396f3cc809?w=1200&h=1200&fit=crop"
+        ],
+        "tech": ["Canvas API", "WebGL", "JavaScript"],
+        "date": "2024-07"
+      }
+    },
+    {
+      "id": "syntax-symphony",
+      "title": "Syntax Symphony",
+      "description": "Converting code into musical compositions",
+      "image": "https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=800&h=600&fit=crop",
+      "size": "wide",
+      "tags": ["Music", "Code", "Generative"],
+      "details": {
+        "fullDescription": "What if your codebase had a sound? Syntax Symphony analyzes code structure and transforms it into musical patterns. Variables become notes, functions become melodies, and entire programs become symphonies. Each programming language has its own unique sound signature.",
+        "images": [
+          "https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=1200&h=800&fit=crop"
+        ],
+        "tech": ["Web Audio API", "Tone.js", "AST Parsing"],
+        "date": "2024-06",
+        "link": "https://example.com/syntax-symphony"
+      }
+    },
+    {
+      "id": "whisper-thoughts",
+      "title": "Whisper Thoughts",
+      "description": "A minimalist journaling app focused on privacy and reflection",
+      "size": "text",
+      "tags": ["App", "Privacy"],
+      "details": {
+        "fullDescription": "Digital journaling reimagined with privacy at its core. All entries are encrypted locally, never leaving your device. The interface encourages mindful reflection with gentle prompts and a distraction-free writing environment. No accounts, no tracking, just you and your thoughts.",
+        "images": [],
+        "tech": ["Svelte", "IndexedDB", "CryptoJS"],
+        "date": "2024-05"
+      }
+    },
+    {
+      "id": "neon-terminal",
+      "title": "Neon Terminal",
+      "description": "Retro-futuristic command line theme",
+      "image": "https://images.unsplash.com/photo-1629654297299-c8506221ca97?w=800&h=500&fit=crop",
+      "size": "wide",
+      "tags": ["Terminal", "Theme"],
+      "details": {
+        "fullDescription": "A terminal color scheme inspired by 80s cyberpunk aesthetics. Neon glows, high contrast, and carefully selected syntax highlighting make coding feel like you're hacking in a retro-futuristic world. Optimized for long coding sessions with reduced eye strain.",
+        "images": [
+          "https://images.unsplash.com/photo-1629654297299-c8506221ca97?w=1200&h=800&fit=crop"
+        ],
+        "tech": ["Color Theory", "iTerm2", "Vim"],
+        "date": "2024-04"
+      }
+    },
+    {
+      "id": "quantum-blur",
+      "title": "Quantum Blur",
+      "description": "CSS shader experiments with quantum-inspired effects",
+      "image": "https://images.unsplash.com/photo-1558591710-4b4a1ae0f04d?w=700&h=900&fit=crop",
+      "size": "tall",
+      "tags": ["CSS", "Shaders"],
+      "details": {
+        "fullDescription": "Pushing CSS to its limits with custom shaders that create quantum-inspired visual effects. Particles that exist in multiple states, blurs that respond to user interaction, and colors that shift based on probability distributions. All without a single line of JavaScript.",
+        "images": [
+          "https://images.unsplash.com/photo-1558591710-4b4a1ae0f04d?w=1200&h=1200&fit=crop"
+        ],
+        "tech": ["CSS Shaders", "Houdini API", "WebGL"],
+        "date": "2024-03"
+      }
+    },
+    {
+      "id": "data-garden",
+      "title": "Data Garden",
+      "description": "Visualizing personal metrics as growing plants",
+      "image": "https://images.unsplash.com/photo-1466781783364-36c955e42a7f?w=800&h=600&fit=crop",
+      "size": "wide",
+      "tags": ["Data Viz", "Gamification"],
+      "details": {
+        "fullDescription": "A gamified approach to personal analytics where your habits and activities grow virtual plants. The healthier your real-world habits, the more your digital garden flourishes. Makes data tracking feel rewarding and organic rather than clinical and mechanical.",
+        "images": [
+          "https://images.unsplash.com/photo-1466781783364-36c955e42a7f?w=1200&h=800&fit=crop"
+        ],
+        "tech": ["D3.js", "SVG Animation", "localStorage"],
+        "date": "2024-02"
+      }
+    }
+  ]
+}

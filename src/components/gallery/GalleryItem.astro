@@ -1,0 +1,122 @@
+---
+import { composeEffects } from '../../utils/effects';
+
+export interface GalleryItemData {
+  id: string;
+  title: string;
+  description: string;
+  image?: string;
+  size?: 'text' | 'tall' | 'wide' | string;
+  tags?: string[];
+  details?: {
+    fullDescription: string;
+    images: string[];
+    tech: string[];
+    date: string;
+    link?: string;
+  };
+}
+
+export interface Props {
+  item: GalleryItemData;
+}
+
+const { item } = Astro.props as Props;
+const hasImage = item.image && item.image.trim() !== '';
+
+// Size-based classes for masonry layout
+const sizeClasses: Record<string, string> = {
+  text: 'gallery-item-text',
+  tall: 'gallery-item-tall',
+  wide: 'gallery-item-wide',
+};
+
+const itemSizeClass = item.size ? (sizeClasses[item.size] || '') : '';
+---
+
+<article
+  class={`gallery-item ${itemSizeClass} theme-panel effect-card-base group relative overflow-hidden ${composeEffects('shadow', 'scale')} cursor-pointer`}
+  data-gallery-item-id={item.id}
+  role="button"
+  tabindex="0"
+  aria-label={`Open details for ${item.title}`}
+>
+  {hasImage && (
+    <div class="gallery-item-image-wrapper relative overflow-hidden">
+      <img
+        src={item.image}
+        alt={item.title}
+        loading="lazy"
+        class="gallery-item-image h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+      />
+      <div class="gallery-item-overlay absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
+    </div>
+  )}
+  
+  <div class={`gallery-item-content p-6 ${hasImage ? 'relative z-10' : ''}`}>
+    <h3 class="theme-heading text-xl font-bold leading-tight mb-2">
+      {item.title}
+    </h3>
+    
+    <p class="theme-text-muted text-sm leading-relaxed mb-4">
+      {item.description}
+    </p>
+    
+    {item.tags && item.tags.length > 0 && (
+      <div class="flex flex-wrap gap-2">
+        {item.tags.map((tag) => (
+          <span class="theme-chip px-2.5 py-1 text-xs font-medium">
+            {tag}
+          </span>
+        ))}
+      </div>
+    )}
+  </div>
+  
+  <div class="gallery-item-hover-indicator absolute bottom-4 right-4 flex h-8 w-8 items-center justify-center rounded-full bg-white/10 backdrop-blur-sm opacity-0 transition-all duration-300 group-hover:opacity-100 dark:bg-gray-800/50">
+    <svg class="h-4 w-4 text-white dark:text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+    </svg>
+  </div>
+</article>
+
+<style>
+  .gallery-item {
+    break-inside: avoid;
+    display: flex;
+    flex-direction: column;
+    transition: transform 250ms ease, box-shadow 250ms ease;
+  }
+
+  .gallery-item-text {
+    min-height: 200px;
+  }
+
+  .gallery-item-tall .gallery-item-image-wrapper {
+    height: 400px;
+  }
+
+  .gallery-item-wide .gallery-item-image-wrapper {
+    height: 250px;
+  }
+
+  .gallery-item:not(.gallery-item-text):not(.gallery-item-tall):not(.gallery-item-wide) .gallery-item-image-wrapper {
+    height: 300px;
+  }
+
+  .gallery-item-image {
+    display: block;
+  }
+
+  /* Keyboard focus styles */
+  .gallery-item:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 4px;
+  }
+
+  /* On hover, move content overlay up for items with images */
+  .gallery-item:has(.gallery-item-image-wrapper):hover .gallery-item-content {
+    transform: translateY(-4px);
+    transition: transform 300ms ease;
+  }
+</style>

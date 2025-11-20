@@ -1,0 +1,151 @@
+---
+import GalleryItem from './GalleryItem.astro';
+import GalleryModal from './GalleryModal.astro';
+import type { GalleryItemData } from './GalleryItem.astro';
+
+export interface Props {
+  title?: string;
+  description?: string;
+  items: GalleryItemData[];
+}
+
+const { title = 'Gallery', description, items = [] } = Astro.props as Props;
+---
+
+{items.length > 0 && (
+  <section class="gallery-section py-16" aria-label={title} data-gallery-reveal>
+    <div class="mb-12 text-center">
+      <h2 class="theme-heading mb-3 text-4xl font-bold">{title}</h2>
+      {description && (
+        <p class="theme-text-muted mx-auto max-w-2xl text-base leading-relaxed">
+          {description}
+        </p>
+      )}
+    </div>
+
+    <div class="gallery-masonry">
+      {items.map((item) => (
+        <GalleryItem item={item} />
+      ))}
+    </div>
+
+    <GalleryModal />
+  </section>
+)}
+
+<script is:inline define:vars={{ items }}>
+  (() => {
+    if (typeof window === 'undefined') return;
+
+    // Store gallery data globally for modal access
+    window.__galleryData = window.__galleryData || {};
+    
+    // Populate gallery data
+    items.forEach((item) => {
+      window.__galleryData[item.id] = item;
+    });
+
+    // Scroll reveal functionality
+    const gallery = document.querySelector('[data-gallery-reveal]');
+    if (!gallery) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('gallery-revealed');
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { 
+        threshold: 0.1, 
+        rootMargin: '0px 0px -100px 0px' 
+      }
+    );
+
+    observer.observe(gallery);
+  })();
+</script>
+
+<style>
+  .gallery-section {
+    opacity: 0;
+    transform: translateY(2rem);
+    transition: opacity 600ms ease, transform 600ms ease;
+  }
+
+  .gallery-section.gallery-revealed {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Masonry layout using CSS columns */
+  .gallery-masonry {
+    column-count: 1;
+    column-gap: 1.5rem;
+  }
+
+  @media (min-width: 640px) {
+    .gallery-masonry {
+      column-count: 2;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .gallery-masonry {
+      column-count: 3;
+    }
+  }
+
+  /* Ensure items flow nicely in the masonry layout */
+  .gallery-masonry > :global(*) {
+    margin-bottom: 1.5rem;
+    break-inside: avoid;
+  }
+
+  /* Stagger animation for gallery items */
+  .gallery-revealed .gallery-masonry > :global(*) {
+    animation: fadeInUp 400ms ease forwards;
+    opacity: 0;
+  }
+
+  .gallery-revealed .gallery-masonry > :global(*:nth-child(1)) {
+    animation-delay: 100ms;
+  }
+
+  .gallery-revealed .gallery-masonry > :global(*:nth-child(2)) {
+    animation-delay: 150ms;
+  }
+
+  .gallery-revealed .gallery-masonry > :global(*:nth-child(3)) {
+    animation-delay: 200ms;
+  }
+
+  .gallery-revealed .gallery-masonry > :global(*:nth-child(4)) {
+    animation-delay: 250ms;
+  }
+
+  .gallery-revealed .gallery-masonry > :global(*:nth-child(5)) {
+    animation-delay: 300ms;
+  }
+
+  .gallery-revealed .gallery-masonry > :global(*:nth-child(6)) {
+    animation-delay: 350ms;
+  }
+
+  .gallery-revealed .gallery-masonry > :global(*:nth-child(n+7)) {
+    animation-delay: 400ms;
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(1rem);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>

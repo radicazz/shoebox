@@ -1,7 +1,9 @@
 ---
 import Base from '../layouts/Base.astro';
 import ProfileSection from '../components/ProfileSection.astro';
+import Gallery from '../components/gallery/Gallery.astro';
 import profileData from '../../public/profile.json';
+import galleryData from '../../public/gallery.json';
 
 const siteTitle = 'Shoe Box';
 const profileHero = profileData.profileHero;
@@ -9,6 +11,15 @@ const aboutCard = profileData.aboutCard;
 ---
 <Base title={siteTitle}>
   <ProfileSection profileHero={profileHero} aboutCard={aboutCard} />
+  
+  {galleryData?.items?.length > 0 && (
+    <Gallery 
+      title={galleryData.title}
+      description={galleryData.description}
+      items={galleryData.items}
+    />
+  )}
+  
   <section class="mt-6 text-center text-sm text-gray-500 dark:text-gray-400">
     <div class="flex flex-col items-center gap-1">
       <span class="footer-made">
