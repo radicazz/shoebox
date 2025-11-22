@@ -51,7 +51,7 @@ const variantClass = hasImage ? 'gallery-item--has-image' : 'gallery-item--no-im
         src={item.image}
         alt={item.title}
         loading="lazy"
-        class="gallery-item-image h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+        class="gallery-item-image h-full w-full object-cover transition-transform duration-[650ms] ease-out will-change-transform group-hover:scale-110"
       />
       <div class="gallery-item-overlay absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
     </div>
@@ -89,7 +89,31 @@ const variantClass = hasImage ? 'gallery-item--has-image' : 'gallery-item--no-im
     break-inside: avoid;
     display: flex;
     flex-direction: column;
-    transition: transform 250ms ease, box-shadow 250ms ease;
+    transition: transform 350ms ease, box-shadow 350ms ease;
+    transform-origin: center;
+  }
+
+  .gallery-item::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    padding: 1.5px;
+    background: linear-gradient(
+      120deg,
+      rgba(251, 191, 36, 0.85),
+      rgba(239, 68, 68, 0.85),
+      rgba(14, 165, 233, 0.85),
+      rgba(251, 191, 36, 0.85)
+    );
+    background-size: 240% 240%;
+    animation: gallery-chroma-border 8s ease infinite;
+    opacity: 0;
+    transition: opacity 350ms ease;
+    pointer-events: none;
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
   }
 
   .gallery-item--has-image {
@@ -114,11 +138,21 @@ const variantClass = hasImage ? 'gallery-item--has-image' : 'gallery-item--no-im
 
   .gallery-item-image {
     display: block;
-    transition: filter 400ms ease, transform 500ms ease;
+    transition: filter 400ms ease, transform 650ms ease;
   }
 
   .gallery-item--has-image .gallery-item-image {
     filter: contrast(1.05) brightness(0.92) saturate(1.05);
+  }
+
+  .gallery-item:hover,
+  .gallery-item:focus-visible {
+    transform: translateY(-6px) scale(1.02);
+  }
+
+  .gallery-item:hover::before,
+  .gallery-item:focus-visible::before {
+    opacity: 1;
   }
 
   /* Keyboard focus styles */
@@ -174,5 +208,17 @@ const variantClass = hasImage ? 'gallery-item--has-image' : 'gallery-item--no-im
 
   .gallery-item--no-image:hover .gallery-item-content {
     transform: translateY(-4px);
+  }
+
+  @keyframes gallery-chroma-border {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
   }
 </style>

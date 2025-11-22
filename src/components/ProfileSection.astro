@@ -1,6 +1,4 @@
 ---
-import { composeEffects } from '../utils/effects';
-
 export interface ProfileHeroData {
   name: string;
   photo: string;
@@ -40,101 +38,70 @@ const linkEntries = [sourceEntry];
 const sectionHeadingClass = 'theme-text-muted text-sm font-semibold uppercase tracking-wide';
 const sectionBodyClass = 'mt-4 text-base leading-relaxed';
 ---
-	<section class="py-16" aria-label="Profile overview">
-	  <div class={`theme-panel effect-card-base w-full ${composeEffects('shadow', 'scale')} px-6 py-8 sm:px-8`}>
-	    <div class="mb-6 rounded-xl border px-4 py-3 theme-panel theme-panel--muted">
-	      <div class="grid grid-cols-[auto,1fr,auto] items-center gap-3">
-	        <div class="flex items-center gap-3">
-	          <div class="flex items-center gap-1.5" aria-hidden="true">
-	            <span class="h-3 w-3 rounded-full bg-red-400"></span>
-	            <span class="h-3 w-3 rounded-full bg-amber-300"></span>
-	            <span class="h-3 w-3 rounded-full bg-green-400"></span>
-	          </div>
-	          <p id="window-browser" class="theme-text-muted text-sm font-semibold tracking-wide">Browser</p>
-	        </div>
-	        <div class="flex justify-center">
-	          <p id="window-clock" class="theme-text-muted text-sm font-mono tracking-wide">--:--:--</p>
-	        </div>
-        <div class="flex items-center justify-end">
-          <button
-            type="button"
-            data-theme-toggle
-            aria-pressed="false"
-            class={`theme-panel theme-panel--muted inline-flex items-center gap-2 rounded-lg border px-3 py-1.5 text-xs font-medium shadow-sm transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 ${composeEffects(
-              'border-slide',
-            )}`}
-            aria-label="Toggle color theme"
-          >
-            <span class="theme-icon theme-icon--sun" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="h-4 w-4">
-                <path d="M6.76 4.84l-1.8-1.79-1.41 1.41 1.79 1.8 1.42-1.42zM4 2h2v4H4zm13.24 2.84l1.79-1.8-1.41-1.41-1.8 1.79 1.42 1.42zM18 2h2v4h-2zM11 4h2v4h-2zm9 7h4v2h-4zm-18 0h4v2H2zm15.66 7.66l1.79 1.79 1.41-1.41-1.79-1.8-1.41 1.42zM18 18h2v4h-2zm-4 2h2v4h-2zm-3-1a5 5 0 110-10 5 5 0 010 10zm-7.66 1.66l1.41 1.41 1.8-1.79-1.41-1.41-1.8 1.79z" />
-              </svg>
-            </span>
-            <span class="theme-icon theme-icon--moon" aria-hidden="true">
-	              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="h-4 w-4">
-	                <path d="M12.75 2a9.75 9.75 0 108.44 15.16 8 8 0 01-10-10 9.69 9.69 0 001.56-5.16z" />
-	              </svg>
-	            </span>
-	            <span class="sr-only" data-theme-toggle-label>Switch to dark mode</span>
-	          </button>
-        </div>
+<section class="profile-section" aria-label="Profile overview">
+  <div class="grid items-center gap-12 md:grid-cols-[auto,1fr] lg:gap-16">
+    <div class="flex flex-col items-center gap-8 text-center">
+      <div class="inline-flex rounded-full">
+        <img
+          src={resolvedPhoto}
+          data-profile-photo="true"
+          data-fallback-src={fallbackPhoto ?? undefined}
+          alt={`Photo of ${profileHero.name}`}
+          width="180"
+          height="180"
+          loading="eager"
+          class="h-[160px] w-[160px] rounded-full object-cover ring-4 ring-white ring-offset-4 ring-offset-gray-50 dark:ring-gray-900 dark:ring-offset-gray-800 sm:h-[180px] sm:w-[180px] lg:h-[200px] lg:w-[200px]"
+        />
       </div>
-	    </div>
-	    <div class="grid items-center gap-8 md:grid-cols-[auto,1fr]">
-	      <div class="flex flex-col items-center gap-6 text-center">
-	        <div class="inline-flex rounded-full">
-	          <img src={resolvedPhoto} data-profile-photo="true" data-fallback-src={fallbackPhoto ?? undefined} alt={`Photo of ${profileHero.name}`} width="160" height="160" loading="eager" class="h-[140px] w-[140px] rounded-full object-cover ring-4 ring-white ring-offset-2 ring-offset-gray-50 dark:ring-gray-900 dark:ring-offset-gray-800 sm:h-[160px] sm:w-[160px]" />
-	        </div>
-        <div>
-          <h2 class="theme-heading mt-2 text-4xl font-bold">{profileHero.name}</h2>
-          {(profileHero.title || profileHero.location) && (
-            <p class="theme-text-muted mt-2 flex flex-wrap items-center justify-center gap-2 text-base font-medium">
-              {profileHero.title && <span>{profileHero.title}</span>}
-              {profileHero.title && profileHero.location && <span aria-hidden="true" class="theme-text-muted">•</span>}
-              {profileHero.location && <span>{profileHero.location}</span>}
-            </p>
-          )}
-          <p id="profile-clock" class="theme-text-muted mt-2 text-sm font-mono tracking-wide text-center">--:--:--</p>
-        </div>
+      <div>
+        <h2 class="theme-heading mt-3 text-4xl font-bold">{profileHero.name}</h2>
+        {(profileHero.title || profileHero.location) && (
+          <p class="theme-text-muted mt-3 flex flex-wrap items-center justify-center gap-2 text-base font-medium">
+            {profileHero.title && <span>{profileHero.title}</span>}
+            {profileHero.title && profileHero.location && <span aria-hidden="true" class="theme-text-muted">•</span>}
+            {profileHero.location && <span>{profileHero.location}</span>}
+          </p>
+        )}
+        <p id="profile-clock" class="theme-text-muted mt-3 text-sm font-mono tracking-wide text-center">--:--:--</p>
       </div>
-      {(aboutCard?.text || skillList.length > 0) && (
-        <div class="flex flex-col gap-6 text-left">
-          {aboutCard?.text && (
-            <div>
-              <p class={sectionHeadingClass}>About</p>
-              <p class={sectionBodyClass}>{aboutCard.text}</p>
-            </div>
-          )}
-          {skillList.length > 0 && (
-            <div>
-              <p class={sectionHeadingClass}>Skills</p>
-              <ul class={`mt-4 flex flex-wrap gap-2 text-base leading-relaxed`}>
-                {skillList.map((skill) => (
-                  <li class="theme-chip px-3 py-1 text-sm font-medium md:text-base">{skill}</li>
-                ))}
-              </ul>
-            </div>
-          )}
-          {linkEntries.length > 0 && (
-            <div>
-              <p class={sectionHeadingClass}>Source</p>
-              <div class={sectionBodyClass}>
-                {linkEntries.map((entry) => (
-                  <a
-                    href={entry.href}
-                    target={entry.href.startsWith('http') ? '_blank' : undefined}
-                    rel={entry.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-                    class="theme-accent-link text-base font-medium"
-                  >
-                    {entry.value}
-                  </a>
-                ))}
-              </div>
-            </div>
-          )}
-        </div>
-      )}
     </div>
+    {(aboutCard?.text || skillList.length > 0) && (
+      <div class="flex flex-col gap-8 text-left">
+        {aboutCard?.text && (
+          <div>
+            <p class={sectionHeadingClass}>About</p>
+            <p class={sectionBodyClass}>{aboutCard.text}</p>
+          </div>
+        )}
+        {skillList.length > 0 && (
+          <div>
+            <p class={sectionHeadingClass}>Skills</p>
+            <ul class={`mt-4 flex flex-wrap gap-3 text-base leading-relaxed`}>
+              {skillList.map((skill) => (
+                <li class="theme-chip px-4 py-2 text-sm font-medium md:text-base">{skill}</li>
+              ))}
+            </ul>
+          </div>
+        )}
+        {linkEntries.length > 0 && (
+          <div>
+            <p class={sectionHeadingClass}>Source</p>
+            <div class={sectionBodyClass}>
+              {linkEntries.map((entry) => (
+                <a
+                  href={entry.href}
+                  target={entry.href.startsWith('http') ? '_blank' : undefined}
+                  rel={entry.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                  class="theme-accent-link text-base font-medium"
+                >
+                  {entry.value}
+                </a>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+    )}
   </div>
 </section>
 
@@ -160,13 +127,14 @@ const sectionBodyClass = 'mt-4 text-base leading-relaxed';
 
     const detectBrowserName = () => {
       const ua = navigator.userAgent;
-      if (/OPR|Opera/i.test(ua)) return 'Opera';
-      if (/Edg/i.test(ua)) return 'Edge';
-      if (/Chrome/i.test(ua)) return 'Chrome';
-      if (/Safari/i.test(ua) && !/Chrome/i.test(ua)) return 'Safari';
-      if (/Firefox/i.test(ua)) return 'Firefox';
-      return 'Browser';
+      if (/OPR|Opera/i.test(ua)) return 'OPERA';
+      if (/Edg/i.test(ua)) return 'EDGE';
+      if (/Chrome/i.test(ua)) return 'CHROME';
+      if (/Safari/i.test(ua) && !/Chrome/i.test(ua)) return 'SAFARI';
+      if (/Firefox/i.test(ua)) return 'FIREFOX';
+      return 'BROWSER';
     };
+
     browserLabel.textContent = detectBrowserName();
 
     const sanitize = (value) => {
@@ -216,10 +184,8 @@ const sectionBodyClass = 'mt-4 text-base leading-relaxed';
       const parts = [];
       const lang = sanitize(navigator.language || 'n/a');
       const tz = sanitize(Intl.DateTimeFormat().resolvedOptions().timeZone || 'n/a');
-      const viewport = `${window.innerWidth}x${window.innerHeight}`;
       parts.push(`lang ${lang}`);
       parts.push(`tz ${tz}`);
-      parts.push(`viewport ${viewport}`);
 
       try {
         const response = await fetch('https://ipapi.co/json/', { cache: 'no-store' });

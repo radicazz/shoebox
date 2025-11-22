@@ -4,22 +4,63 @@ import ProfileSection from '../components/ProfileSection.astro';
 import Gallery from '../components/gallery/Gallery.astro';
 import profileData from '../../public/profile.json';
 import galleryData from '../../public/gallery.json';
+import { composeEffects } from '../utils/effects';
 
 const siteTitle = 'Shoe Box';
 const profileHero = profileData.profileHero;
 const aboutCard = profileData.aboutCard;
 ---
 <Base title={siteTitle}>
-  <ProfileSection profileHero={profileHero} aboutCard={aboutCard} />
-  
-  {galleryData?.items?.length > 0 && (
-    <Gallery 
-      title={galleryData.title}
-      description={galleryData.description}
-      items={galleryData.items}
-    />
-  )}
-  
+  <section class="py-10 sm:py-12">
+    <div class={`theme-panel effect-card-base ${composeEffects('shadow', 'scale')} px-4 py-6 sm:px-8 sm:py-8`}>
+      <div class="window-bar mb-8 rounded-xl border px-4 py-3 theme-panel theme-panel--muted">
+        <div class="grid grid-cols-[auto,1fr,auto] items-center gap-3">
+          <div class="flex items-center gap-3">
+            <div class="flex items-center gap-1.5" aria-hidden="true">
+              <span class="h-3 w-3 rounded-full bg-red-400"></span>
+              <span class="h-3 w-3 rounded-full bg-amber-300"></span>
+              <span class="h-3 w-3 rounded-full bg-green-400"></span>
+            </div>
+            <p id="window-browser" class="theme-text-muted text-sm font-semibold tracking-wide uppercase">BROWSER</p>
+          </div>
+          <p id="gallery-viewport" class="theme-text-muted text-xs font-mono tracking-wide text-center">viewport --x--</p>
+          <div class="flex items-center justify-end gap-4">
+            <p id="window-clock" class="theme-text-muted text-sm font-mono tracking-wide">--:--:--</p>
+            <button
+              type="button"
+              data-theme-toggle
+              aria-pressed="false"
+              class={`theme-panel theme-panel--muted inline-flex items-center gap-2 rounded-lg border px-3 py-1.5 text-xs font-medium shadow-sm transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 ${composeEffects(
+                'border-slide',
+              )}`}
+              aria-label="Toggle color theme"
+            >
+              <span class="theme-icon theme-icon--sun" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="h-4 w-4">
+                  <path d="M6.76 4.84l-1.8-1.79-1.41 1.41 1.79 1.8 1.42-1.42zM4 2h2v4H4zm13.24 2.84l1.79-1.8-1.41-1.41-1.8 1.79 1.42 1.42zM18 2h2v4h-2zM11 4h2v4h-2zm9 7h4v2H2zm15.66 7.66l1.79 1.79 1.41-1.41-1.79-1.8-1.41 1.42zM18 18h2v4h-2zm-4 2h2v4h-2zm-3-1a5 5 0 110-10 5 5 0 010 10zm-7.66 1.66l1.41 1.41 1.8-1.79-1.41-1.41-1.8 1.79z" />
+                </svg>
+              </span>
+              <span class="theme-icon theme-icon--moon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="h-4 w-4">
+                  <path d="M12.75 2a9.75 9.75 0 108.44 15.16 8 8 0 01-10-10 9.69 9.69 0 001.56-5.16z" />
+                </svg>
+              </span>
+              <span class="sr-only" data-theme-toggle-label>Switch to dark mode</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="space-y-12">
+        <ProfileSection profileHero={profileHero} aboutCard={aboutCard} />
+
+        {galleryData?.items?.length > 0 && (
+          <Gallery title={galleryData.title} description={galleryData.description} items={galleryData.items} />
+        )}
+      </div>
+    </div>
+  </section>
+
   <section class="mt-6 text-center text-sm text-gray-500 dark:text-gray-400">
     <div class="flex flex-col items-center gap-1">
       <span class="footer-made">

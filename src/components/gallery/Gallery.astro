@@ -13,16 +13,7 @@ const { title = 'Gallery', description, items = [] } = Astro.props as Props;
 ---
 
 {items.length > 0 && (
-  <section class="gallery-section py-16" aria-label={title} data-gallery-reveal>
-    <div class="mb-12 text-center">
-      <h2 class="theme-heading mb-3 text-4xl font-bold">{title}</h2>
-      {description && (
-        <p class="theme-text-muted mx-auto max-w-2xl text-base leading-relaxed">
-          {description}
-        </p>
-      )}
-    </div>
-
+  <section class="gallery-section" aria-label={title} data-gallery-reveal>
     <div class="gallery-masonry">
       {items.map((item) => (
         <GalleryItem item={item} />
@@ -65,6 +56,17 @@ const { title = 'Gallery', description, items = [] } = Astro.props as Props;
     );
 
     observer.observe(gallery);
+
+    const viewportLabel = document.getElementById('gallery-viewport');
+    if (viewportLabel) {
+      const updateViewport = () => {
+        viewportLabel.textContent = `viewport ${window.innerWidth}x${window.innerHeight}`;
+      };
+      updateViewport();
+      window.addEventListener('resize', () => {
+        window.requestAnimationFrame(updateViewport);
+      });
+    }
   })();
 </script>
 
