@@ -36,26 +36,13 @@ const { title = 'Gallery', description, items = [] } = Astro.props as Props;
       window.__galleryData[item.id] = item;
     });
 
-    // Scroll reveal functionality
+    // Display gallery immediately on load while keeping the reveal animation
     const gallery = document.querySelector('[data-gallery-reveal]');
     if (!gallery) return;
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('gallery-revealed');
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      { 
-        threshold: 0.1, 
-        rootMargin: '0px 0px -100px 0px' 
-      }
-    );
-
-    observer.observe(gallery);
+    window.requestAnimationFrame(() => {
+      gallery.classList.add('gallery-revealed');
+    });
 
     const viewportLabel = document.getElementById('gallery-viewport');
     if (viewportLabel) {

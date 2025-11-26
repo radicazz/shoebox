@@ -11,9 +11,9 @@ const profileHero = profileData.profileHero;
 const aboutCard = profileData.aboutCard;
 ---
 <Base title={siteTitle}>
-  <section class="py-10 sm:py-12">
+  <section class="px-5 pt-5 pb-10 sm:px-6 sm:pt-6 sm:pb-12">
     <div class={`theme-panel effect-card-base ${composeEffects('shadow', 'scale')} px-4 py-6 sm:px-8 sm:py-8`}>
-      <div class="window-bar mb-8 rounded-xl border px-4 py-3 theme-panel theme-panel--muted">
+      <div class="window-bar mb-12 rounded-xl border px-4 py-3 theme-panel theme-panel--muted">
         <div class="grid grid-cols-[auto,1fr,auto] items-center gap-3">
           <div class="flex items-center gap-3">
             <div class="flex items-center gap-1.5" aria-hidden="true">
@@ -51,7 +51,7 @@ const aboutCard = profileData.aboutCard;
         </div>
       </div>
 
-      <div class="space-y-12">
+      <div class="space-y-16">
         <ProfileSection profileHero={profileHero} aboutCard={aboutCard} />
 
         {galleryData?.items?.length > 0 && (
