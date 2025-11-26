@@ -1,12 +1,10 @@
 {
   "profileHero": {
     "name": "cazz",
-    "photo": "/media/pfp.jpeg",
-    "title": "",
-    "location": ""
+    "photo": "/media/pfp.jpeg"
   },
   "aboutCard": {
-    "text": "This is where I stash the things that taught me something, surprised me, or simply refused to leave my brain alone. Some pieces are polished, others are not. No matter what, they all live inside a box.",
-    "skills": ["Mashing Buttons", "Avoiding Tax", "Prompting AI"]
+    "text": "Here's a collection of the things that taught me something, surprised me, or simply refused to leave my mind. Some pieces are polished, others are not - no matter what, they all live inside the same little box.",
+    "skills": ["Breaking Games", "Writing Bugs", "Abusing AI", "Reading Docs"]
   }
 }

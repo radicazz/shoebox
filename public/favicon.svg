@@ -1,0 +1,28 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 64 64"
+  role="img"
+  aria-label="shoebox icon"
+>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1d2333" />
+      <stop offset="100%" stop-color="#080b12" />
+    </linearGradient>
+    <radialGradient id="highlight" cx="0" cy="0" r="1">
+      <stop offset="0%" stop-color="rgba(255,255,255,0.12)" />
+      <stop offset="100%" stop-color="rgba(255,255,255,0)" />
+    </radialGradient>
+  </defs>
+
+  <rect x="4" y="4" width="56" height="56" rx="14" fill="url(#bg)" />
+  <ellipse cx="18" cy="18" rx="20" ry="16" fill="url(#highlight)" />
+
+  <g stroke="#cdd9f7" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" fill="none">
+    <path d="M18 26 L32 18 L46 26 L32 34 Z" />
+    <path d="M18 26 L18 40 L32 48 L32 34 Z" />
+    <path d="M46 26 L46 40 L32 48" />
+    <line x1="32" y1="18" x2="32" y2="34" />
+    <line x1="18" y1="26" x2="46" y2="26" />
+  </g>
+</svg>

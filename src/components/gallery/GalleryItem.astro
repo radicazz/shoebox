@@ -8,6 +8,7 @@ export interface GalleryItemData {
   image?: string;
   size?: 'text' | 'tall' | 'wide' | string;
   tags?: string[];
+  link?: string;
   details?: {
     fullDescription: string;
     images: string[];
@@ -22,7 +23,10 @@ export interface Props {
 }
 
 const { item } = Astro.props as Props;
-const hasImage = item.image && item.image.trim() !== '';
+const basePath = (import.meta.env.BASE_URL ?? '/').replace(/\/$/, '');
+const resolvedImage = item.image?.startsWith('/') ? `${basePath}${item.image}` : item.image;
+const hasImage = resolvedImage && resolvedImage.trim() !== '';
+const linkTarget = item.link ?? item.details?.link ?? null;
 
 // Size-based classes for masonry layout
 const sizeClasses: Record<string, string> = {
@@ -33,22 +37,33 @@ const sizeClasses: Record<string, string> = {
 
 const itemSizeClass = item.size ? (sizeClasses[item.size] || '') : '';
 const variantClass = hasImage ? 'gallery-item--has-image' : 'gallery-item--no-image';
+const baseClasses = `gallery-item ${itemSizeClass} ${variantClass} theme-panel effect-card-base group relative overflow-hidden ${composeEffects(
+  'shadow',
+  'scale',
+)} cursor-pointer`;
+
+const interactiveAttributes = linkTarget
+  ? {
+      href: linkTarget,
+      target: '_blank',
+      rel: 'noopener noreferrer',
+      class: `${baseClasses} block`,
+    }
+  : {
+      class: baseClasses,
+      role: 'button',
+      tabindex: 0,
+      'aria-label': `Open details for ${item.title}`,
+    };
+
+const Tag = (linkTarget ? 'a' : 'article') as 'a' | 'article';
 ---
 
-<article
-  class={`gallery-item ${itemSizeClass} ${variantClass} theme-panel effect-card-base group relative overflow-hidden ${composeEffects(
-    'shadow',
-    'scale',
-  )} cursor-pointer`}
-  data-gallery-item-id={item.id}
-  role="button"
-  tabindex="0"
-  aria-label={`Open details for ${item.title}`}
->
+<Tag {...interactiveAttributes}>
   {hasImage && (
     <div class="gallery-item-image-wrapper relative overflow-hidden">
       <img
-        src={item.image}
+        src={resolvedImage}
         alt={item.title}
         loading="lazy"
         class="gallery-item-image h-full w-full object-cover transition-transform duration-[650ms] ease-out will-change-transform group-hover:scale-110"
@@ -56,16 +71,16 @@ const variantClass = hasImage ? 'gallery-item--has-image' : 'gallery-item--no-im
       <div class="gallery-item-overlay absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
     </div>
   )}
-  
+
   <div class={`gallery-item-content p-6 ${hasImage ? 'gallery-item-content--overlay' : 'gallery-item-content--card'}`}>
     <h3 class={`theme-heading text-xl font-bold leading-tight ${hasImage ? 'mb-1.5' : 'mb-2'}`}>
       {item.title}
     </h3>
-    
+
     <p class={`theme-text-muted leading-relaxed ${hasImage ? 'text-sm md:text-base mb-3' : 'text-sm mb-4'}`}>
       {item.description}
     </p>
-    
+
     {item.tags && item.tags.length > 0 && (
       <div class={`flex flex-wrap gap-2 ${hasImage ? 'mt-1.5' : ''}`}>
         {item.tags.map((tag) => (
@@ -76,13 +91,13 @@ const variantClass = hasImage ? 'gallery-item--has-image' : 'gallery-item--no-im
       </div>
     )}
   </div>
-  
+
   <div class="gallery-item-hover-indicator absolute bottom-4 right-4 z-30 flex h-8 w-8 items-center justify-center rounded-full bg-white/10 backdrop-blur-sm opacity-0 transition-all duration-300 group-hover:opacity-100 dark:bg-gray-800/50">
     <svg class="h-4 w-4 text-white dark:text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
     </svg>
   </div>
-</article>
+</Tag>
 
 <style>
   .gallery-item {
