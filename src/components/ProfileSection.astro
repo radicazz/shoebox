@@ -50,7 +50,7 @@ const sectionHeadingClass = 'theme-text-muted text-sm font-semibold uppercase tr
 const sectionBodyClass = 'mt-4 text-base leading-relaxed';
 ---
 <section class="profile-section px-5 sm:px-10 lg:px-16" aria-label="Profile overview">
-  <div class="grid items-center gap-12 md:grid-cols-[auto,1fr] lg:gap-16">
+  <div class="profile-section-grid grid grid-cols-1 items-center gap-12 xl:grid-cols-[auto,1fr] xl:items-start xl:gap-16">
     <div class="flex flex-col items-center gap-8 text-center">
       <div class={`inline-flex rounded-full profile-photo-frame ${composeEffects('glow', 'scale')}`}>
         <img
@@ -91,7 +91,7 @@ const sectionBodyClass = 'mt-4 text-base leading-relaxed';
       </div>
     </div>
     {(aboutCard?.text || skillRows.length > 0 || profileLinks.length > 0) && (
-      <div class="flex flex-col gap-8 text-left">
+      <div class="flex flex-col gap-8 text-center xl:text-left">
         {aboutCard?.text && (
           <div>
             <p class={sectionHeadingClass}>About</p>
@@ -99,11 +99,11 @@ const sectionBodyClass = 'mt-4 text-base leading-relaxed';
           </div>
         )}
         {(skillRows.length > 0 || profileLinks.length > 0) && (
-          <div class="grid gap-8 lg:grid-cols-2 lg:items-start">
+          <div class="grid gap-8 xl:grid-cols-2 xl:items-start">
             {profileLinks.length > 0 && (
               <div>
                 <p class={sectionHeadingClass}>Links</p>
-                <ul class="mt-4 space-y-3 text-base font-medium leading-relaxed">
+                <ul class="mt-4 space-y-3 text-base font-medium leading-relaxed text-center xl:text-left">
                   {profileLinks.map((entry) => (
                     <li>
                       <a
@@ -120,17 +120,15 @@ const sectionBodyClass = 'mt-4 text-base leading-relaxed';
               </div>
             )}
             {skillRows.length > 0 && (
-              <div>
+              <div class="space-y-3">
                 <p class={sectionHeadingClass}>Skills</p>
-                <div class="mt-4 space-y-3">
-                  {skillRows.map((row, index) => (
-                    <div class="flex flex-wrap justify-start gap-3" aria-label={`Skill line ${index + 1}`}>
-                      {row.map((skill) => (
-                        <span class="theme-chip skill-badge px-4 py-2 text-xs font-semibold md:text-sm">{skill}</span>
-                      ))}
-                    </div>
-                  ))}
-                </div>
+                {skillRows.map((row, index) => (
+                  <div class="flex flex-wrap justify-center gap-3 xl:justify-start" aria-label={`Skill line ${index + 1}`}>
+                    {row.map((skill) => (
+                      <span class="theme-chip skill-badge px-4 py-2 text-xs font-semibold md:text-sm">{skill}</span>
+                    ))}
+                  </div>
+                ))}
               </div>
             )}
           </div>
@@ -264,5 +262,16 @@ const sectionBodyClass = 'mt-4 text-base leading-relaxed';
     border-color: rgba(148, 163, 184, 0.2);
     background: linear-gradient(145deg, rgba(30, 41, 59, 0.8), rgba(15, 23, 42, 0.6));
     color: rgba(248, 250, 252, 0.9);
+  }
+
+  @media (orientation: portrait) and (min-width: 768px) {
+    .profile-section-grid {
+      grid-template-columns: minmax(0, 1fr) !important;
+      align-items: stretch;
+    }
+
+    .profile-section-grid > * {
+      justify-self: stretch;
+    }
   }
 </style>
