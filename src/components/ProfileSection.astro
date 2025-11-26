@@ -1,4 +1,5 @@
 ---
+import { composeEffects } from '../utils/effects';
 export interface ProfileHeroData {
   name: string;
   photo: string;
@@ -51,7 +52,7 @@ const sectionBodyClass = 'mt-4 text-base leading-relaxed';
 <section class="profile-section px-5 sm:px-10 lg:px-16" aria-label="Profile overview">
   <div class="grid items-center gap-12 md:grid-cols-[auto,1fr] lg:gap-16">
     <div class="flex flex-col items-center gap-8 text-center">
-      <div class="inline-flex rounded-full">
+      <div class={`inline-flex rounded-full profile-photo-frame ${composeEffects('glow', 'scale')}`}>
         <img
           src={resolvedPhoto}
           data-profile-photo="true"
@@ -70,7 +71,7 @@ const sectionBodyClass = 'mt-4 text-base leading-relaxed';
             href="https://github.com/radicazz/shoe-box"
             target="_blank"
             rel="noopener noreferrer"
-            class="theme-accent-link"
+            class={`theme-accent-link profile-link ${composeEffects('border-slide', 'scale')}`}
           >
             radicazz/shoe-box
           </a>
@@ -99,6 +100,25 @@ const sectionBodyClass = 'mt-4 text-base leading-relaxed';
         )}
         {(skillRows.length > 0 || profileLinks.length > 0) && (
           <div class="grid gap-8 lg:grid-cols-2 lg:items-start">
+            {profileLinks.length > 0 && (
+              <div>
+                <p class={sectionHeadingClass}>Links</p>
+                <ul class="mt-4 space-y-3 text-base font-medium leading-relaxed">
+                  {profileLinks.map((entry) => (
+                    <li>
+                      <a
+                        href={entry.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class={`theme-accent-link profile-link ${composeEffects('border-slide', 'scale')}`}
+                      >
+                        {entry.label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
             {skillRows.length > 0 && (
               <div>
                 <p class={sectionHeadingClass}>Skills</p>
@@ -106,25 +126,11 @@ const sectionBodyClass = 'mt-4 text-base leading-relaxed';
                   {skillRows.map((row, index) => (
                     <div class="flex flex-wrap justify-start gap-3" aria-label={`Skill line ${index + 1}`}>
                       {row.map((skill) => (
-                        <span class="theme-chip px-4 py-2 text-sm font-medium md:text-base">{skill}</span>
+                        <span class="theme-chip skill-badge px-4 py-2 text-xs font-semibold md:text-sm">{skill}</span>
                       ))}
                     </div>
                   ))}
                 </div>
-              </div>
-            )}
-            {profileLinks.length > 0 && (
-              <div>
-                <p class={sectionHeadingClass}>Links</p>
-                <ul class="mt-4 space-y-3 text-base font-medium leading-relaxed">
-                  {profileLinks.map((entry) => (
-                    <li>
-                      <a href={entry.href} target="_blank" rel="noopener noreferrer" class="theme-accent-link">
-                        {entry.label}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
               </div>
             )}
           </div>
@@ -211,3 +217,52 @@ const sectionBodyClass = 'mt-4 text-base leading-relaxed';
     collectInfo();
   })();
 </script>
+
+<style>
+  .profile-photo-frame {
+    padding: 0.35rem;
+    background: linear-gradient(135deg, rgba(252, 211, 77, 0.4), rgba(110, 231, 183, 0.2));
+  }
+
+  :global(.dark .profile-photo-frame) {
+    background: linear-gradient(135deg, rgba(248, 250, 252, 0.15), rgba(59, 130, 246, 0.25));
+  }
+
+  .profile-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.35rem 0.85rem;
+    border-radius: 9999px;
+    border: 1px solid rgba(15, 23, 42, 0.1);
+    background: rgba(15, 23, 42, 0.03);
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    position: relative;
+  }
+
+  :global(.dark .profile-link) {
+    border-color: rgba(248, 250, 252, 0.12);
+    background: rgba(248, 250, 252, 0.04);
+  }
+
+  .profile-link:hover,
+  .profile-link:focus-visible {
+    color: var(--color-accent);
+  }
+
+  .skill-badge {
+    font-family: 'Space Mono', SFMono-Regular, ui-monospace, Menlo, Consolas, monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    border: 1px solid rgba(15, 23, 42, 0.15);
+    background: linear-gradient(145deg, rgba(248, 250, 252, 0.85), rgba(226, 232, 240, 0.65));
+    color: rgba(15, 23, 42, 0.8);
+  }
+
+  :global(.dark .skill-badge) {
+    border-color: rgba(148, 163, 184, 0.2);
+    background: linear-gradient(145deg, rgba(30, 41, 59, 0.8), rgba(15, 23, 42, 0.6));
+    color: rgba(248, 250, 252, 0.9);
+  }
+</style>

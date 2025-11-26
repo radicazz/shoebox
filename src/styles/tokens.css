@@ -1,13 +1,13 @@
 :root {
   color-scheme: light;
   --font-body: 'VT323', 'Cascadia Code', 'Fira Code', 'SFMono-Regular', Menlo, monospace;
-  --color-bg: #f8f4ec;
-  --color-surface: #fffaf5;
-  --color-surface-muted: #f2eadf;
-  --color-border: #e4d8c3;
-  --color-text: #312518;
-  --color-text-muted: #8b7355;
-  --color-heading: #1f1308;
+  --color-bg: #f5ecdf;
+  --color-surface: #fff7ed;
+  --color-surface-muted: #efe2d1;
+  --color-border: #dfcdb5;
+  --color-text: #2b1c10;
+  --color-text-muted: #8a6e50;
+  --color-heading: #1a0f05;
   --color-accent: #f27c2d;
   --color-accent-strong: #c85a0f;
   --effect-shadow-color: rgba(58, 41, 25, 0.18);
