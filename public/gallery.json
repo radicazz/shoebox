@@ -6,7 +6,8 @@
       "id": "arenaexe",
       "title": "ArenaExe",
       "description": "Fight against robots to entertain AI in a dystopian future.",
-      "image": "/media/gallery/radicazz-arenaexe.png",
+      "imageDark": "/media/gallery/dark-radicazz-arenaexe.png",
+      "imageLight": "/media/gallery/light-radicazz-arenaexe.png",
       "size": "tall",
       "tags": ["Game", "Unity", "3D"],
       "link": "https://github.com/radicazz/ArenaExe"
@@ -31,7 +32,8 @@
       "id": "slang",
       "title": "slang",
       "description": "The classic snake snake game that everyone loves.",
-      "image": "/media/gallery/radicazz-slang.png",
+      "imageDark": "/media/gallery/dark-radicazz-slang.png",
+      "imageLight": "/media/gallery/light-radicazz-slang.png",
       "size": "tall",
       "tags": ["C", "SDL", "Game"],
       "link": "https://github.com/radicazz/slang"
@@ -40,7 +42,8 @@
       "id": "zarus",
       "title": "Zarus",
       "description": "Fight to cure a raging virus taking over a beautiful country.",
-      "image": "/media/gallery/radicazz-zarus.png",
+      "imageDark": "/media/gallery/dark-radicazz-zarus.png",
+      "imageLight": "/media/gallery/light-radicazz-zarus.png",
       "size": "tall",
       "tags": ["Game", "Unity", "2D"],
       "link": "https://github.com/radicazz/Zarus"

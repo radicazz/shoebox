@@ -6,6 +6,8 @@ export interface GalleryItemData {
   title: string;
   description: string;
   image?: string;
+  imageDark?: string;
+  imageLight?: string;
   size?: 'text' | 'tall' | 'wide' | string;
   tags?: string[];
   link?: string;
@@ -24,8 +26,15 @@ export interface Props {
 
 const { item } = Astro.props as Props;
 const basePath = (import.meta.env.BASE_URL ?? '/').replace(/\/$/, '');
-const resolvedImage = item.image?.startsWith('/') ? `${basePath}${item.image}` : item.image;
-const hasImage = resolvedImage && resolvedImage.trim() !== '';
+const resolveImagePath = (value?: string | null) => {
+  if (!value) return null;
+  return value.startsWith('/') ? `${basePath}${value}` : value;
+};
+
+const resolvedLight = resolveImagePath(item.imageLight ?? item.image);
+const resolvedDark = resolveImagePath(item.imageDark ?? item.image);
+const fallbackImage = resolvedLight ?? resolvedDark;
+const hasImage = Boolean(fallbackImage);
 const linkTarget = item.link ?? item.details?.link ?? null;
 
 // Size-based classes for masonry layout
@@ -63,10 +72,13 @@ const Tag = (linkTarget ? 'a' : 'article') as 'a' | 'article';
   {hasImage && (
     <div class="gallery-item-image-wrapper relative overflow-hidden">
       <img
-        src={resolvedImage}
+        src={fallbackImage ?? ''}
         alt={item.title}
         loading="lazy"
         class="gallery-item-image h-full w-full object-cover transition-transform duration-[650ms] ease-out will-change-transform group-hover:scale-110"
+        data-theme-image
+        data-theme-src-light={resolvedLight ?? undefined}
+        data-theme-src-dark={resolvedDark ?? undefined}
       />
       <div class="gallery-item-overlay absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
     </div>
