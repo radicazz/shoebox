@@ -1,12 +1,12 @@
 {
   "profileHero": {
-    "name": "radicazz",
+    "name": "cazz",
     "photo": "/media/pfp.jpeg",
-    "title": "magic man",
-    "location": "10.1.1.1:22"
+    "title": "",
+    "location": ""
   },
   "aboutCard": {
-    "text": "I collect my most interesting snapshots, studies, and experiments in one tidy little box.",
+    "text": "This is where I stash the things that taught me something, surprised me, or simply refused to leave my brain alone. Some pieces are polished, others are not. No matter what, they all live inside a box.",
     "skills": ["Mashing Buttons", "Avoiding Tax", "Prompting AI"]
   }
 }

@@ -26,19 +26,29 @@ const resolvedPhoto = isExternal.test(profileHero.photo)
   ? profileHero.photo
   : `${normalizedBase ? normalizedBase : ''}/${normalizedPhoto}`;
 const skillList = (aboutCard?.skills ?? []).filter(Boolean);
+const initialTitle = (profileHero.title ?? '').trim() || 'detecting country...';
+const initialLocation = (profileHero.location ?? '').trim() || 'detecting ip...';
+const hasInitialDivider = Boolean(initialTitle && initialLocation);
 
-const sourceEntry = {
-  label: 'Source',
-  value: 'github.com/radicazz/shoe-box',
-  href: 'https://github.com/radicazz/shoe-box',
-};
+const profileLinks = [
+  { label: 'github.com/cazzwastaken', href: 'https://github.com/cazzwastaken' },
+  { label: 'github.com/radicazz', href: 'https://github.com/radicazz' },
+  { label: 'github.com/czrch', href: 'https://github.com/czrch' },
+];
 
-const linkEntries = [sourceEntry];
+const skillRows = (() => {
+  if (!skillList.length) return [];
+  const midpoint = Math.ceil(skillList.length / 2);
+  const rows = [skillList.slice(0, midpoint)];
+  const secondRow = skillList.slice(midpoint);
+  if (secondRow.length) rows.push(secondRow);
+  return rows;
+})();
 
 const sectionHeadingClass = 'theme-text-muted text-sm font-semibold uppercase tracking-wide';
 const sectionBodyClass = 'mt-4 text-base leading-relaxed';
 ---
-<section class="profile-section" aria-label="Profile overview">
+<section class="profile-section px-5 sm:px-10 lg:px-16" aria-label="Profile overview">
   <div class="grid items-center gap-12 md:grid-cols-[auto,1fr] lg:gap-16">
     <div class="flex flex-col items-center gap-8 text-center">
       <div class="inline-flex rounded-full">
@@ -55,17 +65,31 @@ const sectionBodyClass = 'mt-4 text-base leading-relaxed';
       </div>
       <div>
         <h2 class="theme-heading mt-3 text-4xl font-bold">{profileHero.name}</h2>
-        {(profileHero.title || profileHero.location) && (
-          <p class="theme-text-muted mt-3 flex flex-wrap items-center justify-center gap-2 text-base font-medium">
-            {profileHero.title && <span>{profileHero.title}</span>}
-            {profileHero.title && profileHero.location && <span aria-hidden="true" class="theme-text-muted">•</span>}
-            {profileHero.location && <span>{profileHero.location}</span>}
-          </p>
-        )}
-        <p id="profile-clock" class="theme-text-muted mt-3 text-sm font-mono tracking-wide text-center">--:--:--</p>
+        <p class="mt-2 text-sm font-medium">
+          <a
+            href="https://github.com/radicazz/shoe-box"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="theme-accent-link"
+          >
+            radicazz/shoe-box
+          </a>
+        </p>
+        <p class="theme-text-muted mt-3 flex flex-wrap items-center justify-center gap-2 text-base font-medium">
+          <span id="profile-title">{initialTitle}</span>
+          <span
+            id="profile-divider"
+            aria-hidden="true"
+            class="theme-text-muted"
+            style={`display: ${hasInitialDivider ? 'inline' : 'none'};`}
+          >
+            •
+          </span>
+          <span id="profile-location">{initialLocation}</span>
+        </p>
       </div>
     </div>
-    {(aboutCard?.text || skillList.length > 0) && (
+    {(aboutCard?.text || skillRows.length > 0 || profileLinks.length > 0) && (
       <div class="flex flex-col gap-8 text-left">
         {aboutCard?.text && (
           <div>
@@ -73,31 +97,36 @@ const sectionBodyClass = 'mt-4 text-base leading-relaxed';
             <p class={sectionBodyClass}>{aboutCard.text}</p>
           </div>
         )}
-        {skillList.length > 0 && (
-          <div>
-            <p class={sectionHeadingClass}>Skills</p>
-            <ul class={`mt-4 flex flex-wrap gap-3 text-base leading-relaxed`}>
-              {skillList.map((skill) => (
-                <li class="theme-chip px-4 py-2 text-sm font-medium md:text-base">{skill}</li>
-              ))}
-            </ul>
-          </div>
-        )}
-        {linkEntries.length > 0 && (
-          <div>
-            <p class={sectionHeadingClass}>Source</p>
-            <div class={sectionBodyClass}>
-              {linkEntries.map((entry) => (
-                <a
-                  href={entry.href}
-                  target={entry.href.startsWith('http') ? '_blank' : undefined}
-                  rel={entry.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-                  class="theme-accent-link text-base font-medium"
-                >
-                  {entry.value}
-                </a>
-              ))}
-            </div>
+        {(skillRows.length > 0 || profileLinks.length > 0) && (
+          <div class="grid gap-8 lg:grid-cols-2 lg:items-start">
+            {skillRows.length > 0 && (
+              <div>
+                <p class={sectionHeadingClass}>Skills</p>
+                <div class="mt-4 space-y-3">
+                  {skillRows.map((row, index) => (
+                    <div class="flex flex-wrap justify-start gap-3" aria-label={`Skill line ${index + 1}`}>
+                      {row.map((skill) => (
+                        <span class="theme-chip px-4 py-2 text-sm font-medium md:text-base">{skill}</span>
+                      ))}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+            {profileLinks.length > 0 && (
+              <div>
+                <p class={sectionHeadingClass}>Links</p>
+                <ul class="mt-4 space-y-3 text-base font-medium leading-relaxed">
+                  {profileLinks.map((entry) => (
+                    <li>
+                      <a href={entry.href} target="_blank" rel="noopener noreferrer" class="theme-accent-link">
+                        {entry.label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </div>
         )}
       </div>
@@ -120,91 +149,65 @@ const sectionBodyClass = 'mt-4 text-base leading-relaxed';
       }
     }
 
-    const windowClock = document.getElementById('window-clock');
-    const browserLabel = document.getElementById('window-browser');
-    const profileClock = document.getElementById('profile-clock');
-    if (!windowClock || !browserLabel || !profileClock) return;
+    const windowTimeLabel = document.getElementById('gallery-viewport');
+    const profileTitleLabel = document.getElementById('profile-title');
+    const profileLocationLabel = document.getElementById('profile-location');
+    const profileDivider = document.getElementById('profile-divider');
+    if (!windowTimeLabel) return;
 
-    const detectBrowserName = () => {
-      const ua = navigator.userAgent;
-      if (/OPR|Opera/i.test(ua)) return 'OPERA';
-      if (/Edg/i.test(ua)) return 'EDGE';
-      if (/Chrome/i.test(ua)) return 'CHROME';
-      if (/Safari/i.test(ua) && !/Chrome/i.test(ua)) return 'SAFARI';
-      if (/Firefox/i.test(ua)) return 'FIREFOX';
-      return 'BROWSER';
+    const syncProfileMeta = () => {
+      if (!profileDivider) return;
+      const hasTitle = Boolean(profileTitleLabel?.textContent?.trim());
+      const hasLocation = Boolean(profileLocationLabel?.textContent?.trim());
+      profileDivider.style.display = hasTitle && hasLocation ? '' : 'none';
     };
-
-    browserLabel.textContent = detectBrowserName();
 
     const sanitize = (value) => {
       if (!value) return '';
       return String(value).replace(/[^\w\s\-.,()\/@]/g, '');
     };
 
-    const infoMessages = [];
-    let infoIndex = 0;
-    let rotationTimer = null;
-
-    windowClock.textContent = 'gathering client info...';
-
-    const updateProfileClock = () => {
+    const formatTime = () => {
       try {
-        profileClock.textContent = new Date().toLocaleTimeString(undefined, {
+        return new Date().toLocaleTimeString(undefined, {
           hour: '2-digit',
           minute: '2-digit',
           second: '2-digit',
           hour12: false,
         });
       } catch {
-        profileClock.textContent = new Date().toLocaleTimeString();
+        return new Date().toLocaleTimeString();
       }
     };
 
-    const rotateInfo = () => {
-      if (!infoMessages.length) return;
-      infoIndex = (infoIndex + 1) % infoMessages.length;
-      windowClock.textContent = infoMessages[infoIndex];
-    };
-
-    const setInfoMessages = (parts) => {
-      infoMessages.splice(0, infoMessages.length, ...(parts.length ? parts : ['client info unavailable']));
-      infoIndex = 0;
-      windowClock.textContent = infoMessages[0];
-      if (rotationTimer) {
-        clearInterval(rotationTimer);
-        rotationTimer = null;
-      }
-      if (infoMessages.length > 1) {
-        rotationTimer = setInterval(rotateInfo, 3000);
-      }
+    const updateWindowTime = () => {
+      windowTimeLabel.textContent = formatTime();
     };
 
     const collectInfo = async () => {
-      const parts = [];
-      const lang = sanitize(navigator.language || 'n/a');
-      const tz = sanitize(Intl.DateTimeFormat().resolvedOptions().timeZone || 'n/a');
-      parts.push(`lang ${lang}`);
-      parts.push(`tz ${tz}`);
-
       try {
         const response = await fetch('https://ipapi.co/json/', { cache: 'no-store' });
         if (response.ok) {
           const data = await response.json();
-          if (data.ip) parts.push(`ip ${sanitize(data.ip)}`);
-          const location = [data.city, data.region, data.country_name].filter(Boolean).join(', ');
-          if (location) parts.push(`loc ${sanitize(location)}`);
-          if (data.org) parts.push(`isp ${sanitize(data.org)}`);
+          if (data.ip) {
+            const cleanIp = sanitize(data.ip);
+            if (profileLocationLabel) profileLocationLabel.textContent = cleanIp;
+          }
+          const country = sanitize(data.country_name || data.country);
+          if (country && profileTitleLabel) {
+            profileTitleLabel.textContent = country;
+          }
         }
       } catch (error) {
         console.warn('Unable to fetch IP info', error);
       } finally {
-        setInfoMessages(parts);
+        syncProfileMeta();
       }
     };
 
-    updateProfileClock();
-    setInterval(updateProfileClock, 1000);
+    updateWindowTime();
+    setInterval(updateWindowTime, 1000);
+    syncProfileMeta();
     collectInfo();
   })();
 </script>

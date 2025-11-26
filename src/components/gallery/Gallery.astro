@@ -1,6 +1,5 @@
 ---
 import GalleryItem from './GalleryItem.astro';
-import GalleryModal from './GalleryModal.astro';
 import type { GalleryItemData } from './GalleryItem.astro';
 
 export interface Props {
@@ -20,21 +19,12 @@ const { title = 'Gallery', description, items = [] } = Astro.props as Props;
       ))}
     </div>
 
-    <GalleryModal />
   </section>
 )}
 
-<script is:inline define:vars={{ items }}>
+<script is:inline>
   (() => {
     if (typeof window === 'undefined') return;
-
-    // Store gallery data globally for modal access
-    window.__galleryData = window.__galleryData || {};
-    
-    // Populate gallery data
-    items.forEach((item) => {
-      window.__galleryData[item.id] = item;
-    });
 
     // Display gallery immediately on load while keeping the reveal animation
     const gallery = document.querySelector('[data-gallery-reveal]');
@@ -44,16 +34,6 @@ const { title = 'Gallery', description, items = [] } = Astro.props as Props;
       gallery.classList.add('gallery-revealed');
     });
 
-    const viewportLabel = document.getElementById('gallery-viewport');
-    if (viewportLabel) {
-      const updateViewport = () => {
-        viewportLabel.textContent = `viewport ${window.innerWidth}x${window.innerHeight}`;
-      };
-      updateViewport();
-      window.addEventListener('resize', () => {
-        window.requestAnimationFrame(updateViewport);
-      });
-    }
   })();
 </script>
 
