@@ -4,6 +4,8 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # shellcheck source=./_nvm-load.sh
 source "$SCRIPT_DIR/_nvm-load.sh"
+# shellcheck source=./_pkgm.sh
+source "$SCRIPT_DIR/_pkgm.sh"
 
 echo "⚙️  Setting up shoe-box..."
 echo ""
@@ -19,15 +21,17 @@ fi
 NODE_VERSION=$(node --version)
 echo "  ✓ Found Node.js $NODE_VERSION"
 
+echo "  ✓ Package manager: $PKGM_PRETTY_NAME"
+
 # Install dependencies
 echo ""
 echo "2️⃣  Installing dependencies..."
-npm install
+shoebox_pkgm_install
 
 # Build project
 echo ""
 echo "3️⃣  Building project..."
-npm run build
+shoebox_pkgm_run build
 
 echo ""
 echo "✅ Setup complete!"

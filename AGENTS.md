@@ -28,6 +28,11 @@ nvm use        # activates it in the current shell
 
 npm install
 npm run dev    # or npm run build
+
+# Preferred (pnpm) workflow
+corepack enable pnpm   # once per machine
+pnpm install
+pnpm dev      # or pnpm run build
 ```
 
 All project scripts source `scripts/_nvm-load.sh`, so they refuse to run if the wrong Node version is active. Dependencies always live in the local `node_modules/` folder (gitignored).

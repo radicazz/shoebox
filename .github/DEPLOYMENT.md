@@ -24,13 +24,15 @@ Trigger a deployment manually:
 
 ## Local Testing with GitHub Pages Path
 
-The site uses `/shoe-box` as the base path for GitHub Pages. To test locally with the same path:
+The site uses `/shoe-box` as the base path for GitHub Pages. To test locally with the same path (pnpm preferred):
 
 ```bash
-npm run build
-npm run preview
+pnpm run build
+pnpm run preview
 # Visit http://localhost:4321/shoe-box/
 ```
+
+Need npm instead? Run `npm install && npm run build && npm run preview`.
 
 ## Troubleshooting
 

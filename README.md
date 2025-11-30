@@ -21,17 +21,18 @@ git clone https://github.com/radicazz/shoe-box.git
 cd shoe-box
 ```
 
-If you're using `nvm` (recommeded) run the following:
+If you're using `nvm`:
 
 ```bash
 nvm install   # once, uses .nvmrc
 nvm use
 ```
 
-Run the dev site:
+Build & run:
+
 ```bash
-npm install
-npm run dev   # http://localhost:4321
+pnpm install
+pnpm dev   # http://localhost:4321
 ```
 
 ## License

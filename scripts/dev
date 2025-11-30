@@ -4,9 +4,12 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # shellcheck source=./_nvm-load.sh
 source "$SCRIPT_DIR/_nvm-load.sh"
+# shellcheck source=./_pkgm.sh
+source "$SCRIPT_DIR/_pkgm.sh"
 
 echo "🚀 Starting development server..."
 echo "📍 Local: http://localhost:4321/"
+echo "⚙️  Using $PKGM_PRETTY_NAME"
 echo ""
 
-npm run dev
+shoebox_pkgm_run dev

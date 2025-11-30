@@ -4,8 +4,11 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # shellcheck source=./_nvm-load.sh
 source "$SCRIPT_DIR/_nvm-load.sh"
+# shellcheck source=./_pkgm.sh
+source "$SCRIPT_DIR/_pkgm.sh"
 
 echo "🏥 Running environment checks..."
+echo "⚙️  Primary package manager: $PKGM_PRETTY_NAME"
 echo ""
 
 EXIT_CODE=0
@@ -15,8 +18,7 @@ echo "📦 Node.js:"
 if command -v node &> /dev/null; then
   NODE_VERSION=$(node --version)
   echo "  ✓ Found: $NODE_VERSION"
-  
-  # Extract major version (remove 'v' prefix)
+
   NODE_MAJOR=$(echo "$NODE_VERSION" | sed 's/v\([0-9]*\).*/\1/')
   if [ "$NODE_MAJOR" -lt 18 ]; then
     echo "  ⚠️  Warning: Node.js 18+ required, found $NODE_VERSION"
@@ -27,11 +29,21 @@ else
   EXIT_CODE=1
 fi
 
-# Check npm
+# Check package managers
 echo ""
-echo "📦 npm:"
+echo "🧰 Package managers:"
+if command -v pnpm &> /dev/null; then
+  echo "  ✓ pnpm $(pnpm --version)"
+else
+  echo "  ⚠️  pnpm not found (install via Corepack or https://pnpm.io/installation)"
+  if [ -z "${SHOEBOX_ALLOW_NPM:-}" ]; then
+    echo "     Set SHOEBOX_ALLOW_NPM=1 to bypass this warning."
+    EXIT_CODE=1
+  fi
+fi
+
 if command -v npm &> /dev/null; then
-  echo "  ✓ Found: $(npm --version)"
+  echo "  ✓ npm $(npm --version)"
 else
   echo "  ✗ npm not found"
   EXIT_CODE=1
@@ -42,8 +54,7 @@ echo ""
 echo "📚 Dependencies:"
 if [ -d node_modules ]; then
   echo "  ✓ node_modules/ exists"
-  
-  # Check key packages
+
   for pkg in astro @astrojs/tailwind tailwindcss alpinejs; do
     if [ -d "node_modules/$pkg" ]; then
       echo "  ✓ $pkg installed"
@@ -54,7 +65,11 @@ if [ -d node_modules ]; then
   done
 else
   echo "  ✗ node_modules/ not found"
-  echo "  💡 Run 'npm install' to install dependencies"
+  if command -v pnpm &> /dev/null; then
+    echo "  💡 Run 'pnpm install' to install dependencies"
+  else
+    echo "  💡 Run 'npm install' to install dependencies"
+  fi
   EXIT_CODE=1
 fi
 
@@ -69,6 +84,7 @@ for dir in "${REQUIRED_DIRS[@]}"; do
     echo "  ✗ $dir/ missing"
     EXIT_CODE=1
   fi
+
 done
 
 REQUIRED_FILES=("package.json" "astro.config.mjs" "tailwind.config.mjs" "public/gallery.json")
@@ -79,12 +95,13 @@ for file in "${REQUIRED_FILES[@]}"; do
     echo "  ✗ $file missing"
     EXIT_CODE=1
   fi
+
 done
 
 # Test build
 echo ""
 echo "🔨 Build test:"
-if npm run build > /tmp/shoe-box-build.log 2>&1; then
+if shoebox_pkgm_run build > /tmp/shoe-box-build.log 2>&1; then
   echo "  ✓ Build successful"
   if [ -f dist/index.html ]; then
     SIZE=$(du -sh dist | cut -f1)

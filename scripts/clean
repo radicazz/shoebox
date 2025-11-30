@@ -11,6 +11,12 @@ if [ -d node_modules ]; then
   echo "  ✓ Removed node_modules/"
 fi
 
+if command -v pnpm >/dev/null 2>&1; then
+  REINSTALL_CMD="pnpm install"
+else
+  REINSTALL_CMD="npm install"
+fi
+
 echo ""
 echo "✅ Clean complete!"
-echo "💡 Run 'npm install' to reinstall dependencies"
+echo "💡 Run '$REINSTALL_CMD' to reinstall dependencies"

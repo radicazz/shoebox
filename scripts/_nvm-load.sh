@@ -42,7 +42,11 @@ if ! command -v node >/dev/null 2>&1; then
   exit 1
 fi
 
-REQUIRED_NODE="v$REQUIRED_NODE_VERSION"
+if [[ "$REQUIRED_NODE_VERSION" == v* ]]; then
+  REQUIRED_NODE="$REQUIRED_NODE_VERSION"
+else
+  REQUIRED_NODE="v$REQUIRED_NODE_VERSION"
+fi
 CURRENT_NODE="$(node --version)"
 if [ "$CURRENT_NODE" != "$REQUIRED_NODE" ]; then
   echo "✗ Node.js $REQUIRED_NODE required but $CURRENT_NODE is active." >&2
