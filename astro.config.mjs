@@ -3,7 +3,7 @@ import tailwind from '@astrojs/tailwind';
 
 export default defineConfig({
   site: 'https://radicazz.github.io',
-  base: '/shoe-box',
+  base: '/shoebox',
   integrations: [tailwind({
     config: {
       applyBaseStyles: true,

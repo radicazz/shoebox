@@ -1,6 +1,6 @@
 # AGENTS.md
 
-Project: **shoe-box** - Lightweight personal portfolio gallery
+Project: **shoebox** - Lightweight personal portfolio gallery
 
 ### Current scope
 - Slice 1 complete: base layout, profile header, theme toggle, and sample data

@@ -1,5 +1,5 @@
 {
-  "name": "shoe-box",
+  "name": "shoebox",
   "version": "0.6.3",
   "description": "Lightweight personal Pinterest-style portfolio gallery.",
   "main": "index.js",

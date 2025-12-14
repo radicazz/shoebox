@@ -101,7 +101,7 @@ done
 # Test build
 echo ""
 echo "🔨 Build test:"
-if shoebox_pkgm_run build > /tmp/shoe-box-build.log 2>&1; then
+if shoebox_pkgm_run build > /tmp/shoebox-build.log 2>&1; then
   echo "  ✓ Build successful"
   if [ -f dist/index.html ]; then
     SIZE=$(du -sh dist | cut -f1)
@@ -111,7 +111,7 @@ if shoebox_pkgm_run build > /tmp/shoe-box-build.log 2>&1; then
     EXIT_CODE=1
   fi
 else
-  echo "  ✗ Build failed (see /tmp/shoe-box-build.log)"
+  echo "  ✗ Build failed (see /tmp/shoebox-build.log)"
   EXIT_CODE=1
 fi
 

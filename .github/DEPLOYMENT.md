@@ -15,7 +15,7 @@ This project auto-deploys to GitHub Pages on every push to `main`.
    ```
 
 3. **Site will be live at**:
-   - https://radicazz.github.io/shoe-box/
+   - https://radicazz.github.io/shoebox/
 
 ## Manual Deployment
 
@@ -24,12 +24,12 @@ Trigger a deployment manually:
 
 ## Local Testing with GitHub Pages Path
 
-The site uses `/shoe-box` as the base path for GitHub Pages. To test locally with the same path (pnpm preferred):
+The site uses `/shoebox` as the base path for GitHub Pages. To test locally with the same path (pnpm preferred):
 
 ```bash
 pnpm run build
 pnpm run preview
-# Visit http://localhost:4321/shoe-box/
+# Visit http://localhost:4321/shoebox/
 ```
 
 Need npm instead? Run `npm install && npm run build && npm run preview`.

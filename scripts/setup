@@ -7,7 +7,7 @@ source "$SCRIPT_DIR/_nvm-load.sh"
 # shellcheck source=./_pkgm.sh
 source "$SCRIPT_DIR/_pkgm.sh"
 
-echo "⚙️  Setting up shoe-box..."
+echo "⚙️  Setting up shoebox..."
 echo ""
 
 # Check Node.js
