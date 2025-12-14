@@ -52,7 +52,7 @@ const sectionBodyClass = 'mt-4 text-base leading-relaxed';
 <section class="profile-section px-5 sm:px-10 lg:px-16" aria-label="Profile overview">
   <div class="profile-section-grid grid grid-cols-1 items-center gap-12 xl:grid-cols-[auto,1fr] xl:items-start xl:gap-16">
     <div class="flex flex-col items-center gap-8 text-center">
-      <div class={`inline-flex rounded-full profile-photo-frame ${composeEffects('glow', 'scale')}`}>
+      <div class={`inline-flex rounded-2xl profile-photo-frame ${composeEffects('glow', 'scale')}`}>
         <img
           src={resolvedPhoto}
           data-profile-photo="true"
@@ -61,7 +61,7 @@ const sectionBodyClass = 'mt-4 text-base leading-relaxed';
           width="180"
           height="180"
           loading="eager"
-          class="h-[160px] w-[160px] rounded-full object-cover ring-4 ring-white ring-offset-4 ring-offset-gray-50 dark:ring-gray-900 dark:ring-offset-gray-800 sm:h-[180px] sm:w-[180px] lg:h-[200px] lg:w-[200px]"
+          class="profile-photo h-[160px] w-[160px] rounded-2xl object-cover sm:h-[180px] sm:w-[180px] lg:h-[200px] lg:w-[200px]"
         />
       </div>
       <div>
@@ -219,11 +219,19 @@ const sectionBodyClass = 'mt-4 text-base leading-relaxed';
 <style>
   .profile-photo-frame {
     padding: 0.35rem;
-    background: linear-gradient(135deg, rgba(252, 211, 77, 0.4), rgba(110, 231, 183, 0.2));
+    background: linear-gradient(135deg, rgba(34, 211, 238, 0.35), rgba(168, 85, 247, 0.18));
+    border: 1px solid rgba(148, 163, 184, 0.18);
   }
 
   :global(.dark .profile-photo-frame) {
-    background: linear-gradient(135deg, rgba(248, 250, 252, 0.15), rgba(59, 130, 246, 0.25));
+    background: linear-gradient(135deg, rgba(34, 211, 238, 0.22), rgba(168, 85, 247, 0.16));
+    border-color: rgba(148, 163, 184, 0.18);
+  }
+
+  .profile-photo {
+    border-radius: 1.15rem;
+    border: 1px solid var(--color-border);
+    box-shadow: 0 0 0 6px var(--color-surface), 0 0 0 10px rgba(148, 163, 184, 0.22);
   }
 
   .profile-link {
@@ -232,16 +240,18 @@ const sectionBodyClass = 'mt-4 text-base leading-relaxed';
     gap: 0.35rem;
     padding: 0.35rem 0.85rem;
     border-radius: 9999px;
-    border: 1px solid rgba(15, 23, 42, 0.1);
-    background: rgba(15, 23, 42, 0.03);
+    border: 1px solid var(--color-border);
+    background-color: var(--color-chip-bg);
     font-weight: 600;
+    font-family: var(--font-mono);
     letter-spacing: 0.02em;
     position: relative;
+    text-decoration: none;
   }
 
   :global(.dark .profile-link) {
-    border-color: rgba(248, 250, 252, 0.12);
-    background: rgba(248, 250, 252, 0.04);
+    border-color: var(--color-border);
+    background-color: var(--color-chip-bg);
   }
 
   .profile-link:hover,
@@ -250,18 +260,18 @@ const sectionBodyClass = 'mt-4 text-base leading-relaxed';
   }
 
   .skill-badge {
-    font-family: 'Space Mono', SFMono-Regular, ui-monospace, Menlo, Consolas, monospace;
+    font-family: var(--font-mono);
     text-transform: uppercase;
-    letter-spacing: 0.15em;
-    border: 1px solid rgba(15, 23, 42, 0.15);
-    background: linear-gradient(145deg, rgba(248, 250, 252, 0.85), rgba(226, 232, 240, 0.65));
-    color: rgba(15, 23, 42, 0.8);
+    letter-spacing: 0.1em;
+    border: 1px solid var(--color-border);
+    background-color: var(--color-chip-bg);
+    color: var(--color-text);
   }
 
   :global(.dark .skill-badge) {
-    border-color: rgba(148, 163, 184, 0.2);
-    background: linear-gradient(145deg, rgba(30, 41, 59, 0.8), rgba(15, 23, 42, 0.6));
-    color: rgba(248, 250, 252, 0.9);
+    border-color: var(--color-border);
+    background-color: var(--color-chip-bg);
+    color: var(--color-text);
   }
 
   @media (orientation: portrait) and (min-width: 768px) {

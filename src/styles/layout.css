@@ -8,6 +8,7 @@ body {
   font-family: var(--font-body);
   background-color: var(--color-bg);
   color: var(--color-text);
+  text-rendering: optimizeLegibility;
 }
 
 body::before {
@@ -16,8 +17,12 @@ body::before {
   inset: -20%;
   z-index: 0;
   pointer-events: none;
-  background: radial-gradient(circle at 20% 20%, var(--parallax-layer-primary), transparent 55%),
-    radial-gradient(circle at 80% 0%, var(--parallax-layer-secondary), transparent 60%);
+  background-image: radial-gradient(circle at 20% 20%, var(--parallax-layer-primary), transparent 58%),
+    radial-gradient(circle at 80% 0%, var(--parallax-layer-secondary), transparent 62%),
+    linear-gradient(var(--bg-grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--bg-grid-line) 1px, transparent 1px);
+  background-size: auto, auto, var(--bg-grid-size) var(--bg-grid-size), var(--bg-grid-size) var(--bg-grid-size);
+  background-position: center, center, 0 0, 0 0;
   transform: translate(calc(var(--parallax-x) * 5), calc(var(--parallax-y) * 5));
   transition: transform 150ms ease-out;
 }
@@ -25,5 +30,23 @@ body::before {
 #network-layer {
   transform: translate(calc(var(--parallax-x) * 4), calc(var(--parallax-y) * 4));
   transition: transform 150ms ease-out;
-  mix-blend-mode: screen;
+  mix-blend-mode: var(--network-blend);
+  opacity: 0.85;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--color-accent) 28%, transparent);
+  color: var(--color-heading);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body::before {
+    transition: none;
+    transform: none;
+  }
+
+  #network-layer {
+    transition: none;
+    transform: none;
+  }
 }

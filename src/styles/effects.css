@@ -1,6 +1,6 @@
 .effect-card-base {
-  border-radius: 1.25rem;
-  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
 }
 
 .effect-scale {
@@ -17,7 +17,7 @@
 }
 
 .effect-shadow:hover {
-  box-shadow: 0 25px 65px var(--effect-shadow-color);
+  box-shadow: var(--shadow-lg);
   transform: translateY(-4px);
 }
 
@@ -90,4 +90,17 @@
 .effect-border-slide:hover::before {
   opacity: 1;
   transform: scale(1.03);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .effect-scale,
+  .effect-shadow,
+  .effect-glow::after,
+  .effect-border-slide::before {
+    transition: none !important;
+  }
+
+  .effect-pulse {
+    animation: none;
+  }
 }
