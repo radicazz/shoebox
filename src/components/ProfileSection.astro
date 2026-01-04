@@ -49,94 +49,86 @@ const skillRows = (() => {
 const sectionHeadingClass = 'theme-text-muted text-sm font-semibold uppercase tracking-wide';
 const sectionBodyClass = 'mt-4 text-base leading-relaxed';
 ---
-<section class="profile-section px-5 sm:px-10 lg:px-16" aria-label="Profile overview">
-  <div class="profile-section-grid grid grid-cols-1 items-center gap-12 xl:grid-cols-[auto,1fr] xl:items-start xl:gap-16">
-    <div class="flex flex-col items-center gap-8 text-center">
-      <div class={`inline-flex rounded-2xl profile-photo-frame ${composeEffects('glow', 'scale')}`}>
-        <img
-          src={resolvedPhoto}
-          data-profile-photo="true"
-          data-fallback-src={fallbackPhoto ?? undefined}
-          alt={`Photo of ${profileHero.name}`}
-          width="180"
-          height="180"
-          loading="eager"
-          class="profile-photo h-[160px] w-[160px] rounded-2xl object-cover sm:h-[180px] sm:w-[180px] lg:h-[200px] lg:w-[200px]"
-        />
-      </div>
-      <div>
-        <h2 class="theme-heading mt-3 text-4xl font-bold">{profileHero.name}</h2>
-        <p class="mt-2 text-sm font-medium">
+<div class={`profile-card theme-panel effect-card-base ${composeEffects('shadow')} p-6 text-center`}>
+  <div class="flex flex-col items-center gap-8">
+    <div class={`inline-flex rounded-2xl profile-photo-frame ${composeEffects('glow', 'scale')}`}>
+      <img
+        src={resolvedPhoto}
+        data-profile-photo="true"
+        data-fallback-src={fallbackPhoto ?? undefined}
+        alt={`Photo of ${profileHero.name}`}
+        width="180"
+        height="180"
+        loading="eager"
+        class="profile-photo h-[160px] w-[160px] rounded-2xl object-cover sm:h-[180px] sm:w-[180px] lg:h-[200px] lg:w-[200px]"
+      />
+    </div>
+    <div>
+      <h2 class="theme-heading mt-3 text-4xl font-bold">{profileHero.name}</h2>
+      <p class="mt-2 text-sm font-medium">
+        <a
+          href="https://github.com/radicazz/shoebox"
+          target="_blank"
+          rel="noopener noreferrer"
+          class={`theme-accent-link profile-link ${composeEffects('border-slide', 'scale')}`}
+        >
+          radicazz/shoebox
+        </a>
+      </p>
+      <p class="theme-text-muted mt-3 flex flex-wrap items-center justify-center gap-2 text-base font-medium">
+        <span id="profile-title">{initialTitle}</span>
+        <span
+          id="profile-divider"
+          aria-hidden="true"
+          class="theme-text-muted"
+          style={`display: ${hasInitialDivider ? 'inline' : 'none'};`}
+        >
+          •
+        </span>
+        <span id="profile-location">{initialLocation}</span>
+      </p>
+    </div>
+  </div>
+</div>
+{aboutCard?.text && (
+  <div class={`theme-panel effect-card-base ${composeEffects('shadow')} p-6 text-center sm:text-left`}>
+    <p class={sectionHeadingClass}>About</p>
+    <p class={sectionBodyClass}>{aboutCard.text}</p>
+  </div>
+)}
+{profileLinks.length > 0 && (
+  <div class={`theme-panel effect-card-base ${composeEffects('shadow')} p-6 text-center sm:text-left`}>
+    <p class={sectionHeadingClass}>Links</p>
+    <ul class="mt-4 space-y-3 text-base font-medium leading-relaxed text-center sm:text-left">
+      {profileLinks.map((entry) => (
+        <li>
           <a
-            href="https://github.com/radicazz/shoebox"
+            href={entry.href}
             target="_blank"
             rel="noopener noreferrer"
             class={`theme-accent-link profile-link ${composeEffects('border-slide', 'scale')}`}
           >
-            radicazz/shoebox
+            {entry.label}
           </a>
-        </p>
-        <p class="theme-text-muted mt-3 flex flex-wrap items-center justify-center gap-2 text-base font-medium">
-          <span id="profile-title">{initialTitle}</span>
-          <span
-            id="profile-divider"
-            aria-hidden="true"
-            class="theme-text-muted"
-            style={`display: ${hasInitialDivider ? 'inline' : 'none'};`}
-          >
-            •
-          </span>
-          <span id="profile-location">{initialLocation}</span>
-        </p>
-      </div>
-    </div>
-    {(aboutCard?.text || skillRows.length > 0 || profileLinks.length > 0) && (
-      <div class="flex flex-col gap-8 text-center xl:text-left">
-        {aboutCard?.text && (
-          <div>
-            <p class={sectionHeadingClass}>About</p>
-            <p class={sectionBodyClass}>{aboutCard.text}</p>
-          </div>
-        )}
-        {(skillRows.length > 0 || profileLinks.length > 0) && (
-          <div class="grid gap-8 xl:grid-cols-2 xl:items-start">
-            {profileLinks.length > 0 && (
-              <div>
-                <p class={sectionHeadingClass}>Links</p>
-                <ul class="mt-4 space-y-3 text-base font-medium leading-relaxed text-center xl:text-left">
-                  {profileLinks.map((entry) => (
-                    <li>
-                      <a
-                        href={entry.href}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        class={`theme-accent-link profile-link ${composeEffects('border-slide', 'scale')}`}
-                      >
-                        {entry.label}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-            {skillRows.length > 0 && (
-              <div class="space-y-3">
-                <p class={sectionHeadingClass}>Skills</p>
-                {skillRows.map((row, index) => (
-                  <div class="flex flex-wrap justify-center gap-3 xl:justify-start" aria-label={`Skill line ${index + 1}`}>
-                    {row.map((skill) => (
-                      <span class="theme-chip skill-badge px-4 py-2 text-xs font-semibold md:text-sm">{skill}</span>
-                    ))}
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-        )}
-      </div>
-    )}
+        </li>
+      ))}
+    </ul>
   </div>
-</section>
+)}
+{skillRows.length > 0 && (
+  <div class={`theme-panel effect-card-base ${composeEffects('shadow')} p-6 text-center sm:text-left`}>
+    <p class={sectionHeadingClass}>Skills</p>
+    <div class="mt-4 space-y-3">
+      {skillRows.map((row, index) => (
+        <div class="flex flex-wrap justify-center gap-3 sm:justify-start" aria-label={`Skill line ${index + 1}`}>
+          {row.map((skill) => (
+            <span class="theme-chip skill-badge px-4 py-2 text-xs font-semibold md:text-sm">{skill}</span>
+          ))}
+        </div>
+      ))}
+    </div>
+  </div>
+)}
 
 <script is:inline>
   (() => {
@@ -274,14 +266,4 @@ const sectionBodyClass = 'mt-4 text-base leading-relaxed';
     color: var(--color-text);
   }
 
-  @media (orientation: portrait) and (min-width: 768px) {
-    .profile-section-grid {
-      grid-template-columns: minmax(0, 1fr) !important;
-      align-items: stretch;
-    }
-
-    .profile-section-grid > * {
-      justify-self: stretch;
-    }
-  }
 </style>

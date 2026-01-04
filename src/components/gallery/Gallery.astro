@@ -9,16 +9,19 @@ export interface Props {
 }
 
 const { title = 'Gallery', description, items = [] } = Astro.props as Props;
+const hasSlot = Astro.slots.has('default');
+const hasItems = items.length > 0;
+const shouldRender = hasSlot || hasItems;
 ---
 
-{items.length > 0 && (
-  <section class="gallery-section" aria-label={title} data-gallery-reveal>
-    <div class="gallery-masonry">
+{shouldRender && (
+  <section class="masonry-section" aria-label={title} data-masonry-reveal>
+    <div class="masonry-grid">
+      <slot />
       {items.map((item) => (
         <GalleryItem item={item} />
       ))}
     </div>
-
   </section>
 )}
 
@@ -27,11 +30,11 @@ const { title = 'Gallery', description, items = [] } = Astro.props as Props;
     if (typeof window === 'undefined') return;
 
     // Display gallery immediately on load while keeping the reveal animation
-    const gallery = document.querySelector('[data-gallery-reveal]');
+    const gallery = document.querySelector('[data-masonry-reveal]');
     if (!gallery) return;
 
     window.requestAnimationFrame(() => {
-      gallery.classList.add('gallery-revealed');
+      gallery.classList.add('masonry-revealed');
     });
 
     const updateThemedImages = (theme) => {
@@ -61,85 +64,3 @@ const { title = 'Gallery', description, items = [] } = Astro.props as Props;
     });
   })();
 </script>
-
-<style>
-  .gallery-section {
-    opacity: 0;
-    transform: translateY(2rem);
-    transition: opacity 600ms ease, transform 600ms ease;
-  }
-
-  .gallery-section.gallery-revealed {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  /* Masonry layout using CSS columns */
-  .gallery-masonry {
-    column-count: 1;
-    column-gap: 1.5rem;
-  }
-
-  @media (min-width: 640px) {
-    .gallery-masonry {
-      column-count: 2;
-    }
-  }
-
-  @media (min-width: 1024px) {
-    .gallery-masonry {
-      column-count: 3;
-    }
-  }
-
-  /* Ensure items flow nicely in the masonry layout */
-  .gallery-masonry > :global(*) {
-    margin-bottom: 1.5rem;
-    break-inside: avoid;
-  }
-
-  /* Stagger animation for gallery items */
-  .gallery-revealed .gallery-masonry > :global(*) {
-    animation: fadeInUp 400ms ease forwards;
-    opacity: 0;
-  }
-
-  .gallery-revealed .gallery-masonry > :global(*:nth-child(1)) {
-    animation-delay: 100ms;
-  }
-
-  .gallery-revealed .gallery-masonry > :global(*:nth-child(2)) {
-    animation-delay: 150ms;
-  }
-
-  .gallery-revealed .gallery-masonry > :global(*:nth-child(3)) {
-    animation-delay: 200ms;
-  }
-
-  .gallery-revealed .gallery-masonry > :global(*:nth-child(4)) {
-    animation-delay: 250ms;
-  }
-
-  .gallery-revealed .gallery-masonry > :global(*:nth-child(5)) {
-    animation-delay: 300ms;
-  }
-
-  .gallery-revealed .gallery-masonry > :global(*:nth-child(6)) {
-    animation-delay: 350ms;
-  }
-
-  .gallery-revealed .gallery-masonry > :global(*:nth-child(n+7)) {
-    animation-delay: 400ms;
-  }
-
-  @keyframes fadeInUp {
-    from {
-      opacity: 0;
-      transform: translateY(1rem);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-</style>

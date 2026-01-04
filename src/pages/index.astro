@@ -2,13 +2,19 @@
 import Base from '../layouts/Base.astro';
 import ProfileSection from '../components/ProfileSection.astro';
 import Gallery from '../components/gallery/Gallery.astro';
-import profileData from '../../public/profile.json';
 import galleryData from '../../public/gallery.json';
 import { composeEffects } from '../utils/effects';
 
 const siteTitle = 'Shoe Box';
-const profileHero = profileData.profileHero;
-const aboutCard = profileData.aboutCard;
+const profileHero = {
+  name: 'cazz',
+  photo: '/media/pfp.jpeg',
+};
+const aboutCard = {
+  text: "Hey there, I'm cazz - a software engineer with a passion for designing systems & sharing everything I know.",
+  skills: ['Breaking Games', 'Writing Bugs', 'Abusing AI'],
+};
+const galleryItems = galleryData?.items ?? [];
 ---
 <Base title={siteTitle}>
   <section class="px-5 pt-5 pb-10 sm:px-6 sm:pt-6 sm:pb-12">
@@ -47,13 +53,9 @@ const aboutCard = profileData.aboutCard;
         </div>
       </div>
 
-      <div class="space-y-16">
+      <Gallery title={galleryData?.title ?? 'Gallery'} description={galleryData?.description} items={galleryItems}>
         <ProfileSection profileHero={profileHero} aboutCard={aboutCard} />
-
-        {galleryData?.items?.length > 0 && (
-          <Gallery title={galleryData.title} description={galleryData.description} items={galleryData.items} />
-        )}
-      </div>
+      </Gallery>
     </div>
   </section>
 

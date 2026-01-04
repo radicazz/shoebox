@@ -50,3 +50,80 @@ body::before {
     transform: none;
   }
 }
+
+.masonry-section {
+  opacity: 0;
+  transform: translateY(2rem);
+  transition: opacity 600ms ease, transform 600ms ease;
+}
+
+.masonry-section.masonry-revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.masonry-grid {
+  column-count: 1;
+  column-gap: 1.5rem;
+}
+
+@media (min-width: 640px) {
+  .masonry-grid {
+    column-count: 2;
+  }
+}
+
+@media (min-width: 1024px) {
+  .masonry-grid {
+    column-count: 3;
+  }
+}
+
+.masonry-grid > * {
+  margin-bottom: 1.5rem;
+  break-inside: avoid;
+}
+
+.masonry-revealed .masonry-grid > * {
+  animation: fadeInUp 400ms ease forwards;
+  opacity: 0;
+}
+
+.masonry-revealed .masonry-grid > *:nth-child(1) {
+  animation-delay: 100ms;
+}
+
+.masonry-revealed .masonry-grid > *:nth-child(2) {
+  animation-delay: 150ms;
+}
+
+.masonry-revealed .masonry-grid > *:nth-child(3) {
+  animation-delay: 200ms;
+}
+
+.masonry-revealed .masonry-grid > *:nth-child(4) {
+  animation-delay: 250ms;
+}
+
+.masonry-revealed .masonry-grid > *:nth-child(5) {
+  animation-delay: 300ms;
+}
+
+.masonry-revealed .masonry-grid > *:nth-child(6) {
+  animation-delay: 350ms;
+}
+
+.masonry-revealed .masonry-grid > *:nth-child(n + 7) {
+  animation-delay: 400ms;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(1rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
