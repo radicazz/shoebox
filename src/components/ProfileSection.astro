@@ -31,12 +31,6 @@ const initialTitle = (profileHero.title ?? '').trim() || 'detecting country...';
 const initialLocation = (profileHero.location ?? '').trim() || 'detecting ip...';
 const hasInitialDivider = Boolean(initialTitle && initialLocation);
 
-const profileLinks = [
-  { label: 'github.com/cazzwastaken', href: 'https://github.com/cazzwastaken' },
-  { label: 'github.com/radicazz', href: 'https://github.com/radicazz' },
-  { label: 'github.com/czrch', href: 'https://github.com/czrch' },
-];
-
 const skillRows = (() => {
   if (!skillList.length) return [];
   const midpoint = Math.ceil(skillList.length / 2);
@@ -94,25 +88,6 @@ const sectionBodyClass = 'mt-4 text-base leading-relaxed';
   <div class={`theme-panel effect-card-base ${composeEffects('shadow')} p-6 text-center sm:text-left`}>
     <p class={sectionHeadingClass}>About</p>
     <p class={sectionBodyClass}>{aboutCard.text}</p>
-  </div>
-)}
-{profileLinks.length > 0 && (
-  <div class={`theme-panel effect-card-base ${composeEffects('shadow')} p-6 text-center sm:text-left`}>
-    <p class={sectionHeadingClass}>Links</p>
-    <ul class="mt-4 space-y-3 text-base font-medium leading-relaxed text-center sm:text-left">
-      {profileLinks.map((entry) => (
-        <li>
-          <a
-            href={entry.href}
-            target="_blank"
-            rel="noopener noreferrer"
-            class={`theme-accent-link profile-link ${composeEffects('border-slide', 'scale')}`}
-          >
-            {entry.label}
-          </a>
-        </li>
-      ))}
-    </ul>
   </div>
 )}
 {skillRows.length > 0 && (
