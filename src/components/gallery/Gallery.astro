@@ -37,17 +37,64 @@ const shouldRender = hasSlot || hasItems;
       gallery.classList.add('masonry-revealed');
     });
 
+    const cacheLightSources = (node) => {
+      if (!node.dataset.themeSrcLight) {
+        const currentSrc = node.getAttribute('src');
+        if (currentSrc) node.dataset.themeSrcLight = currentSrc;
+      }
+      if (!node.dataset.themeSrcsetLight) {
+        const currentSrcset = node.getAttribute('srcset');
+        if (currentSrcset) node.dataset.themeSrcsetLight = currentSrcset;
+      }
+    };
+
+    const applyThemedAttributes = (node, isDark) => {
+      const preferredSrc = node.getAttribute(isDark ? 'data-theme-src-dark' : 'data-theme-src-light');
+      const fallbackSrc = node.getAttribute(isDark ? 'data-theme-src-light' : 'data-theme-src-dark');
+      const nextSrc = preferredSrc || fallbackSrc;
+      if (nextSrc && node.getAttribute('src') !== nextSrc) {
+        node.setAttribute('src', nextSrc);
+      }
+
+      const preferredSrcset = node.getAttribute(isDark ? 'data-theme-srcset-dark' : 'data-theme-srcset-light');
+      const fallbackSrcset = node.getAttribute(isDark ? 'data-theme-srcset-light' : 'data-theme-srcset-dark');
+      const nextSrcset = preferredSrcset || fallbackSrcset;
+      if (nextSrcset) {
+        node.setAttribute('srcset', nextSrcset);
+      } else {
+        node.removeAttribute('srcset');
+      }
+    };
+
     const updateThemedImages = (theme) => {
       const isDark = theme === 'dark';
       const images = document.querySelectorAll('[data-theme-image]');
       images.forEach((node) => {
-        const img = node instanceof HTMLImageElement ? node : null;
-        if (!img) return;
-        const preferred = img.getAttribute(isDark ? 'data-theme-src-dark' : 'data-theme-src-light');
-        const fallback = img.getAttribute(isDark ? 'data-theme-src-light' : 'data-theme-src-dark');
-        const next = preferred || fallback;
-        if (next && img.getAttribute('src') !== next) {
-          img.setAttribute('src', next);
+        if (node instanceof HTMLPictureElement) {
+          const sources = node.querySelectorAll('source');
+          sources.forEach((source) => {
+            cacheLightSources(source);
+            applyThemedAttributes(source, isDark);
+          });
+          const img = node.querySelector('img');
+          if (img) {
+            cacheLightSources(img);
+            applyThemedAttributes(img, isDark);
+          }
+          return;
+        }
+
+        if (node instanceof HTMLImageElement) {
+          cacheLightSources(node);
+          applyThemedAttributes(node, isDark);
+          const parentPicture = node.parentElement;
+          if (parentPicture instanceof HTMLPictureElement) {
+            const sources = parentPicture.querySelectorAll('source');
+            sources.forEach((source) => {
+              cacheLightSources(source);
+              applyThemedAttributes(source, isDark);
+            });
+          }
         }
       });
     };

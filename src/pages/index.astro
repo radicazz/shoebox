@@ -4,6 +4,12 @@ import ProfileSection from '../components/ProfileSection.astro';
 import Gallery from '../components/gallery/Gallery.astro';
 import galleryData from '../../public/gallery.json';
 import { composeEffects } from '../utils/effects';
+import arenaexeLight from '../assets/gallery/light-radicazz-arenaexe.png';
+import arenaexeDark from '../assets/gallery/dark-radicazz-arenaexe.png';
+import slangLight from '../assets/gallery/light-radicazz-slang.png';
+import slangDark from '../assets/gallery/dark-radicazz-slang.png';
+import zarusLight from '../assets/gallery/light-radicazz-zarus.png';
+import zarusDark from '../assets/gallery/dark-radicazz-zarus.png';
 
 const siteTitle = 'Shoe Box';
 const profileHero = {
@@ -14,7 +20,16 @@ const aboutCard = {
   text: "Hey there, I'm cazz - a software engineer with a passion for designing systems & sharing everything I know.",
   skills: ['Breaking Games', 'Writing Bugs', 'Abusing AI'],
 };
-const galleryItems = galleryData?.items ?? [];
+const galleryImageMap = {
+  arenaexe: { imageLight: arenaexeLight, imageDark: arenaexeDark },
+  slang: { imageLight: slangLight, imageDark: slangDark },
+  zarus: { imageLight: zarusLight, imageDark: zarusDark },
+};
+const galleryItems = (galleryData?.items ?? []).map((item) => {
+  const themedImages = galleryImageMap[item.id];
+  if (!themedImages) return item;
+  return { ...item, ...themedImages };
+});
 ---
 <Base title={siteTitle}>
   <section class="px-5 pt-5 pb-10 sm:px-6 sm:pt-6 sm:pb-12">

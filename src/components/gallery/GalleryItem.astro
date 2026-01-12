@@ -1,13 +1,15 @@
 ---
+import { getImage } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
 import { composeEffects } from '../../utils/effects';
 
 export interface GalleryItemData {
   id: string;
   title: string;
   description: string;
-  image?: string;
-  imageDark?: string;
-  imageLight?: string;
+  image?: string | ImageMetadata;
+  imageDark?: string | ImageMetadata;
+  imageLight?: string | ImageMetadata;
   size?: 'text' | 'tall' | 'wide' | string;
   tags?: string[];
   link?: string;
@@ -31,10 +33,46 @@ const resolveImagePath = (value?: string | null) => {
   return value.startsWith('/') ? `${basePath}${value}` : value;
 };
 
-const resolvedLight = resolveImagePath(item.imageLight ?? item.image);
-const resolvedDark = resolveImagePath(item.imageDark ?? item.image);
-const fallbackImage = resolvedLight ?? resolvedDark;
-const hasImage = Boolean(fallbackImage);
+const isImageMetadata = (value: unknown): value is ImageMetadata =>
+  typeof value === 'object' && value !== null && 'src' in value;
+const imageWidths = [320, 480, 640, 800, 1024];
+const imageSizes = '(min-width: 1280px) 360px, (min-width: 768px) 42vw, 90vw';
+const imageFormats = ['avif', 'webp'] as const;
+const fallbackFormat = 'png';
+
+const lightImage = item.imageLight ?? item.image ?? null;
+const darkImage = item.imageDark ?? item.image ?? null;
+const primaryImage = lightImage ?? darkImage;
+const hasImage = Boolean(primaryImage);
+const getImageIdentity = (value: string | ImageMetadata | null) =>
+  typeof value === 'string' ? value : value?.src;
+const hasThemedImages =
+  Boolean(lightImage && darkImage) && getImageIdentity(lightImage) !== getImageIdentity(darkImage);
+
+const resolveImageSet = async (source: ImageMetadata) => {
+  const sources = await Promise.all(
+    imageFormats.map(async (format) => {
+      const result = await getImage({ src: source, format, widths: imageWidths, sizes: imageSizes });
+      return {
+        format,
+        srcset: result.srcSet.attribute,
+      };
+    }),
+  );
+  const fallback = await getImage({ src: source, format: fallbackFormat, widths: imageWidths, sizes: imageSizes });
+  return { sources, fallback };
+};
+
+const lightImageSet = isImageMetadata(lightImage) ? await resolveImageSet(lightImage) : null;
+const primaryImageSet =
+  !lightImageSet && isImageMetadata(primaryImage) ? await resolveImageSet(primaryImage) : null;
+const darkImageSet =
+  hasThemedImages && isImageMetadata(darkImage) ? await resolveImageSet(darkImage) : null;
+
+const displayImageSet = lightImageSet ?? primaryImageSet;
+const fallbackImagePath =
+  !displayImageSet && typeof primaryImage === 'string' ? resolveImagePath(primaryImage) : null;
+
 const linkTarget = item.link ?? item.details?.link ?? null;
 
 // Size-based classes for masonry layout
@@ -71,15 +109,59 @@ const Tag = (linkTarget ? 'a' : 'article') as 'a' | 'article';
 <Tag {...interactiveAttributes}>
   {hasImage && (
     <div class="gallery-item-image-wrapper relative overflow-hidden">
-      <img
-        src={fallbackImage ?? ''}
-        alt={item.title}
-        loading="lazy"
-        class="gallery-item-image h-full w-full object-cover transition-transform duration-[650ms] ease-out will-change-transform group-hover:scale-110"
-        data-theme-image
-        data-theme-src-light={resolvedLight ?? undefined}
-        data-theme-src-dark={resolvedDark ?? undefined}
-      />
+      {displayImageSet ? (
+        <picture data-theme-image>
+          {displayImageSet.sources.map((source, index) => {
+            const darkSource = darkImageSet?.sources[index];
+            const lightSrcset = source.srcset;
+            const darkSrcset = darkSource?.srcset;
+            const type = `image/${source.format}`;
+            return (
+              <source
+                srcset={lightSrcset}
+                sizes={imageSizes}
+                type={type}
+                data-theme-srcset-light={lightSrcset}
+                data-theme-srcset-dark={darkSrcset ?? undefined}
+              />
+            );
+          })}
+          {(() => {
+            const { class: _className, ...imgAttributes } = displayImageSet.fallback.attributes;
+            const lightSrc = displayImageSet.fallback.src;
+            const lightSrcset = displayImageSet.fallback.srcSet.attribute;
+            const darkSrc = darkImageSet?.fallback.src;
+            const darkSrcset = darkImageSet?.fallback.srcSet.attribute;
+            return (
+              <img
+                src={lightSrc}
+                srcset={lightSrcset}
+                sizes={imageSizes}
+                {...imgAttributes}
+                alt=""
+                loading="lazy"
+                decoding="async"
+                class="gallery-item-image h-full w-full object-cover transition-transform duration-[650ms] ease-out will-change-transform group-hover:scale-110"
+                data-theme-src-light={lightSrc}
+                data-theme-src-dark={darkSrc ?? undefined}
+                data-theme-srcset-light={lightSrcset}
+                data-theme-srcset-dark={darkSrcset ?? undefined}
+                aria-hidden="true"
+              />
+            );
+          })()}
+        </picture>
+      ) : (
+        <img
+          src={fallbackImagePath ?? ''}
+          alt=""
+          loading="lazy"
+          decoding="async"
+          class="gallery-item-image h-full w-full object-cover transition-transform duration-[650ms] ease-out will-change-transform group-hover:scale-110"
+          data-theme-image
+          aria-hidden="true"
+        />
+      )}
       <div class="gallery-item-overlay absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
     </div>
   )}
