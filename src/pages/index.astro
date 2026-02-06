@@ -32,22 +32,24 @@ const galleryItems = (galleryData?.items ?? []).map((item) => {
 });
 ---
 <Base title={siteTitle}>
-  <section class="px-5 pt-5 pb-10 sm:px-6 sm:pt-6 sm:pb-12">
-    <div class={`theme-panel effect-card-base ${composeEffects('shadow', 'scale')} px-4 py-6 sm:px-8 sm:py-8`}>
-      <div class="window-bar theme-panel theme-panel--muted mb-12 rounded-xl px-6 py-4">
-        <div class="grid grid-cols-[auto,1fr,auto] items-center gap-3">
+  <section class="px-0 pb-8 pt-3 sm:pb-10 sm:pt-4">
+    <div class={`theme-panel effect-card-base ${composeEffects('shadow', 'scale')} px-3 py-4 sm:px-6 sm:py-6 lg:px-8 lg:py-8`}>
+      <div class="window-bar theme-panel theme-panel--muted mb-8 rounded-xl px-3 py-3 sm:mb-10 sm:px-5 sm:py-4 lg:mb-12">
+        <div class="grid grid-cols-[auto,1fr] items-center gap-x-3 gap-y-2 sm:grid-cols-[auto,1fr,auto]">
           <div class="flex items-center gap-1.5" aria-hidden="true">
             <span class="h-3 w-3 rounded-full bg-red-400"></span>
             <span class="h-3 w-3 rounded-full bg-amber-300"></span>
             <span class="h-3 w-3 rounded-full bg-green-400"></span>
           </div>
-          <p id="gallery-viewport" class="theme-text-muted text-xs font-mono tracking-wide text-center">--:--:--</p>
-          <div class="flex items-center justify-end gap-3 sm:gap-4">
+          <p id="gallery-viewport" class="theme-text-muted justify-self-center text-center font-mono text-[0.7rem] tracking-wide sm:text-xs">
+            --:--:--
+          </p>
+          <div class="col-span-2 flex items-center justify-end gap-3 sm:col-span-1 sm:gap-4">
             <button
               type="button"
               data-theme-toggle
               aria-pressed="false"
-              class={`theme-panel theme-panel--muted inline-flex items-center gap-2 rounded-lg border px-3 py-1.5 text-xs font-medium shadow-sm transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--color-accent)] ${composeEffects(
+              class={`theme-panel theme-panel--muted inline-flex items-center gap-2 rounded-lg border px-2.5 py-1.5 text-xs font-medium shadow-sm transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--color-accent)] sm:px-3 ${composeEffects(
                 'border-slide',
               )}`}
               aria-label="Toggle color theme"
@@ -74,7 +76,7 @@ const galleryItems = (galleryData?.items ?? []).map((item) => {
     </div>
   </section>
 
-  <section class="mt-6 text-center text-sm theme-text-muted">
+  <section class="mt-4 text-center text-sm theme-text-muted sm:mt-6">
     <div class="flex flex-col items-center gap-1">
       <span class="footer-made">
         made with <span aria-hidden="true" class="footer-heart">&hearts;</span> by cazz
