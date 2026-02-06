@@ -84,10 +84,11 @@ const sizeClasses: Record<string, string> = {
 
 const itemSizeClass = item.size ? (sizeClasses[item.size] || '') : '';
 const variantClass = hasImage ? 'gallery-item--has-image' : 'gallery-item--no-image';
-const baseClasses = `gallery-item ${itemSizeClass} ${variantClass} theme-panel effect-card-base group relative overflow-hidden ${composeEffects(
+const interactionClass = linkTarget ? 'gallery-item--interactive cursor-pointer' : 'cursor-default';
+const baseClasses = `gallery-item ${itemSizeClass} ${variantClass} ${interactionClass} theme-panel effect-card-base relative overflow-hidden ${composeEffects(
   'shadow',
   'scale',
-)} cursor-pointer`;
+)}`;
 
 const interactiveAttributes = linkTarget
   ? {
@@ -98,9 +99,6 @@ const interactiveAttributes = linkTarget
     }
   : {
       class: baseClasses,
-      role: 'button',
-      tabindex: 0,
-      'aria-label': `Open details for ${item.title}`,
     };
 
 const Tag = (linkTarget ? 'a' : 'article') as 'a' | 'article';
@@ -141,7 +139,7 @@ const Tag = (linkTarget ? 'a' : 'article') as 'a' | 'article';
                 alt=""
                 loading="lazy"
                 decoding="async"
-                class="gallery-item-image h-full w-full object-cover transition-transform duration-[650ms] ease-out will-change-transform group-hover:scale-110"
+                class="gallery-item-image h-full w-full object-cover transition-transform duration-[650ms] ease-out will-change-transform"
                 data-theme-src-light={lightSrc}
                 data-theme-src-dark={darkSrc ?? undefined}
                 data-theme-srcset-light={lightSrcset}
@@ -157,12 +155,12 @@ const Tag = (linkTarget ? 'a' : 'article') as 'a' | 'article';
           alt=""
           loading="lazy"
           decoding="async"
-          class="gallery-item-image h-full w-full object-cover transition-transform duration-[650ms] ease-out will-change-transform group-hover:scale-110"
+          class="gallery-item-image h-full w-full object-cover transition-transform duration-[650ms] ease-out will-change-transform"
           data-theme-image
           aria-hidden="true"
         />
       )}
-      <div class="gallery-item-overlay absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
+      <div class="gallery-item-overlay absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent opacity-0 transition-opacity duration-300"></div>
     </div>
   )}
 
@@ -186,11 +184,13 @@ const Tag = (linkTarget ? 'a' : 'article') as 'a' | 'article';
     )}
   </div>
 
-  <div class="gallery-item-hover-indicator absolute bottom-4 right-4 z-30 flex h-8 w-8 items-center justify-center rounded-full bg-white/10 backdrop-blur-sm opacity-0 transition-all duration-300 group-hover:opacity-100 dark:bg-gray-800/50">
-    <svg class="h-4 w-4 text-white dark:text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-    </svg>
-  </div>
+  {linkTarget && (
+    <div class="gallery-item-hover-indicator absolute bottom-4 right-4 z-30 flex h-8 w-8 items-center justify-center rounded-full bg-white/10 backdrop-blur-sm opacity-0 transition-all duration-300 dark:bg-gray-800/50">
+      <svg class="h-4 w-4 text-white dark:text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+      </svg>
+    </div>
+  )}
 </Tag>
 
 <style>
@@ -231,15 +231,15 @@ const Tag = (linkTarget ? 'a' : 'article') as 'a' | 'article';
   }
 
   .gallery-item-tall .gallery-item-image-wrapper {
-    height: 400px;
+    height: 25rem;
   }
 
   .gallery-item-wide .gallery-item-image-wrapper {
-    height: 250px;
+    height: 15.625rem;
   }
 
   .gallery-item:not(.gallery-item-text):not(.gallery-item-tall):not(.gallery-item-wide) .gallery-item-image-wrapper {
-    height: 300px;
+    height: 18.75rem;
   }
 
   .gallery-item-image {
@@ -251,12 +251,10 @@ const Tag = (linkTarget ? 'a' : 'article') as 'a' | 'article';
     filter: contrast(1.05) brightness(0.92) saturate(1.05);
   }
 
-  .gallery-item:hover,
   .gallery-item:focus-visible {
-    transform: translateY(-4px) scale(1.01);
+    transform: translateY(-3px) scale(1.008);
   }
 
-  .gallery-item:hover::before,
   .gallery-item:focus-visible::before {
     opacity: 1;
   }
@@ -312,8 +310,102 @@ const Tag = (linkTarget ? 'a' : 'article') as 'a' | 'article';
     backdrop-filter: blur(4px);
   }
 
-  .gallery-item--no-image:hover .gallery-item-content {
+  .gallery-item--no-image:focus-visible .gallery-item-content {
     transform: translateY(-4px);
+  }
+
+  .gallery-item--interactive:focus-visible .gallery-item-image {
+    transform: scale(1.08);
+  }
+
+  .gallery-item--interactive:focus-visible .gallery-item-overlay,
+  .gallery-item--interactive:focus-visible .gallery-item-hover-indicator {
+    opacity: 1;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .gallery-item--interactive:hover {
+      transform: translateY(-4px) scale(1.01);
+    }
+
+    .gallery-item--interactive:hover::before {
+      opacity: 1;
+    }
+
+    .gallery-item--interactive:hover .gallery-item-image {
+      transform: scale(1.1);
+    }
+
+    .gallery-item--interactive:hover .gallery-item-overlay {
+      opacity: 1;
+    }
+
+    .gallery-item--interactive:hover .gallery-item-hover-indicator {
+      opacity: 1;
+    }
+
+    .gallery-item--interactive.gallery-item--no-image:hover .gallery-item-content {
+      transform: translateY(-4px);
+    }
+  }
+
+  @media (hover: none), (pointer: coarse) {
+    .gallery-item-hover-indicator {
+      opacity: 0.88;
+    }
+
+    .gallery-item-overlay {
+      opacity: 0.25;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .gallery-item-text {
+      min-height: 180px;
+    }
+
+    .gallery-item-tall .gallery-item-image-wrapper {
+      height: 21rem;
+    }
+
+    .gallery-item-wide .gallery-item-image-wrapper {
+      height: 13rem;
+    }
+
+    .gallery-item:not(.gallery-item-text):not(.gallery-item-tall):not(.gallery-item-wide) .gallery-item-image-wrapper {
+      height: 15rem;
+    }
+
+    .gallery-item-content--overlay {
+      padding: 1.15rem;
+      padding-top: clamp(2.2rem, 9vw, 3.4rem);
+    }
+  }
+
+  @media (max-width: 420px) {
+    .gallery-item-tall .gallery-item-image-wrapper {
+      height: 19rem;
+    }
+
+    .gallery-item:not(.gallery-item-text):not(.gallery-item-tall):not(.gallery-item-wide) .gallery-item-image-wrapper {
+      height: 13.5rem;
+    }
+
+    .gallery-item-content--overlay {
+      padding: 1rem;
+      padding-top: 2rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .gallery-item,
+    .gallery-item::before,
+    .gallery-item-image,
+    .gallery-item-overlay,
+    .gallery-item-content,
+    .gallery-item-hover-indicator {
+      transition: none !important;
+    }
   }
 
 </style>
