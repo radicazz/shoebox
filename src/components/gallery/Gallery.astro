@@ -12,10 +12,21 @@ const { title = 'Gallery', description, items = [] } = Astro.props as Props;
 const hasSlot = Astro.slots.has('default');
 const hasItems = items.length > 0;
 const shouldRender = hasSlot || hasItems;
+const sectionDescriptionId = description ? 'gallery-description' : undefined;
 ---
 
 {shouldRender && (
-  <section class="masonry-section" aria-label={title} data-masonry-reveal>
+  <section
+    class="masonry-section"
+    aria-label={title}
+    aria-describedby={sectionDescriptionId}
+    data-masonry-reveal
+  >
+    {description && (
+      <p id="gallery-description" class="sr-only">
+        {description}
+      </p>
+    )}
     <div class="masonry-grid">
       <slot />
       {items.map((item) => (
