@@ -28,7 +28,11 @@ const sectionDescriptionId = description ? 'gallery-description' : undefined;
       </p>
     )}
     <div class="masonry-grid">
-      <slot />
+      {hasSlot && (
+        <div class="gallery-profile">
+          <slot />
+        </div>
+      )}
       {items.map((item) => (
         <GalleryItem item={item} />
       ))}

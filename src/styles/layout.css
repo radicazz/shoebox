@@ -86,9 +86,23 @@ body::before {
   column-gap: 1.5rem;
 }
 
+.gallery-profile {
+  column-span: all;
+  break-inside: avoid-column;
+  width: 100%;
+}
+
+.gallery-profile > * + * {
+  margin-top: 1.5rem;
+}
+
 @media (max-width: 480px) {
   .masonry-grid {
     column-gap: 1rem;
+  }
+
+  .gallery-profile > * + * {
+    margin-top: 1rem;
   }
 }
 

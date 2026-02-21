@@ -36,7 +36,7 @@ const resolveImagePath = (value?: string | null) => {
 const isImageMetadata = (value: unknown): value is ImageMetadata =>
   typeof value === 'object' && value !== null && 'src' in value;
 const imageWidths = [320, 480, 640, 800, 1024];
-const imageSizes = '(min-width: 1280px) 360px, (min-width: 768px) 42vw, 90vw';
+const imageSizes = '(min-width: 1024px) 31vw, (min-width: 640px) 46vw, 90vw';
 const imageFormats = ['avif', 'webp'] as const;
 const fallbackFormat = 'png';
 
@@ -230,16 +230,27 @@ const Tag = (linkTarget ? 'a' : 'article') as 'a' | 'article';
     min-height: 200px;
   }
 
+  .gallery-item-image-wrapper {
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    max-height: clamp(11rem, 52vw, 18rem);
+  }
+
+  .gallery-item-image-wrapper picture,
+  .gallery-item-image-wrapper > img {
+    display: block;
+    height: 100%;
+    width: 100%;
+  }
+
   .gallery-item-tall .gallery-item-image-wrapper {
-    height: 25rem;
+    aspect-ratio: 3 / 4;
+    max-height: clamp(14rem, 72vw, 24rem);
   }
 
   .gallery-item-wide .gallery-item-image-wrapper {
-    height: 15.625rem;
-  }
-
-  .gallery-item:not(.gallery-item-text):not(.gallery-item-tall):not(.gallery-item-wide) .gallery-item-image-wrapper {
-    height: 18.75rem;
+    aspect-ratio: 21 / 10;
+    max-height: clamp(9rem, 40vw, 14rem);
   }
 
   .gallery-item-image {
@@ -364,18 +375,6 @@ const Tag = (linkTarget ? 'a' : 'article') as 'a' | 'article';
       min-height: 180px;
     }
 
-    .gallery-item-tall .gallery-item-image-wrapper {
-      height: 21rem;
-    }
-
-    .gallery-item-wide .gallery-item-image-wrapper {
-      height: 13rem;
-    }
-
-    .gallery-item:not(.gallery-item-text):not(.gallery-item-tall):not(.gallery-item-wide) .gallery-item-image-wrapper {
-      height: 15rem;
-    }
-
     .gallery-item-content--overlay {
       padding: 1.15rem;
       padding-top: clamp(2.2rem, 9vw, 3.4rem);
@@ -383,14 +382,6 @@ const Tag = (linkTarget ? 'a' : 'article') as 'a' | 'article';
   }
 
   @media (max-width: 420px) {
-    .gallery-item-tall .gallery-item-image-wrapper {
-      height: 19rem;
-    }
-
-    .gallery-item:not(.gallery-item-text):not(.gallery-item-tall):not(.gallery-item-wide) .gallery-item-image-wrapper {
-      height: 13.5rem;
-    }
-
     .gallery-item-content--overlay {
       padding: 1rem;
       padding-top: 2rem;
