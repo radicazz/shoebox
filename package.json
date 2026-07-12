@@ -7,7 +7,8 @@
     "build": "./scripts/astro build",
     "preview": "./scripts/astro preview",
     "validate:data": "./scripts/validate-gallery",
-    "test": "./scripts/test"
+    "test": "./scripts/test",
+    "check:output": "./scripts/check-output"
   },
   "keywords": ["astro", "portfolio", "static-site"],
   "author": "cazz",
