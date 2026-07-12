@@ -2,23 +2,21 @@
   "name": "shoebox",
   "version": "0.8.2",
   "description": "Lightweight personal Pinterest-style portfolio gallery.",
-  "main": "index.js",
-  "directories": {
-    "doc": "docs"
-  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "astro dev",
-    "build": "astro build",
-    "preview": "astro preview"
+    "dev": "./scripts/astro dev",
+    "build": "./scripts/astro build",
+    "preview": "./scripts/astro preview",
+    "validate:data": "./scripts/validate-gallery",
+    "test": "./scripts/test"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": ["astro", "portfolio", "static-site"],
+  "author": "cazz",
+  "license": "MIT",
   "type": "module",
   "packageManager": "pnpm@10.23.0",
   "engines": {
-    "node": ">=18"
+    "node": "22.21.1",
+    "pnpm": "10.23.0"
   },
   "devDependencies": {
     "@astrojs/tailwind": "^6.0.2",
@@ -26,14 +24,5 @@
     "autoprefixer": "^10.4.21",
     "sharp": "^0.34.5",
     "tailwindcss": "^3.4.18"
-  },
-  "dependencies": {
-    "alpinejs": "^3.15.1"
-  },
-  "pnpm": {
-    "onlyBuiltDependencies": [
-      "esbuild",
-      "sharp"
-    ]
   }
 }

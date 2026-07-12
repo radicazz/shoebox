@@ -18,36 +18,35 @@ if [ -z "$REQUIRED_NODE_VERSION" ]; then
   exit 1
 fi
 
-export NVM_DIR="${NVM_DIR:-$HOME/.nvm}"
-if [ -s "$NVM_DIR/nvm.sh" ]; then
-  # shellcheck disable=SC1090
-  . "$NVM_DIR/nvm.sh"
-elif [ -s "/usr/local/opt/nvm/nvm.sh" ]; then
-  # Homebrew macOS fallback
-  # shellcheck disable=SC1091
-  . "/usr/local/opt/nvm/nvm.sh"
-fi
-
-if command -v nvm >/dev/null 2>&1; then
-  export NVM_QUIET=1
-  nvm install "$REQUIRED_NODE_VERSION" >/dev/null
-  nvm use "$REQUIRED_NODE_VERSION" >/dev/null
-else
-  echo "✗ nvm not found. Install it: https://github.com/nvm-sh/nvm#installing-and-updating" >&2
-  exit 1
-fi
-
-if ! command -v node >/dev/null 2>&1; then
-  echo "✗ Node.js not available even after loading nvm." >&2
-  exit 1
-fi
-
 if [[ "$REQUIRED_NODE_VERSION" == v* ]]; then
   REQUIRED_NODE="$REQUIRED_NODE_VERSION"
 else
   REQUIRED_NODE="v$REQUIRED_NODE_VERSION"
 fi
-CURRENT_NODE="$(node --version)"
+
+CURRENT_NODE="$(node --version 2>/dev/null || true)"
+if [ "$CURRENT_NODE" != "$REQUIRED_NODE" ]; then
+  export NVM_DIR="${NVM_DIR:-$HOME/.nvm}"
+  if [ -s "$NVM_DIR/nvm.sh" ]; then
+    # shellcheck disable=SC1090
+    . "$NVM_DIR/nvm.sh"
+  elif [ -s "/usr/local/opt/nvm/nvm.sh" ]; then
+    # Homebrew macOS fallback
+    # shellcheck disable=SC1091
+    . "/usr/local/opt/nvm/nvm.sh"
+  fi
+
+  if ! command -v nvm >/dev/null 2>&1; then
+    echo "✗ Node.js $REQUIRED_NODE is required. Install it with nvm: https://github.com/nvm-sh/nvm#installing-and-updating" >&2
+    exit 1
+  fi
+
+  export NVM_QUIET=1
+  nvm install "$REQUIRED_NODE_VERSION" >/dev/null
+  nvm use "$REQUIRED_NODE_VERSION" >/dev/null
+  CURRENT_NODE="$(node --version)"
+fi
+
 if [ "$CURRENT_NODE" != "$REQUIRED_NODE" ]; then
   echo "✗ Node.js $REQUIRED_NODE required but $CURRENT_NODE is active." >&2
   exit 1

@@ -35,6 +35,16 @@ pnpm install
 pnpm dev   # http://localhost:4321
 ```
 
+This project uses the Node and pnpm versions pinned in [`.nvmrc`](./.nvmrc) and `package.json`. pnpm is the supported package manager; do not commit an npm lockfile.
+
+## Quality checks
+
+```bash
+pnpm validate:data
+pnpm test
+pnpm build
+```
+
 ## License
 
 MIT – see [LICENSE](./LICENSE) for more details.
