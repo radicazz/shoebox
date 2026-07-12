@@ -1,6 +1,6 @@
 {
   "name": "shoebox",
-  "version": "0.8.2",
+  "version": "0.8.3",
   "description": "Lightweight personal Pinterest-style portfolio gallery.",
   "scripts": {
     "dev": "./scripts/astro dev",
