@@ -2,7 +2,7 @@
 import Base from '../layouts/Base.astro';
 import ProfileSection from '../components/ProfileSection.astro';
 import Gallery from '../components/gallery/Gallery.astro';
-import galleryData from '../../public/gallery.json';
+import { galleryData } from '../data/gallery';
 import { composeEffects } from '../utils/effects';
 import arenaexeLight from '../assets/gallery/light-radicazz-arenaexe.png';
 import arenaexeDark from '../assets/gallery/dark-radicazz-arenaexe.png';
@@ -12,20 +12,17 @@ import zarusLight from '../assets/gallery/light-radicazz-zarus.png';
 import zarusDark from '../assets/gallery/dark-radicazz-zarus.png';
 
 const siteTitle = 'Shoe Box';
-const profileHero = {
-  name: 'cazz',
-  photo: '/media/pfp.png',
-};
+const profileHero = galleryData.profile;
 const aboutCard = {
-  text: "Hey there, I'm cazz - a software engineer with a passion for designing systems & sharing everything I know.",
-  skills: ['Breaking Games', 'Writing Bugs', 'Abusing AI'],
+  text: galleryData.profile.about,
+  skills: galleryData.profile.skills,
 };
 const galleryImageMap = {
   arenaexe: { imageLight: arenaexeLight, imageDark: arenaexeDark },
   slang: { imageLight: slangLight, imageDark: slangDark },
   zarus: { imageLight: zarusLight, imageDark: zarusDark },
 };
-const galleryItems = (galleryData?.items ?? []).map((item) => {
+const galleryItems = galleryData.items.map((item) => {
   const themedImages = galleryImageMap[item.id];
   if (!themedImages) return item;
   return { ...item, ...themedImages };
@@ -70,7 +67,7 @@ const galleryItems = (galleryData?.items ?? []).map((item) => {
         </div>
       </div>
 
-      <Gallery title={galleryData?.title ?? 'Gallery'} description={galleryData?.description} items={galleryItems}>
+      <Gallery title={galleryData.title} description={galleryData.description} items={galleryItems}>
         <ProfileSection profileHero={profileHero} aboutCard={aboutCard} />
       </Gallery>
     </div>

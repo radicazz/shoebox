@@ -1,0 +1,46 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# shellcheck source=./_nvm-load.sh
+source "$SCRIPT_DIR/_nvm-load.sh"
+
+node --input-type=module <<'NODE'
+import fs from 'node:fs';
+
+const data = JSON.parse(fs.readFileSync('src/data/gallery.json', 'utf8'));
+const sizes = new Set(['text', 'tall', 'wide']);
+const requiredString = (value, name) => {
+  if (typeof value !== 'string' || !value.trim()) throw new Error(`${name} must be a non-empty string`);
+};
+const requiredUrl = (value, name) => {
+  requiredString(value, name);
+  if (!value.startsWith('https://')) throw new Error(`${name} must use https`);
+};
+const requiredStrings = (value, name) => {
+  if (!Array.isArray(value) || !value.length || value.some((item) => typeof item !== 'string' || !item.trim())) {
+    throw new Error(`${name} must be a non-empty list of strings`);
+  }
+};
+
+requiredString(data.title, 'title');
+requiredString(data.description, 'description');
+requiredString(data.profile?.name, 'profile.name');
+requiredString(data.profile?.photo, 'profile.photo');
+requiredUrl(data.profile?.repository, 'profile.repository');
+requiredString(data.profile?.about, 'profile.about');
+requiredStrings(data.profile?.skills, 'profile.skills');
+
+if (!Array.isArray(data.items) || !data.items.length) throw new Error('items must be a non-empty list');
+const ids = new Set();
+for (const [index, item] of data.items.entries()) {
+  requiredString(item?.id, `items[${index}].id`);
+  if (ids.has(item.id)) throw new Error(`duplicate item id "${item.id}"`);
+  ids.add(item.id);
+  requiredString(item.title, `items[${index}].title`);
+  requiredString(item.description, `items[${index}].description`);
+  if (!sizes.has(item.size)) throw new Error(`items[${index}].size must be text, tall, or wide`);
+  requiredStrings(item.tags, `items[${index}].tags`);
+  requiredUrl(item.link, `items[${index}].link`);
+}
+NODE

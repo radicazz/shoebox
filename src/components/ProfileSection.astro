@@ -5,6 +5,7 @@ export interface ProfileHeroData {
   photo: string;
   title?: string;
   location?: string;
+  repository?: string;
 }
 
 export interface AboutCardData {
@@ -61,7 +62,7 @@ const sectionBodyClass = 'mt-4 text-base leading-relaxed';
       <h2 class="theme-heading mt-3 text-4xl font-bold">{profileHero.name}</h2>
       <p class="mt-2 text-sm font-medium">
         <a
-          href="https://github.com/radicazz/shoebox"
+          href={profileHero.repository ?? 'https://github.com/radicazz/shoebox'}
           target="_blank"
           rel="noopener noreferrer"
           class={`theme-accent-link profile-link ${composeEffects('border-slide', 'scale')}`}

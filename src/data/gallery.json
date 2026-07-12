@@ -1,11 +1,18 @@
 {
   "title": "Gallery",
   "description": "A curated collection of projects, experiments, and creative explorations",
+  "profile": {
+    "name": "cazz",
+    "photo": "/media/pfp.png",
+    "repository": "https://github.com/radicazz/shoebox",
+    "about": "Hey there, I'm cazz - a software engineer with a passion for designing systems & sharing everything I know.",
+    "skills": ["Breaking Games", "Writing Bugs", "Abusing AI"]
+  },
   "items": [
     {
       "id": "autosaver",
       "title": "AutoSaver",
-      "description": "A car-themed Android budgetting application.",
+      "description": "A car-themed Android budgeting application.",
       "size": "text",
       "tags": ["Android", "Kotlin"],
       "link": "https://github.com/radicazz/AutoSaver"
@@ -37,7 +44,7 @@
     {
       "id": "slang",
       "title": "slang",
-      "description": "The classic snake snake game that everyone loves.",
+      "description": "The classic snake game that everyone loves.",
       "size": "tall",
       "tags": ["C", "SDL", "Game"],
       "link": "https://github.com/radicazz/slang"
