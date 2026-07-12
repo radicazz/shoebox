@@ -1,6 +1,7 @@
 name: CI
 
 on:
+  pull_request:
   push:
     branches: [main]
 
@@ -8,45 +9,32 @@ permissions:
   contents: read
 
 jobs:
-  build-and-test:
+  quality:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        package-manager: [pnpm, npm]
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup pnpm
-        if: matrix.package-manager == 'pnpm'
-        uses: pnpm/action-setup@v4
-        with:
-          version: 10.23.0
-          run_install: false
-
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: ${{ matrix.package-manager }}
-          cache-dependency-path: ${{ matrix.package-manager == 'pnpm' && 'pnpm-lock.yaml' || 'package-lock.json' }}
+          node-version-file: '.nvmrc'
+          cache: pnpm
+
+      - name: Enable Corepack
+        run: corepack enable
 
       - name: Install dependencies
-        run: |
-          if [ "${{ matrix.package-manager }}" = "pnpm" ]; then
-            pnpm install --frozen-lockfile
-          else
-            npm ci
-          fi
+        run: pnpm install --frozen-lockfile
 
-      - name: Build
-        run: |
-          if [ "${{ matrix.package-manager }}" = "pnpm" ]; then
-            pnpm run build
-          else
-            npm run build
-          fi
+      - name: Validate content
+        run: pnpm validate:data
 
-      - name: Test
-        run: echo "No tests defined yet; build step acts as verification."
+      - name: Run tests
+        run: pnpm test
+
+      - name: Build site
+        run: pnpm build
+
+      - name: Check build output
+        run: pnpm check:output
