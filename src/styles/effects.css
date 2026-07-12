@@ -5,7 +5,6 @@
 
 .effect-scale {
   transition: transform 250ms ease, box-shadow 250ms ease;
-  will-change: transform;
 }
 
 .effect-scale:hover {
@@ -64,7 +63,6 @@
 .effect-border-slide {
   position: relative;
   overflow: hidden;
-  will-change: transform;
 }
 
 .effect-border-slide::before {

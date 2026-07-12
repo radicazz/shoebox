@@ -1,14 +1,25 @@
 ---
 import '../styles/global.css';
-const { title = 'Shoe Box' } = Astro.props;
+const {
+  title = 'Shoe Box',
+  description = 'A theme-aware collection of software projects, experiments, and creative explorations.',
+} = Astro.props;
 const basePath = (import.meta.env.BASE_URL ?? '/').replace(/\/$/, '');
 const faviconHref = `${basePath || ''}/favicon.svg`;
+const canonicalUrl = Astro.site ? new URL(Astro.url.pathname, Astro.site).toString() : undefined;
 ---
 <html lang="en" data-theme="light">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
+    <meta name="description" content={description} />
+    {canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    {canonicalUrl && <meta property="og:url" content={canonicalUrl} />}
+    <meta name="twitter:card" content="summary" />
     <link rel="icon" type="image/svg+xml" href={faviconHref} />
     <script is:inline>
       (function () {
@@ -182,16 +193,32 @@ const faviconHref = `${basePath || ''}/favicon.svg`;
           document.body.appendChild(canvas);
 
           const ctx = canvas.getContext('2d');
-          const nodesCount = 80;
-          const maxDist = 220;
+          if (!ctx) return;
+          const nodesCount = Math.min(48, Math.max(24, Math.round(window.innerWidth / 32)));
+          const maxDist = 180;
           const nodes = [];
+          let frameId = null;
+          let nodeColor = '';
+          let linkColor = '';
+
+          const updateThemeColors = () => {
+            const styles = getComputedStyle(document.documentElement);
+            nodeColor = styles.getPropertyValue('--network-node').trim();
+            linkColor = styles.getPropertyValue('--network-link').trim();
+          };
 
           const resize = () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
+            const pixelRatio = Math.min(window.devicePixelRatio || 1, 1.5);
+            canvas.width = Math.round(window.innerWidth * pixelRatio);
+            canvas.height = Math.round(window.innerHeight * pixelRatio);
+            canvas.style.width = `${window.innerWidth}px`;
+            canvas.style.height = `${window.innerHeight}px`;
+            ctx.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
           };
           resize();
+          updateThemeColors();
           window.addEventListener('resize', resize);
+          document.addEventListener('shoebox-theme-change', updateThemeColors);
 
           for (let i = 0; i < nodesCount; i += 1) {
             nodes.push({
@@ -204,9 +231,9 @@ const faviconHref = `${basePath || ''}/favicon.svg`;
           }
 
           const draw = () => {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--network-node').trim();
-            ctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--network-link').trim();
+            ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+            ctx.fillStyle = nodeColor;
+            ctx.strokeStyle = linkColor;
             ctx.lineWidth = 1;
 
             for (let i = 0; i < nodes.length; i += 1) {
@@ -251,9 +278,18 @@ const faviconHref = `${basePath || ''}/favicon.svg`;
               }
             }
             ctx.globalAlpha = 1;
-            requestAnimationFrame(draw);
+            if (!document.hidden) frameId = requestAnimationFrame(draw);
           };
-          draw();
+          const updateVisibility = () => {
+            if (document.hidden) {
+              if (frameId) cancelAnimationFrame(frameId);
+              frameId = null;
+            } else if (!frameId) {
+              frameId = requestAnimationFrame(draw);
+            }
+          };
+          document.addEventListener('visibilitychange', updateVisibility);
+          frameId = requestAnimationFrame(draw);
         };
         const root = document.body;
         let rafId = null;

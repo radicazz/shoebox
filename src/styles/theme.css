@@ -90,3 +90,9 @@
     background-position: 0% 50%;
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .footer-made {
+    animation: none;
+  }
+}

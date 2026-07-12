@@ -35,8 +35,8 @@ const resolveImagePath = (value?: string | null) => {
 
 const isImageMetadata = (value: unknown): value is ImageMetadata =>
   typeof value === 'object' && value !== null && 'src' in value;
-const imageWidths = [320, 480, 640, 800, 1024];
-const imageSizes = '(min-width: 1024px) 31vw, (min-width: 640px) 46vw, 90vw';
+const imageWidths = [480, 1024];
+const imageSizes = '(min-width: 1024px) 31vw, (min-width: 640px) 46vw, 94vw';
 const imageFormats = ['avif', 'webp'] as const;
 const fallbackFormat = 'png';
 
@@ -95,6 +95,7 @@ const interactiveAttributes = linkTarget
       href: linkTarget,
       target: '_blank',
       rel: 'noopener noreferrer',
+      'aria-label': `${item.title} (opens in a new tab)`,
       class: `${baseClasses} block`,
     }
   : {
@@ -139,7 +140,7 @@ const Tag = (linkTarget ? 'a' : 'article') as 'a' | 'article';
                 alt=""
                 loading="lazy"
                 decoding="async"
-                class="gallery-item-image h-full w-full object-cover transition-transform duration-[650ms] ease-out will-change-transform"
+                class="gallery-item-image h-full w-full object-cover transition-transform duration-[650ms] ease-out"
                 data-theme-src-light={lightSrc}
                 data-theme-src-dark={darkSrc ?? undefined}
                 data-theme-srcset-light={lightSrcset}
@@ -155,7 +156,7 @@ const Tag = (linkTarget ? 'a' : 'article') as 'a' | 'article';
           alt=""
           loading="lazy"
           decoding="async"
-          class="gallery-item-image h-full w-full object-cover transition-transform duration-[650ms] ease-out will-change-transform"
+          class="gallery-item-image h-full w-full object-cover transition-transform duration-[650ms] ease-out"
           data-theme-image
           aria-hidden="true"
         />
