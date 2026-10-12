@@ -8,3 +8,5 @@
 - Local Astro-optimized project previews with light/dark variants.
 
 Project order follows source order across rows. Profile metadata belongs to the author; no visitor location lookup is performed.
+
+Project descriptions and technology tags remain visible on every input type. Square previews preserve the full artwork, reserve space before loading, and use responsive AVIF/WebP sources with a PNG fallback. JavaScript selects a matching screenshot variant before insertion; without JavaScript, static light previews remain available. Reduced motion disables transitions and smooth scrolling.

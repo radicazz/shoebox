@@ -70,3 +70,7 @@ Before merge, inspect 320, 375, 390, 640, 768, 1024, and 1440px widths, plus lan
 Use production preview and browser request inspection to verify base-path assets, theme persistence, screenshot switching, and appropriate image candidates. Avoid unnecessary image downloads during theme initialization. Compare load and layout stability with the baseline using browser tools; keep CLS below 0.1 and avoid increasing shipped runtime JS or the existing output budget. Record measured results rather than claiming them from source inspection.
 
 Defer category filters, project modals, terminal simulators, and extra animations: six projects currently need clearer presentation more than additional controls.
+
+## Implementation status
+
+Implemented on `feat/portfolio-ui-refresh` on 2026-10-12. The planned fixes and visual changes are complete; an additional focused fix validates stored theme values and makes the skip link bypass workspace navigation. See `IMPLEMENTATION.md` for measured validation and remaining release checks. No deployment or release tag is part of this implementation.
