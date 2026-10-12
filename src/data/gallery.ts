@@ -1,8 +1,5 @@
 import rawGalleryData from './gallery.json';
-import { GALLERY_ITEM_SIZES, validateGalleryData } from './validate-gallery.mjs';
-
-export { GALLERY_ITEM_SIZES, validateGalleryData };
-type GalleryItemSize = 'text' | 'tall' | 'wide';
+import { validateGalleryData } from './validate-gallery.mjs';
 
 export interface GalleryProfile {
   name: string;
@@ -16,7 +13,6 @@ export interface GalleryItem {
   id: string;
   title: string;
   description: string;
-  size: GalleryItemSize;
   tags: string[];
   link: string;
 }

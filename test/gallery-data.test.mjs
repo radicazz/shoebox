@@ -22,3 +22,15 @@ test('gallery data rejects non-HTTPS project links', () => {
 
   assert.throws(() => validateGalleryData(insecureLinkData), /must use https/);
 });
+
+test('gallery data rejects malformed HTTPS project and profile links', () => {
+  for (const link of ['https://', 'https://[invalid', 'not a URL']) {
+    const project = structuredClone(data);
+    project.items[0].link = link;
+    assert.throws(() => validateGalleryData(project), /items\[0\]\.link must be a valid URL/);
+
+    const profile = structuredClone(data);
+    profile.profile.repository = link;
+    assert.throws(() => validateGalleryData(profile), /profile\.repository must be a valid URL/);
+  }
+});

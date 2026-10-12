@@ -7,11 +7,9 @@
   --font-body: var(--font-sans);
 
   --radius-sm: 0.5rem;
-  --radius-md: 0.625rem;
   --radius-lg: 0.75rem;
 
   --shadow-md: 0 2px 8px rgba(15, 23, 42, 0.04);
-  --shadow-lg: 0 4px 16px rgba(15, 23, 42, 0.08);
 
   --color-bg: #f8fafc;
   --color-surface: #ffffff;
@@ -21,17 +19,7 @@
   --color-text-muted: #475569;
   --color-heading: #020617;
   --color-accent: #0e7490;
-  --color-accent-strong: #155e75;
   --color-chip-bg: rgba(2, 6, 23, 0.035);
-
-  --effect-shadow-color: rgba(15, 23, 42, 0.16);
-  --effect-glow-primary: rgba(34, 211, 238, 0.22);
-  --effect-glow-secondary: rgba(168, 85, 247, 0.18);
-  --effect-pulse-start: rgba(8, 145, 178, 0.26);
-  --effect-pulse-mid: rgba(14, 116, 144, 0.18);
-  --effect-border-slide-start: rgba(8, 145, 178, 0.75);
-  --effect-border-slide-middle: rgba(34, 211, 238, 0.7);
-  --effect-border-slide-end: rgba(168, 85, 247, 0.55);
 
   --bg-grid-size: 40px;
   --bg-grid-line: rgba(15, 23, 42, 0.035);
@@ -40,7 +28,6 @@
 :root[data-theme='dark'] {
   color-scheme: dark;
   --shadow-md: 0 2px 8px rgba(0, 0, 0, 0.12);
-  --shadow-lg: 0 4px 16px rgba(0, 0, 0, 0.2);
 
   --color-bg: #101216;
   --color-surface: #181b21;
@@ -50,17 +37,7 @@
   --color-text-muted: #94a3b8;
   --color-heading: #f8fafc;
   --color-accent: #22d3ee;
-  --color-accent-strong: #06b6d4;
   --color-chip-bg: rgba(248, 250, 252, 0.06);
-
-  --effect-shadow-color: rgba(0, 0, 0, 0.75);
-  --effect-glow-primary: rgba(34, 211, 238, 0.34);
-  --effect-glow-secondary: rgba(168, 85, 247, 0.26);
-  --effect-pulse-start: rgba(34, 211, 238, 0.34);
-  --effect-pulse-mid: rgba(6, 182, 212, 0.24);
-  --effect-border-slide-start: rgba(34, 211, 238, 0.85);
-  --effect-border-slide-middle: rgba(6, 182, 212, 0.78);
-  --effect-border-slide-end: rgba(168, 85, 247, 0.72);
 
   --bg-grid-line: rgba(148, 163, 184, 0.035);
 }
