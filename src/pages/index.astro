@@ -3,7 +3,6 @@ import Base from '../layouts/Base.astro';
 import ProfileSection from '../components/ProfileSection.astro';
 import Gallery from '../components/gallery/Gallery.astro';
 import { galleryData } from '../data/gallery';
-import { composeEffects } from '../utils/effects';
 import arenaexeLight from '../assets/gallery/light-radicazz-arenaexe.png';
 import arenaexeDark from '../assets/gallery/dark-radicazz-arenaexe.png';
 import slangLight from '../assets/gallery/light-radicazz-slang.png';
@@ -29,55 +28,29 @@ const galleryItems = galleryData.items.map((item) => {
 });
 ---
 <Base title={siteTitle}>
-  <section class="px-0 pb-8 pt-3 sm:pb-10 sm:pt-4">
-    <div class={`theme-panel effect-card-base px-3 py-4 sm:px-6 sm:py-6 lg:px-8 lg:py-8`}>
-      <div class="window-bar theme-panel theme-panel--muted mb-8 rounded-xl px-3 py-3 sm:mb-10 sm:px-5 sm:py-4 lg:mb-12">
-        <div class="grid grid-cols-[auto,1fr] items-center gap-x-3 gap-y-2 md:grid-cols-[auto,1fr,auto]">
-          <div class="flex items-center gap-1.5" aria-hidden="true">
-            <span class="h-3 w-3 rounded-full bg-red-400"></span>
-            <span class="h-3 w-3 rounded-full bg-amber-300"></span>
-            <span class="h-3 w-3 rounded-full bg-green-400"></span>
-          </div>
-          <p id="gallery-viewport" class="theme-text-muted min-w-0 justify-self-center text-center font-mono text-[0.7rem] tracking-wide sm:text-xs">
-            radicazz / shoebox
-          </p>
-          <div class="col-span-2 flex items-center justify-center gap-3 md:col-span-1 md:justify-end md:gap-4">
-            <button
-              type="button"
-              hidden
-              data-theme-toggle
-              aria-pressed="false"
-              class={`theme-panel theme-panel--muted inline-flex min-h-[44px] min-w-[44px] items-center gap-2 rounded-lg border px-2.5 py-1.5 text-xs font-medium shadow-sm transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--color-accent)] sm:px-3 ${composeEffects(
-                'border-slide',
-              )}`}
-            >
-              <span class="theme-icon theme-icon--sun" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="h-4 w-4">
-                  <path d="M12 4.5a1 1 0 01-1-1V2a1 1 0 112 0v1.5a1 1 0 01-1 1zm6.364 2.136a1 1 0 000-1.414l-1.06-1.061a1 1 0 10-1.415 1.415l1.062 1.06a1 1 0 001.414 0zM21.5 11h-1.5a1 1 0 100 2h1.5a1 1 0 100-2zm-9.5 7a4 4 0 110-8 4 4 0 010 8zm8.136 2.864l-1.061-1.062a1 1 0 10-1.414 1.415l1.06 1.06a1 1 0 001.415-1.413zM12 19.5a1 1 0 011 1V22a1 1 0 11-2 0v-1.5a1 1 0 011-1zm-7.071-.197l1.06-1.06a1 1 0 00-1.414-1.415l-1.06 1.062a1 1 0 101.414 1.413zM4.5 13a1 1 0 100-2H3a1 1 0 100 2h1.5zm2.005-7.073a1 1 0 00-1.414-1.414L4.03 5.574a1 1 0 001.414 1.415l1.06-1.062z" />
-                </svg>
-              </span>
-              <span class="theme-icon theme-icon--moon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="h-4 w-4">
-                  <path d="M12.75 2a9.75 9.75 0 108.44 15.16 8 8 0 01-10-10 9.69 9.69 0 001.56-5.16z" />
-                </svg>
-              </span>
-              <span class="sr-only" data-theme-toggle-label>Switch to dark mode</span>
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <Gallery title={galleryData.title} description={galleryData.description} items={galleryItems}>
-        <ProfileSection profileHero={profileHero} aboutCard={aboutCard} />
-      </Gallery>
-    </div>
-  </section>
-
-  <section class="mt-4 text-center text-sm theme-text-muted sm:mt-6">
-    <div class="flex flex-col items-center gap-1">
-      <span class="footer-made">
-        made with <span aria-hidden="true" class="footer-heart">&hearts;</span> by cazz
-      </span>
-    </div>
-  </section>
+  <header class="workspace-header">
+    <a class="workspace-brand" href="#main-content" aria-label="Shoe Box home">
+      <span class="window-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+      <span>radicazz <span class="theme-text-muted">/</span> shoebox</span>
+    </a>
+    <nav aria-label="Main navigation" class="workspace-nav">
+      <a href="#projects">Projects</a>
+      <a href={profileHero.repository} target="_blank" rel="noopener noreferrer">GitHub<span class="sr-only"> (opens in a new tab)</span></a>
+      <button type="button" hidden data-theme-toggle aria-pressed="false" class="theme-toggle">
+        <span class="theme-icon theme-icon--sun" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="4" /><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5" /></svg>
+        </span>
+        <span class="theme-icon theme-icon--moon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.5 14A9 9 0 0 1 10 3.5 9 9 0 1 0 20.5 14Z" /></svg>
+        </span>
+        <span class="sr-only" data-theme-toggle-label>Switch to dark mode</span>
+      </button>
+    </nav>
+  </header>
+  <ProfileSection profileHero={profileHero} aboutCard={aboutCard} />
+  <Gallery title="Selected projects" description={galleryData.description} items={galleryItems} />
+  <footer class="portfolio-footer">
+    <span class="footer-made">made with <span aria-hidden="true">&hearts;</span><span class="sr-only">love</span> by {profileHero.name}</span>
+    <a href="#main-content">Back to top <span aria-hidden="true">↑</span></a>
+  </footer>
 </Base>

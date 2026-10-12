@@ -17,17 +17,17 @@ const sectionDescriptionId = description ? 'gallery-description' : undefined;
 
 {shouldRender && (
   <section
-    class="masonry-section"
-    aria-label={title}
+    id="projects"
+    class="project-section"
+    aria-labelledby="projects-heading"
     aria-describedby={sectionDescriptionId}
-    data-masonry-reveal
   >
-    {description && (
-      <p id="gallery-description" class="sr-only">
-        {description}
-      </p>
-    )}
-    <div class="masonry-grid">
+    <div class="project-section-heading">
+      <div><p class="section-kicker"><span aria-hidden="true">//</span> Things I've built</p><h2 id="projects-heading">{title}</h2></div>
+      <span class="project-count">{items.length.toString().padStart(2, '0')} projects</span>
+    </div>
+    {description && <p id="gallery-description" class="project-description theme-text-muted">{description}</p>}
+    <div class="project-grid">
       {hasSlot && <slot />}
       {items.map((item) => (
         <GalleryItem item={item} />
@@ -39,14 +39,6 @@ const sectionDescriptionId = description ? 'gallery-description' : undefined;
 <script is:inline>
   (() => {
     if (typeof window === 'undefined') return;
-
-    // Display gallery immediately on load while keeping the reveal animation
-    const gallery = document.querySelector('[data-masonry-reveal]');
-    if (!gallery) return;
-
-    window.requestAnimationFrame(() => {
-      gallery.classList.add('masonry-revealed');
-    });
 
     const cacheLightSources = (node) => {
       if (!node.dataset.themeSrcLight) {
