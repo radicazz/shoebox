@@ -4,7 +4,6 @@ html {
 
 body {
   position: relative;
-  overflow-x: hidden;
   font-family: var(--font-body);
   background-color: var(--color-bg);
   color: var(--color-text);
@@ -33,24 +32,12 @@ body {
 body::before {
   content: '';
   position: fixed;
-  inset: -20%;
-  z-index: 0;
+  inset: 0;
+  z-index: -1;
   pointer-events: none;
-  background-image: radial-gradient(circle at 20% 20%, var(--parallax-layer-primary), transparent 58%),
-    radial-gradient(circle at 80% 0%, var(--parallax-layer-secondary), transparent 62%),
-    linear-gradient(var(--bg-grid-line) 1px, transparent 1px),
+  background-image: linear-gradient(var(--bg-grid-line) 1px, transparent 1px),
     linear-gradient(90deg, var(--bg-grid-line) 1px, transparent 1px);
-  background-size: auto, auto, var(--bg-grid-size) var(--bg-grid-size), var(--bg-grid-size) var(--bg-grid-size);
-  background-position: center, center, 0 0, 0 0;
-  transform: translate(calc(var(--parallax-x) * 5), calc(var(--parallax-y) * 5));
-  transition: transform 150ms ease-out;
-}
-
-#network-layer {
-  transform: translate(calc(var(--parallax-x) * 4), calc(var(--parallax-y) * 4));
-  transition: transform 150ms ease-out;
-  mix-blend-mode: var(--network-blend);
-  opacity: 0.85;
+  background-size: var(--bg-grid-size) var(--bg-grid-size);
 }
 
 ::selection {
@@ -179,3 +166,8 @@ body::before {
   html { scroll-behavior: auto; }
   .effect-scale:hover, .effect-shadow:hover, .gallery-item:focus-visible, .gallery-item--interactive:hover, .gallery-item .gallery-item-image, .gallery-item .gallery-item-content { transform: none !important; }
 }
+
+a, button { touch-action: manipulation; }
+button { cursor: pointer; }
+:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 4px; }
+p, h1, h2, h3, a, span { overflow-wrap: anywhere; }
