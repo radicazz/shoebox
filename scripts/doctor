@@ -7,119 +7,48 @@ source "$SCRIPT_DIR/_nvm-load.sh"
 # shellcheck source=./_pkgm.sh
 source "$SCRIPT_DIR/_pkgm.sh"
 
-echo "🏥 Running environment checks..."
-echo "⚙️  Primary package manager: $PKGM_PRETTY_NAME"
-echo ""
-
+echo "🏥 Checking $PROJECT_ROOT"
+echo "✓ Node.js $(node --version); $PKGM_PRETTY_NAME"
 EXIT_CODE=0
 
-# Check Node.js version
-echo "📦 Node.js:"
-if command -v node &> /dev/null; then
-  NODE_VERSION=$(node --version)
-  echo "  ✓ Found: $NODE_VERSION"
-
-  NODE_MAJOR=$(echo "$NODE_VERSION" | sed 's/v\([0-9]*\).*/\1/')
-  if [ "$NODE_MAJOR" -lt 18 ]; then
-    echo "  ⚠️  Warning: Node.js 18+ required, found $NODE_VERSION"
-    EXIT_CODE=1
-  fi
-else
-  echo "  ✗ Node.js not found"
-  EXIT_CODE=1
-fi
-
-# Check package managers
-echo ""
-echo "🧰 Package managers:"
-if command -v pnpm &> /dev/null; then
-  echo "  ✓ pnpm $(pnpm --version)"
-else
-  echo "  ⚠️  pnpm not found (install via Corepack or https://pnpm.io/installation)"
-  if [ -z "${SHOEBOX_ALLOW_NPM:-}" ]; then
-    echo "     Set SHOEBOX_ALLOW_NPM=1 to bypass this warning."
-    EXIT_CODE=1
-  fi
-fi
-
-if command -v npm &> /dev/null; then
-  echo "  ✓ npm $(npm --version)"
-else
-  echo "  ✗ npm not found"
-  EXIT_CODE=1
-fi
-
-# Check dependencies
-echo ""
-echo "📚 Dependencies:"
-if [ -d node_modules ]; then
-  echo "  ✓ node_modules/ exists"
-
-  for pkg in astro @astrojs/tailwind tailwindcss alpinejs; do
-    if [ -d "node_modules/$pkg" ]; then
-      echo "  ✓ $pkg installed"
-    else
-      echo "  ✗ $pkg missing"
-      EXIT_CODE=1
-    fi
-  done
-else
-  echo "  ✗ node_modules/ not found"
-  if command -v pnpm &> /dev/null; then
-    echo "  💡 Run 'pnpm install' to install dependencies"
+while IFS= read -r pkg; do
+  if [ -d "node_modules/$pkg" ]; then
+    echo "✓ $pkg installed"
   else
-    echo "  💡 Run 'npm install' to install dependencies"
-  fi
-  EXIT_CODE=1
-fi
-
-# Check project structure
-echo ""
-echo "📁 Project structure:"
-REQUIRED_DIRS=("src" "src/components" "src/layouts" "src/pages" "src/styles" "public" "public/media")
-for dir in "${REQUIRED_DIRS[@]}"; do
-  if [ -d "$dir" ]; then
-    echo "  ✓ $dir/"
-  else
-    echo "  ✗ $dir/ missing"
+    echo "✗ $pkg missing; run 'pnpm install'" >&2
     EXIT_CODE=1
   fi
+done < <(node --input-type=module -e '
+  import { readFileSync } from "node:fs";
+  const manifest = JSON.parse(readFileSync("package.json", "utf8"));
+  console.log(Object.keys({ ...manifest.dependencies, ...manifest.devDependencies }).join("\n"));
+')
 
+for path in src/components src/layouts src/pages src/styles src/assets/gallery public/media; do
+  if [ ! -d "$path" ]; then
+    echo "✗ $path/ missing" >&2
+    EXIT_CODE=1
+  fi
 done
 
-REQUIRED_FILES=("package.json" "astro.config.mjs" "tailwind.config.mjs" "public/gallery.json")
-for file in "${REQUIRED_FILES[@]}"; do
-  if [ -f "$file" ]; then
-    echo "  ✓ $file"
-  else
-    echo "  ✗ $file missing"
+for path in astro.config.mjs tailwind.config.mjs postcss.config.cjs pnpm-lock.yaml src/data/gallery.json; do
+  if [ ! -f "$path" ]; then
+    echo "✗ $path missing" >&2
     EXIT_CODE=1
   fi
-
 done
 
-# Test build
-echo ""
-echo "🔨 Build test:"
-if shoebox_pkgm_run build > /tmp/shoebox-build.log 2>&1; then
-  echo "  ✓ Build successful"
-  if [ -f dist/index.html ]; then
-    SIZE=$(du -sh dist | cut -f1)
-    echo "  ✓ dist/index.html exists ($SIZE total)"
-  else
-    echo "  ✗ dist/index.html not found"
-    EXIT_CODE=1
-  fi
-else
-  echo "  ✗ Build failed (see /tmp/shoebox-build.log)"
-  EXIT_CODE=1
+if [ "$EXIT_CODE" -ne 0 ]; then
+  exit "$EXIT_CODE"
 fi
 
-echo ""
-if [ $EXIT_CODE -eq 0 ]; then
-  echo "✅ All checks passed! Environment is healthy."
+BUILD_LOG="$(mktemp "${TMPDIR:-/tmp}/shoebox-build.XXXXXX")"
+if shoebox_pkgm_run validate:data > "$BUILD_LOG" 2>&1 &&
+   shoebox_pkgm_run build >> "$BUILD_LOG" 2>&1 &&
+   shoebox_pkgm_run check:output >> "$BUILD_LOG" 2>&1; then
+  rm -f "$BUILD_LOG"
+  echo "✓ Content, build, and output checks passed"
 else
-  echo "❌ Some checks failed. Review the output above."
+  echo "✗ Validation failed; see $BUILD_LOG" >&2
+  exit 1
 fi
-
-exit $EXIT_CODE

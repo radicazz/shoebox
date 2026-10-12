@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# shellcheck source=./_nvm-load.sh
+source "$SCRIPT_DIR/_nvm-load.sh"
+# shellcheck source=./_pkgm.sh
+source "$SCRIPT_DIR/_pkgm.sh"
+
+for script in "$SCRIPT_DIR"/*; do
+  if [ "${script##*.}" != "mjs" ]; then
+    bash -n "$script"
+  fi
+done
+
+shoebox_pkgm_run validate:data
+shoebox_pkgm_run test
+shoebox_pkgm_run build
+shoebox_pkgm_run check:output
