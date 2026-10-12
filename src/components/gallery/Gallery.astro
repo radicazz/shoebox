@@ -23,7 +23,10 @@ const sectionDescriptionId = description ? 'gallery-description' : undefined;
     aria-describedby={sectionDescriptionId}
   >
     <div class="project-section-heading">
-      <div><p class="section-kicker"><span aria-hidden="true">//</span> Things I've built</p><h2 id="projects-heading">{title}</h2></div>
+      <div>
+        <p class="section-kicker"><span aria-hidden="true">//</span> Things I've built</p>
+        <h2 id="projects-heading">{title}</h2>
+      </div>
       <span class="project-count">{items.length.toString().padStart(2, '0')} projects</span>
     </div>
     {description && <p id="gallery-description" class="project-description theme-text-muted">{description}</p>}
@@ -39,17 +42,6 @@ const sectionDescriptionId = description ? 'gallery-description' : undefined;
 <script is:inline>
   (() => {
     if (typeof window === 'undefined') return;
-
-    const cacheLightSources = (node) => {
-      if (!node.dataset.themeSrcLight) {
-        const currentSrc = node.getAttribute('src');
-        if (currentSrc) node.dataset.themeSrcLight = currentSrc;
-      }
-      if (!node.dataset.themeSrcsetLight) {
-        const currentSrcset = node.getAttribute('srcset');
-        if (currentSrcset) node.dataset.themeSrcsetLight = currentSrcset;
-      }
-    };
 
     const applyThemedAttributes = (node, isDark) => {
       const preferredSrc = node.getAttribute(isDark ? 'data-theme-src-dark' : 'data-theme-src-light');
@@ -71,34 +63,18 @@ const sectionDescriptionId = description ? 'gallery-description' : undefined;
 
     const updateThemedImages = (theme) => {
       const isDark = theme === 'dark';
-      const images = document.querySelectorAll('[data-theme-image]');
-      images.forEach((node) => {
-        if (node instanceof HTMLPictureElement) {
-          const sources = node.querySelectorAll('source');
-          sources.forEach((source) => {
-            cacheLightSources(source);
-            applyThemedAttributes(source, isDark);
-          });
-          const img = node.querySelector('img');
-          if (img) {
-            cacheLightSources(img);
-            applyThemedAttributes(img, isDark);
-          }
-          return;
-        }
-
-        if (node instanceof HTMLImageElement) {
-          cacheLightSources(node);
+      document.querySelectorAll('[data-theme-image-template]').forEach((template) => {
+        if (!(template instanceof HTMLTemplateElement)) return;
+        const picture = template.content.querySelector('picture');
+        if (!picture) return;
+        picture.querySelectorAll('source, img').forEach((node) => {
           applyThemedAttributes(node, isDark);
-          const parentPicture = node.parentElement;
-          if (parentPicture instanceof HTMLPictureElement) {
-            const sources = parentPicture.querySelectorAll('source');
-            sources.forEach((source) => {
-              cacheLightSources(source);
-              applyThemedAttributes(source, isDark);
-            });
-          }
-        }
+        });
+        template.replaceWith(picture);
+      });
+      document.querySelectorAll('[data-theme-image]').forEach((node) => {
+        const targets = node instanceof HTMLPictureElement ? node.querySelectorAll('source, img') : [node];
+        targets.forEach((target) => applyThemedAttributes(target, isDark));
       });
     };
 
