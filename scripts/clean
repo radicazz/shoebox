@@ -1,22 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-echo "🧹 Cleaning build artifacts..."
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 
-rm -rf dist/ .astro/
-echo "  ✓ Removed dist/ and .astro/"
-
-if [ -d node_modules ]; then
-  rm -rf node_modules/
-  echo "  ✓ Removed node_modules/"
-fi
-
-if command -v pnpm >/dev/null 2>&1; then
-  REINSTALL_CMD="pnpm install"
-else
-  REINSTALL_CMD="npm install"
-fi
-
-echo ""
-echo "✅ Clean complete!"
-echo "💡 Run '$REINSTALL_CMD' to reinstall dependencies"
+rm -rf "$PROJECT_ROOT/dist" "$PROJECT_ROOT/.astro" "$PROJECT_ROOT/node_modules"
+echo "✓ Removed repository build artifacts and dependencies"
+echo "Run 'pnpm install' in $PROJECT_ROOT to reinstall dependencies"

@@ -1,9 +1,9 @@
 {
-  "title": "Gallery",
+  "title": "Selected projects",
   "description": "A curated collection of projects, experiments, and creative explorations",
   "profile": {
     "name": "cazz",
-    "photo": "/media/pfp.png",
+    "photo": "/media/pfp.jpeg",
     "repository": "https://github.com/radicazz/shoebox",
     "about": "Hey there, I'm cazz - a software engineer with a passion for designing systems & sharing everything I know.",
     "skills": ["Breaking Games", "Writing Bugs", "Abusing AI"]
@@ -13,7 +13,6 @@
       "id": "autosaver",
       "title": "AutoSaver",
       "description": "A car-themed Android budgeting application.",
-      "size": "text",
       "tags": ["Android", "Kotlin"],
       "link": "https://github.com/radicazz/AutoSaver"
     },
@@ -21,7 +20,6 @@
       "id": "laya",
       "title": "laya",
       "description": "Modern & type-safe C++ wrapper for the excellent SDL library.",
-      "size": "text",
       "tags": ["C++", "SDL", "Library"],
       "link": "https://github.com/radicazz/laya"
     },
@@ -29,7 +27,6 @@
       "id": "borderless-window",
       "title": "Borderless Window",
       "description": "Cross-platform ImGUI borderless window template for your desktop apps.",
-      "size": "text",
       "tags": ["C++", "Dear ImGUI"],
       "link": "https://github.com/cazzwastaken/borderless-imgui-window"
     },
@@ -37,7 +34,6 @@
       "id": "arenaexe",
       "title": "ArenaExe",
       "description": "Fight against robots to entertain AI in a dystopian future.",
-      "size": "tall",
       "tags": ["Game", "Unity", "3D"],
       "link": "https://github.com/radicazz/ArenaExe"
     },
@@ -45,7 +41,6 @@
       "id": "slang",
       "title": "slang",
       "description": "The classic snake game that everyone loves.",
-      "size": "tall",
       "tags": ["C", "SDL", "Game"],
       "link": "https://github.com/radicazz/slang"
     },
@@ -53,7 +48,6 @@
       "id": "zarus",
       "title": "Zarus",
       "description": "Fight to cure a raging virus taking over a beautiful country.",
-      "size": "tall",
       "tags": ["Game", "Unity", "2D"],
       "link": "https://github.com/radicazz/Zarus"
     }

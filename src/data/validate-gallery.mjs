@@ -1,5 +1,3 @@
-export const GALLERY_ITEM_SIZES = ['text', 'tall', 'wide'];
-
 const isRecord = (value) => typeof value === 'object' && value !== null && !Array.isArray(value);
 
 const requireString = (value, name) => {
@@ -11,7 +9,13 @@ const requireString = (value, name) => {
 
 const requireUrl = (value, name) => {
   const url = requireString(value, name);
-  if (!/^https:\/\//.test(url)) {
+  let parsed;
+  try {
+    parsed = new URL(url);
+  } catch {
+    throw new Error(`gallery.json: ${name} must be a valid URL`);
+  }
+  if (parsed.protocol !== 'https:') {
     throw new Error(`gallery.json: ${name} must use https`);
   }
   return url;
@@ -48,9 +52,6 @@ export const validateGalleryData = (value) => {
     ids.add(id);
     requireString(item.title, `items[${index}].title`);
     requireString(item.description, `items[${index}].description`);
-    if (!GALLERY_ITEM_SIZES.includes(item.size)) {
-      throw new Error(`gallery.json: items[${index}].size must be text, tall, or wide`);
-    }
     requireStringList(item.tags, `items[${index}].tags`);
     requireUrl(item.link, `items[${index}].link`);
   }

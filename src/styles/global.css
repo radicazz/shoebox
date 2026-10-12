@@ -1,7 +1,6 @@
 @import './tokens.css';
 @import './layout.css';
 @import './theme.css';
-@import './effects.css';
 
 @tailwind base;
 @tailwind components;

@@ -8,7 +8,7 @@ source "$SCRIPT_DIR/_nvm-load.sh"
 source "$SCRIPT_DIR/_pkgm.sh"
 
 echo "🚀 Starting development server..."
-echo "📍 Local: http://localhost:4321/"
+echo "📍 Local: http://localhost:4321/shoebox/"
 echo "⚙️  Using $PKGM_PRETTY_NAME"
 echo ""
 

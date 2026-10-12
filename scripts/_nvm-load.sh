@@ -5,6 +5,7 @@
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
+cd "$PROJECT_ROOT"
 NVMRC_FILE="$PROJECT_ROOT/.nvmrc"
 
 if [ ! -f "$NVMRC_FILE" ]; then

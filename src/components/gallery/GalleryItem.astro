@@ -9,16 +9,8 @@ export interface GalleryItemData {
   image?: string | ImageMetadata;
   imageDark?: string | ImageMetadata;
   imageLight?: string | ImageMetadata;
-  size?: 'text' | 'tall' | 'wide';
   tags?: string[];
   link?: string;
-  details?: {
-    fullDescription: string;
-    images: string[];
-    tech: string[];
-    date: string;
-    link?: string;
-  };
 }
 
 export interface Props {
@@ -73,9 +65,9 @@ const displayImageSet = lightImageSet ?? primaryImageSet;
 const fallbackImagePath =
   !displayImageSet && typeof primaryImage === 'string' ? resolveImagePath(primaryImage) : null;
 
-const linkTarget = item.link ?? item.details?.link ?? null;
+const linkTarget = item.link ?? null;
 
-const baseClasses = `gallery-item theme-panel ${hasImage ? 'gallery-item--has-image' : 'gallery-item--no-image'}`;
+const baseClasses = 'gallery-item theme-panel';
 
 const interactiveAttributes = linkTarget
   ? {
@@ -289,6 +281,5 @@ const Tag = (linkTarget ? 'a' : 'article') as 'a' | 'article';
     .gallery-item {
       transition: none;
     }
-
   }
 </style>

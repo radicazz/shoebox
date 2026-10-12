@@ -1,14 +1,15 @@
 {
   "name": "shoebox",
-  "version": "0.9.0",
-  "description": "Lightweight personal Pinterest-style portfolio gallery.",
+  "version": "0.9.1",
+  "description": "Lightweight, theme-aware personal portfolio gallery.",
   "scripts": {
     "dev": "./scripts/astro dev",
     "build": "./scripts/astro build",
     "preview": "./scripts/astro preview",
     "validate:data": "./scripts/validate-gallery",
     "test": "./scripts/test",
-    "check:output": "./scripts/check-output"
+    "check:output": "./scripts/check-output",
+    "check": "./scripts/check"
   },
   "keywords": ["astro", "portfolio", "static-site"],
   "author": "cazz",

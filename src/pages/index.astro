@@ -48,7 +48,7 @@ const galleryItems = galleryData.items.map((item) => {
     </nav>
   </header>
   <ProfileSection profileHero={profileHero} aboutCard={aboutCard} />
-  <Gallery title="Selected projects" description={galleryData.description} items={galleryItems} />
+  <Gallery title={galleryData.title} description={galleryData.description} items={galleryItems} />
   <footer class="portfolio-footer">
     <span class="footer-made">made with <span aria-hidden="true">&hearts;</span><span class="sr-only">love</span> by {profileHero.name}</span>
     <a href="#main-content">Back to top <span aria-hidden="true">↑</span></a>
