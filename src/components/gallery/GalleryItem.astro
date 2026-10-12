@@ -92,10 +92,10 @@ const Tag = (linkTarget ? 'a' : 'article') as 'a' | 'article';
 ---
 
 <Tag {...interactiveAttributes}>
+  <!-- Select the theme before inserting images to avoid downloading both variants. -->
   {hasImage && (
     <div class="gallery-item-image-wrapper">
       {displayImageSet ? (
-        <!-- Select the theme before inserting images to avoid downloading both variants. -->
         <template data-theme-image-template>
           <picture data-theme-image>
             {displayImageSet.sources.map((source, index) => {
