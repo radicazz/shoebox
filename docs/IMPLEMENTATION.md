@@ -1,37 +1,50 @@
-# Implementation and deployment
+# Implementation and maintenance
 
-Run `pnpm install`, `pnpm validate:data`, `pnpm test`, and `pnpm build` before merging.
+## Page structure
 
-GitHub Actions runs the same quality gates on pull requests and main. Tagged releases publish the static `dist/` artifact to GitHub Pages.
+The index page loads validated gallery data, maps project IDs to imported artwork, and composes the base layout, profile introduction, project grid, and footer. The base layout owns metadata, the skip link, and the theme controller. Gallery cards own their static content and responsive image markup; the gallery enhances image selection when JavaScript is available.
 
-Gallery content lives in `src/data/gallery.json`; images used by Astro processing live in `src/assets/gallery`.
+Global styling is split into semantic tokens, page layout, and theme utilities. Component styles handle the portrait and project cards. Tailwind runs through the existing PostCSS configuration.
 
-## UI refresh validation (2026-10-12)
+## Editing content
 
-Implemented the responsive developer workspace described in `UI-UX-PLAN.md`. The introduction is separate from the row-major project grid; screenshot metadata lives below full square previews. The background grid is static, and all core content works without JavaScript. Theme-dependent pictures are selected in inert templates before insertion to avoid loading the opposite variant; optimized light previews remain available through `noscript`.
+`src/data/gallery.json` supplies:
 
-Validated with Node 22.21.1, pnpm 10.23.0, and a frozen-lockfile installation. `pnpm validate:data`, `pnpm test`, `pnpm build`, and `pnpm check:output` pass. Focused theme-controller tests cover binding controls, invalid saved values, explicit preference precedence, clearing preferences, and blocked storage.
+| Field | Meaning |
+| --- | --- |
+| `title`, `description` | Visible project-section heading and introductory text |
+| `profile.name`, `profile.photo` | Author name and portrait path |
+| `profile.repository`, `profile.about`, `profile.skills` | Author repository link, introduction, and skills |
+| `items` | Ordered project records with `id`, `title`, `description`, `tags`, and `link` |
 
-Local production preview at `/shoebox/` was checked in headless Chromium:
+Strings must be nonempty, skills/tags must be nonempty lists of strings, and item IDs must be unique. Repository and project links must be valid HTTPS URLs. The site validates content both through `pnpm validate:data` and during the build.
 
-- Both themes at 320, 375, 390, 639, 640, 768, 1023, 1024, and 1440px. Correct 1/2/3-column behavior, six visible cards, no horizontal overflow or clipped card text, and a 44px theme control.
-- 200% root text size at 320px, long descriptions and unbroken technology labels, 768×375 landscape, and 360px reflow (equivalent layout width to 400% zoom from 1440px).
-- Keyboard skip-link activation and visible focus, theme persistence, reduced motion, JavaScript disabled, blocked localStorage, and a blocked portrait request with the local SVG fallback.
-- Fresh dark-theme navigation and scrolling request only dark AVIF project previews, with no failed asset responses. Fully loaded desktop and mobile screenshots were visually reviewed in both themes.
-- Primary, muted, and accent text against page, surface, and muted surface tokens have a minimum measured contrast of 4.89:1. Layout-shift observations recorded CLS 0 in the viewport matrix; this is a local lab observation, not field performance data.
+Use public portrait paths such as `/media/pfp.jpeg`; the profile component adds the configured base path. `public/media/profile.svg` supplies the JavaScript error fallback. Public paths should not include `/shoebox` themselves.
 
-Inline JavaScript is approximately 7.6 KB versus 16.6 KB in the prior source scripts. The static output contains 15,022,118 bytes of files and remains within the existing 16 MiB budget. No new dependencies, fonts, source artwork, or lockfile changes were required. Generated browser scripts, screenshots, and results were kept outside the repository in `/tmp`.
+To add project artwork:
 
-Remaining release checks: verify on physical touch devices and Safari/Firefox, perform an actual browser zoom and screen-reader pass, and confirm deployed assets after an authorized release tag. Headless viewport/text-size checks do not substitute for those checks. The dependency review below is separate from this UI change.
+1. Put light/dark source images in `src/assets/gallery/`.
+2. Import them in `src/pages/index.astro` and add an entry to `galleryImageMap` using the matching project ID.
+3. Run `pnpm check` and inspect both themes in production preview.
 
-## Dependency review (2026-10-12)
+Projects without a map entry remain text cards. Responsive artwork currently has 480px and 1024px candidates; changes to image sizes must match the actual card layout and preserve the output budget.
 
-Upgraded Astro from 5.18.2 to 7.3.8 and refreshed compatible transitive dependencies in `pnpm-lock.yaml`. Astro 7 supports the existing Node 22.21.1 and pnpm 10.23.0 pins. Autoprefixer 10.6.1, sharp 0.35.5, and Tailwind CSS 3.4.19 were already current within their selected release lines.
+## Local and CI validation
 
-Removed `@astrojs/tailwind` 6.0.2, which declares Astro compatibility only through v5. Tailwind 3 continues to run through the existing `postcss.config.cjs` and `@tailwind` directives in `global.css`. Keeping Tailwind 3 avoids introducing Tailwind 4's styling and browser-support changes into the framework update. Moved an HTML comment out of a template expression to satisfy Astro 7's stricter compiler.
+Use the pinned tools and run `pnpm install --frozen-lockfile`, then `pnpm check`. `./scripts/ci-test` performs both steps and is the shared entrypoint for pull-request/main CI and release-tag builds.
 
-The registry audit dropped from 42 advisories (including one critical) to three: a low-severity esbuild Windows development-server advisory, a high-severity braces deeply nested pattern advisory, and a moderate-severity postcss-selector-parser CPU exhaustion advisory. These dependencies are build tooling; the deployed site remains static. Braces has no patched release in the audit, and the other fixes require versions outside the parents' declared dependency ranges. No unsupported overrides or advisory suppressions were added. Recheck these when Vite or Tailwind updates; consider Tailwind 4 as a separate styling migration.
+The checks cover shell syntax, content validation, Node tests, production compilation, and generated output. Output validation totals regular-file bytes, requires a nonempty index, rejects symbolic links, and checks local HTML/CSS references, including themed srcsets, no-JavaScript previews, portrait fallback, and fragment targets. It enforces the configured base path and a 16 MiB budget; it does not fetch external repository links.
 
-Validation: frozen-lockfile install, content validation, existing tests, production build with all 36 image variants regenerated from an empty asset cache, development-route smoke test, and the 16 MiB output check pass. Headless Chromium checks pass in both themes at nine widths from 320 to 1440px, including theme persistence, dark-only image requests, keyboard skip link, enlarged text, reduced motion, JavaScript disabled, blocked storage, and portrait fallback. Text contrast remains at least 4.89:1. Physical-device, Safari/Firefox, and deployed-site release checks above remain outstanding.
+`./scripts/doctor` checks the declared dependencies and current source paths, then validates content, build, and output. A failure retains a uniquely named build log in the temporary directory. `./scripts/clean` removes only this checkout's `node_modules/`, `dist/`, and `.astro/`.
 
-References: [Astro 6 migration guide](https://docs.astro.build/en/guides/upgrade-to/v6/), [Astro 7 migration guide](https://docs.astro.build/en/guides/upgrade-to/v7/), and [deprecated Tailwind integration](https://docs.astro.build/en/guides/integrations-guide/tailwind/).
+For UI changes, inspect production preview at `/shoebox/` in both themes. Include narrow widths, breakpoint edges, enlarged text, keyboard navigation, reduced motion, JavaScript disabled, blocked storage, and failed portrait loading. Keep screenshots and one-off browser scripts outside the checkout.
+
+## Validation record: 2026-10-12 cleanup
+
+The frozen-install quality checks, repaired doctor command, shell syntax checks, and actionlint workflow validation passed. Focused tests cover gallery links and duplicate IDs, theme preference behavior, helper execution from another directory, pnpm enforcement, cleanup boundaries, and output-validation failures.
+
+Headless Chromium production-preview checks passed in both themes at 320, 375, 390, 639, 640, 768, 1023, 1024, and 1440px. The checks confirmed six cards, correct one/two/three-column transitions, no horizontal overflow or clipped card text, and a 44px theme control. Additional checks covered preference persistence, dark-only initial project-image requests, keyboard skip-link activation, enlarged text and wrapping, landscape/reflow, reduced motion, JavaScript disabled, blocked storage, and the JPEG-to-SVG portrait fallback. Desktop and mobile captures were visually reviewed.
+
+Measured text contrast was at least 4.89:1 across the tested theme tokens. The generated files totaled 14,963,558 bytes (14.27 MiB), below the 16 MiB cap. These are local measurements, not deployed-site or field-performance claims.
+
+Physical touch devices, Safari/Firefox, actual browser zoom, and screen-reader checks remain outstanding. Public HTTP checks confirmed that the existing live site responds successfully and recent main CI runs passed. Repository Pages settings were unavailable through the unauthenticated API. This branch's workflows and updated assets still require verification after integration and release. See [deployment guidance](../.github/DEPLOYMENT.md) for release verification.

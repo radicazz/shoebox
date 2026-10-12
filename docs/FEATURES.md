@@ -1,12 +1,23 @@
-# Features
+# Site features
 
-- Responsive, theme-aware project grid: one column on mobile, two from 640px, three from 1024px, capped at a 1280px page width.
-- Dedicated author introduction with about text, skills, and a repository link supplied by gallery data.
-- Visible heading hierarchy, skip link, keyboard focus, and touch-friendly navigation.
-- Theme toggle honors system preference and persists explicit choices; it appears only when JavaScript binds its behavior.
-- All portfolio content and project links remain usable without JavaScript.
-- Local Astro-optimized project previews with light/dark variants.
+## Layout and content
 
-Project order follows source order across rows. Profile metadata belongs to the author; no visitor location lookup is performed.
+- A compact workspace header contains in-page navigation, the author's repository link, and an optional theme control.
+- The introduction displays the author's name, portrait, about text, skills, and repository link from content data. Optional title/location metadata describes the author; no visitor lookup occurs.
+- The project section currently contains six cards in source order across rows. The grid has one column below 640px, two from 640px, and three from 1024px, within a 1280px page container.
+- Every card keeps its title, description, wrapping technology tags, and repository action visible on keyboard, pointer, and touch input.
+- Artwork uses full square previews above the metadata. Projects without mapped artwork render text cards.
 
-Project descriptions and technology tags remain visible on every input type. Square previews preserve the full artwork, reserve space before loading, and use responsive AVIF/WebP sources with a PNG fallback. JavaScript selects a matching screenshot variant before insertion; without JavaScript, static light previews remain available. Reduced motion disables transitions and smooth scrolling.
+## Themes and progressive enhancement
+
+The initial theme follows the system preference unless a valid light/dark choice is stored. The toggle persists explicit choices and becomes visible only after its handler is bound. Invalid stored values and unavailable storage do not prevent the controls from working.
+
+Astro generates responsive AVIF/WebP image sources and PNG fallbacks. JavaScript selects the matching light/dark artwork inside inert templates before inserting it, avoiding an initial download of the opposite variant. Without JavaScript, light previews, content, and project links remain available; the theme toggle stays hidden.
+
+The portrait uses a local JPEG. With JavaScript enabled, a failed portrait request falls back to the bundled SVG.
+
+## Accessibility
+
+The page includes a keyboard skip link, visible headings, focus outlines, meaningful navigation labels, and 44px theme/navigation targets. Text flows normally below images and wraps at narrow widths or enlarged text sizes. Reduced-motion settings disable transitions, animation, and smooth scrolling.
+
+Current local validation and remaining device/browser checks are recorded in [IMPLEMENTATION.md](./IMPLEMENTATION.md).
