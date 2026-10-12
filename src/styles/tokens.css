@@ -6,12 +6,12 @@
     'Liberation Mono', 'Courier New', monospace;
   --font-body: var(--font-sans);
 
-  --radius-sm: 0.75rem;
-  --radius-md: 1rem;
-  --radius-lg: 1.25rem;
+  --radius-sm: 0.5rem;
+  --radius-md: 0.625rem;
+  --radius-lg: 0.75rem;
 
-  --shadow-md: 0 18px 46px rgba(15, 23, 42, 0.12);
-  --shadow-lg: 0 26px 70px rgba(15, 23, 42, 0.18);
+  --shadow-md: 0 2px 8px rgba(15, 23, 42, 0.04);
+  --shadow-lg: 0 4px 16px rgba(15, 23, 42, 0.08);
 
   --color-bg: #f8fafc;
   --color-surface: #ffffff;
@@ -20,8 +20,8 @@
   --color-text: #0f172a;
   --color-text-muted: #475569;
   --color-heading: #020617;
-  --color-accent: #0891b2;
-  --color-accent-strong: #0e7490;
+  --color-accent: #0e7490;
+  --color-accent-strong: #155e75;
   --color-chip-bg: rgba(2, 6, 23, 0.035);
 
   --effect-shadow-color: rgba(15, 23, 42, 0.16);
@@ -33,26 +33,19 @@
   --effect-border-slide-middle: rgba(34, 211, 238, 0.7);
   --effect-border-slide-end: rgba(168, 85, 247, 0.55);
 
-  --bg-grid-size: 52px;
-  --bg-grid-line: rgba(15, 23, 42, 0.06);
-  --network-blend: multiply;
-  --parallax-x: 0px;
-  --parallax-y: 0px;
-  --parallax-layer-primary: rgba(8, 145, 178, 0.12);
-  --parallax-layer-secondary: rgba(168, 85, 247, 0.09);
-  --network-node: rgba(15, 23, 42, 0.18);
-  --network-link: rgba(15, 23, 42, 0.1);
+  --bg-grid-size: 40px;
+  --bg-grid-line: rgba(15, 23, 42, 0.035);
 }
 
 :root[data-theme='dark'] {
   color-scheme: dark;
-  --shadow-md: 0 18px 52px rgba(0, 0, 0, 0.42);
-  --shadow-lg: 0 32px 92px rgba(0, 0, 0, 0.6);
+  --shadow-md: 0 2px 8px rgba(0, 0, 0, 0.12);
+  --shadow-lg: 0 4px 16px rgba(0, 0, 0, 0.2);
 
-  --color-bg: #070a16;
-  --color-surface: #0b1224;
-  --color-surface-muted: #0f1a33;
-  --color-border: #1e2a44;
+  --color-bg: #101216;
+  --color-surface: #181b21;
+  --color-surface-muted: #20242c;
+  --color-border: #363d49;
   --color-text: #e2e8f0;
   --color-text-muted: #94a3b8;
   --color-heading: #f8fafc;
@@ -69,10 +62,5 @@
   --effect-border-slide-middle: rgba(6, 182, 212, 0.78);
   --effect-border-slide-end: rgba(168, 85, 247, 0.72);
 
-  --bg-grid-line: rgba(148, 163, 184, 0.08);
-  --network-blend: screen;
-  --parallax-layer-primary: rgba(34, 211, 238, 0.12);
-  --parallax-layer-secondary: rgba(168, 85, 247, 0.1);
-  --network-node: rgba(226, 232, 240, 0.32);
-  --network-link: rgba(148, 163, 184, 0.16);
+  --bg-grid-line: rgba(148, 163, 184, 0.035);
 }
