@@ -106,6 +106,7 @@ const canonicalUrl = Astro.site ? new URL(Astro.url.pathname, Astro.site).toStri
             buttons.forEach((btn) => updateToggleButton(btn, nextTheme));
           });
           sync();
+          buttons.forEach((button) => { button.hidden = false; });
         };
 
         window.__shoeboxTheme = {
@@ -159,8 +160,9 @@ const canonicalUrl = Astro.site ? new URL(Astro.url.pathname, Astro.site).toStri
     </script>
   </head>
   <body class="antialiased transition-colors">
+    <a class="skip-link" href="#main-content">Skip to content</a>
     <header class="sr-only"><h1>Shoe Box Gallery</h1></header>
-    <main class="safe-inline relative z-10 mx-auto w-full pb-8 pt-8 sm:pt-10 lg:max-w-[92vw] lg:pt-12 2xl:max-w-[96rem]">
+    <main id="main-content" tabindex="-1" class="safe-inline relative z-10 mx-auto w-full pb-8 pt-8 sm:pt-10 lg:max-w-[92vw] lg:pt-12 2xl:max-w-[96rem]">
       <slot />
     </main>
     <footer class="safe-inline relative z-10 mx-auto w-full pb-10 text-center text-sm theme-text-muted lg:max-w-[92vw] 2xl:max-w-[96rem]">
